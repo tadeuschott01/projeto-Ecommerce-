@@ -5,96 +5,464 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Minha Loja | E-commerce</title>
+    <title>Minha Confecção | Moda & Lingerie</title>
 
-    <meta name="description" content="Minha loja virtual - produtos selecionados para você.">
+    <meta name="description"
+          content="Moda, lingerie e peças selecionadas para você.">
+
+    <style>
+        /* Apenas uma estilização básica temporária.
+           Depois vamos criar um arquivo style.css profissional. */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff;
+            color: #222;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        header {
+            border-bottom: 1px solid #eee;
+            background: white;
+            padding: 20px 6%;
+        }
+
+        .topo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            font-weight: normal;
+        }
+
+        .busca {
+            display: flex;
+            max-width: 500px;
+            flex: 1;
+        }
+
+        .busca input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .busca button {
+            border: 0;
+            padding: 0 18px;
+            cursor: pointer;
+            background: #222;
+            color: white;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .acoes {
+            display: flex;
+            gap: 15px;
+        }
+
+        nav {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            font-size: 15px;
+        }
+
+        .banner {
+            min-height: 480px;
+            display: flex;
+            align-items: center;
+            padding: 50px 8%;
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(0,0,0,.55),
+                    rgba(0,0,0,.05)
+                ),
+                url("https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1600&q=85")
+                center/cover;
+            color: white;
+        }
+
+        .banner-conteudo {
+            max-width: 500px;
+        }
+
+        .banner h1 {
+            font-size: 52px;
+            margin-bottom: 15px;
+        }
+
+        .banner p {
+            font-size: 20px;
+            margin-bottom: 25px;
+        }
+
+        .botao {
+            display: inline-block;
+            padding: 14px 28px;
+            background: #222;
+            color: white;
+            border-radius: 4px;
+        }
+
+        section {
+            padding: 55px 6%;
+        }
+
+        .titulo {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .titulo h2 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .categorias {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .categoria {
+            min-height: 180px;
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            color: white;
+            border-radius: 6px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .categoria h3 {
+            font-size: 21px;
+            text-shadow: 0 2px 5px #000;
+        }
+
+        .categoria1 {
+            background-image: url("https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=700&q=80");
+        }
+
+        .categoria2 {
+            background-image: url("https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=700&q=80");
+        }
+
+        .categoria3 {
+            background-image: url("https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=700&q=80");
+        }
+
+        .categoria4 {
+            background-image: url("https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=700&q=80");
+        }
+
+        .produtos {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .produto {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            overflow: hidden;
+            transition: .2s;
+        }
+
+        .produto:hover {
+            transform: translateY(-4px);
+        }
+
+        .produto img {
+            width: 100%;
+            height: 330px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .produto-info {
+            padding: 18px;
+        }
+
+        .produto-info h3 {
+            margin-bottom: 8px;
+        }
+
+        .preco-antigo {
+            text-decoration: line-through;
+            color: #888;
+            font-size: 14px;
+        }
+
+        .preco {
+            font-size: 21px;
+            font-weight: bold;
+            margin: 6px 0 15px;
+        }
+
+        .comprar {
+            width: 100%;
+            padding: 12px;
+            border: 0;
+            background: #222;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .oferta {
+            background: #f7f1ed;
+        }
+
+        .beneficios {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+
+        .beneficio {
+            padding: 25px;
+        }
+
+        .beneficio strong {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .newsletter {
+            text-align: center;
+            background: #f5f5f5;
+        }
+
+        .newsletter form {
+            max-width: 550px;
+            margin: 25px auto 0;
+            display: flex;
+        }
+
+        .newsletter input {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #ddd;
+        }
+
+        .newsletter button {
+            padding: 0 25px;
+            background: #222;
+            color: white;
+            border: 0;
+        }
+
+        footer {
+            background: #181818;
+            color: white;
+            padding: 50px 6%;
+        }
+
+        .rodape {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        footer h3 {
+            margin-bottom: 15px;
+        }
+
+        footer p,
+        footer a {
+            color: #ccc;
+            display: block;
+            margin-bottom: 9px;
+        }
+
+        .copyright {
+            border-top: 1px solid #333;
+            margin-top: 40px;
+            padding-top: 20px;
+            text-align: center;
+            color: #aaa;
+        }
+
+        @media (max-width: 900px) {
+
+            .categorias,
+            .produtos {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .beneficios {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .rodape {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .banner h1 {
+                font-size: 40px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 18px 5%;
+            }
+
+            .topo {
+                flex-direction: column;
+            }
+
+            .busca {
+                width: 100%;
+            }
+
+            nav {
+                gap: 15px;
+            }
+
+            .banner {
+                min-height: 400px;
+                padding: 35px 6%;
+            }
+
+            .banner h1 {
+                font-size: 34px;
+            }
+
+            .categorias,
+            .produtos,
+            .beneficios,
+            .rodape {
+                grid-template-columns: 1fr;
+            }
+
+            .produto img {
+                height: 380px;
+            }
+
+            .newsletter form {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .newsletter button {
+                padding: 14px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- CABEÇALHO -->
+    <!-- =========================
+         CABEÇALHO
+    ========================== -->
+
     <header>
 
-        <div>
-            <h1>MINHA LOJA</h1>
-            <p>Qualidade e preço para você</p>
+        <div class="topo">
+
+            <a href="#" class="logo">
+                MINHA <span>CONFECÇÃO</span>
+            </a>
+
+            <form class="busca">
+
+                <input
+                    type="search"
+                    placeholder="O que você está procurando?"
+                >
+
+                <button type="submit">
+                    🔍
+                </button>
+
+            </form>
+
+            <div class="acoes">
+
+                <a href="#">
+                    ♡ Favoritos
+                </a>
+
+                <a href="#">
+                    🛒 Carrinho
+                </a>
+
+            </div>
+
         </div>
 
-        <!-- MENU -->
+
         <nav>
+
             <a href="#inicio">Início</a>
-            <a href="#produtos">Produtos</a>
+
+            <a href="#categorias">Categorias</a>
+
+            <a href="#novidades">Novidades</a>
+
             <a href="#ofertas">Ofertas</a>
+
             <a href="#contato">Contato</a>
+
         </nav>
-
-        <!-- PESQUISA -->
-        <div>
-            <input 
-                type="search" 
-                placeholder="O que você está procurando?"
-                aria-label="Pesquisar produtos"
-            >
-
-            <button type="button">
-                🔍 Pesquisar
-            </button>
-        </div>
-
-        <!-- CARRINHO -->
-        <div>
-            <button type="button">
-                🛒 Carrinho
-            </button>
-        </div>
 
     </header>
 
 
-    <!-- CONTEÚDO PRINCIPAL -->
+    <!-- =========================
+         BANNER
+    ========================== -->
+
     <main>
 
-        <!-- BANNER PRINCIPAL -->
-        <section id="inicio">
+        <section class="banner" id="inicio">
 
-            <h2>Bem-vindo à nossa loja!</h2>
+            <div class="banner-conteudo">
 
-            <p>
-                Encontre produtos incríveis com preços especiais.
-            </p>
+                <h1>
+                    Nova coleção
+                </h1>
 
-            <a href="#produtos">
-                Ver produtos
-            </a>
+                <p>
+                    Estilo, conforto e qualidade em cada detalhe.
+                </p>
 
-        </section>
-
-
-        <!-- CATEGORIAS -->
-        <section>
-
-            <h2>Categorias</h2>
-
-            <div>
-
-                <a href="#produtos">
-                    <h3>Eletrônicos</h3>
-                    <p>Confira nossos eletrônicos.</p>
-                </a>
-
-                <a href="#produtos">
-                    <h3>Moda</h3>
-                    <p>Produtos de moda e estilo.</p>
-                </a>
-
-                <a href="#produtos">
-                    <h3>Casa</h3>
-                    <p>Produtos para sua casa.</p>
-                </a>
-
-                <a href="#produtos">
-                    <h3>Acessórios</h3>
-                    <p>Acessórios para todos.</p>
+                <a href="#novidades" class="botao">
+                    COMPRAR AGORA
                 </a>
 
             </div>
@@ -102,125 +470,194 @@
         </section>
 
 
-        <!-- OFERTAS -->
-        <section id="ofertas">
+        <!-- =========================
+             CATEGORIAS
+        ========================== -->
 
-            <h2>🔥 Ofertas</h2>
+        <section id="categorias">
 
-            <p>
-                Aproveite nossas melhores ofertas!
-            </p>
+            <div class="titulo">
+
+                <h2>
+                    Compre por categoria
+                </h2>
+
+                <p>
+                    Encontre o estilo perfeito para você
+                </p>
+
+            </div>
+
+
+            <div class="categorias">
+
+                <a href="#" class="categoria categoria1">
+                    <h3>Lingerie</h3>
+                </a>
+
+                <a href="#" class="categoria categoria2">
+                    <h3>Moda Feminina</h3>
+                </a>
+
+                <a href="#" class="categoria categoria3">
+                    <h3>Novidades</h3>
+                </a>
+
+                <a href="#" class="categoria categoria4">
+                    <h3>Conjuntos</h3>
+                </a>
+
+            </div>
 
         </section>
 
 
-        <!-- PRODUTOS -->
-        <section id="produtos">
+        <!-- =========================
+             NOVIDADES
+        ========================== -->
 
-            <h2>Produtos em destaque</h2>
+        <section id="novidades">
 
-            <div>
+            <div class="titulo">
+
+                <h2>
+                    Novidades
+                </h2>
+
+                <p>
+                    Confira os produtos que acabaram de chegar
+                </p>
+
+            </div>
+
+
+            <div class="produtos">
+
 
                 <!-- PRODUTO 1 -->
-                <article>
 
-                    <img 
-                        src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80"
-                        alt="Relógio"
-                        width="300"
+                <article class="produto">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=800&q=85"
+                        alt="Conjunto de lingerie"
                     >
 
-                    <h3>Relógio Premium</h3>
+                    <div class="produto-info">
 
-                    <p>
-                        Relógio moderno e elegante.
-                    </p>
+                        <h3>
+                            Conjunto Elegance
+                        </h3>
 
-                    <p>
-                        <strong>R$ 199,90</strong>
-                    </p>
+                        <p>
+                            Lingerie feminina
+                        </p>
 
-                    <button type="button">
-                        Adicionar ao carrinho
-                    </button>
+                        <div class="preco">
+                            R$ 89,90
+                        </div>
+
+                        <button class="comprar">
+                            Adicionar ao carrinho
+                        </button>
+
+                    </div>
 
                 </article>
 
 
                 <!-- PRODUTO 2 -->
-                <article>
 
-                    <img 
-                        src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80"
-                        alt="Tênis esportivo"
-                        width="300"
+                <article class="produto">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1566206091558-7f218b696731?auto=format&fit=crop&w=800&q=85"
+                        alt="Vestido feminino"
                     >
 
-                    <h3>Tênis Esportivo</h3>
+                    <div class="produto-info">
 
-                    <p>
-                        Confortável para o dia a dia.
-                    </p>
+                        <h3>
+                            Vestido Elegance
+                        </h3>
 
-                    <p>
-                        <strong>R$ 249,90</strong>
-                    </p>
+                        <p>
+                            Moda feminina
+                        </p>
 
-                    <button type="button">
-                        Adicionar ao carrinho
-                    </button>
+                        <div class="preco">
+                            R$ 149,90
+                        </div>
+
+                        <button class="comprar">
+                            Adicionar ao carrinho
+                        </button>
+
+                    </div>
 
                 </article>
 
 
                 <!-- PRODUTO 3 -->
-                <article>
 
-                    <img 
-                        src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=600&q=80"
-                        alt="Câmera fotográfica"
-                        width="300"
+                <article class="produto">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&w=800&q=85"
+                        alt="Roupa feminina"
                     >
 
-                    <h3>Câmera Digital</h3>
+                    <div class="produto-info">
 
-                    <p>
-                        Capture seus melhores momentos.
-                    </p>
+                        <h3>
+                            Conjunto Premium
+                        </h3>
 
-                    <p>
-                        <strong>R$ 899,90</strong>
-                    </p>
+                        <p>
+                            Coleção especial
+                        </p>
 
-                    <button type="button">
-                        Adicionar ao carrinho
-                    </button>
+                        <div class="preco">
+                            R$ 119,90
+                        </div>
+
+                        <button class="comprar">
+                            Adicionar ao carrinho
+                        </button>
+
+                    </div>
 
                 </article>
 
 
                 <!-- PRODUTO 4 -->
-                <article>
 
-                    <img 
-                        src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=600&q=80"
-                        alt="Fone de ouvido"
-                        width="300"
+                <article class="produto">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=800&q=85"
+                        alt="Conjunto feminino"
                     >
 
-                    <h3>Fone de Ouvido</h3>
+                    <div class="produto-info">
 
-                    <p>
-                        Som de alta qualidade.
-                    </p>
+                        <h3>
+                            Conjunto Soft
+                        </h3>
 
-                    <p>
-                        <strong>R$ 149,90</strong>
-                    </p>
+                        <p>
+                            Conforto para todos os momentos
+                        </p>
 
-                    <button type="button">
-                        Adicionar ao carrinho
-                    </button>
+                        <div class="preco">
+                            R$ 99,90
+                        </div>
+
+                        <button class="comprar">
+                            Adicionar ao carrinho
+                        </button>
+
+                    </div>
 
                 </article>
 
@@ -229,31 +666,209 @@
         </section>
 
 
-        <!-- BENEFÍCIOS -->
+        <!-- =========================
+             OFERTAS
+        ========================== -->
+
+        <section class="oferta" id="ofertas">
+
+            <div class="titulo">
+
+                <h2>
+                    🔥 Ofertas especiais
+                </h2>
+
+                <p>
+                    Aproveite enquanto durar o estoque
+                </p>
+
+            </div>
+
+
+            <div class="produtos">
+
+
+                <article class="produto">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1591369822096-ffd140ec948f?auto=format&fit=crop&w=800&q=85"
+                        alt="Produto em promoção"
+                    >
+
+                    <div class="produto-info">
+
+                        <h3>
+                            Lingerie Delicate
+                        </h3>
+
+                        <div class="preco-antigo">
+                            R$ 119,90
+                        </div>
+
+                        <div class="preco">
+                            R$ 79,90
+                        </div>
+
+                        <button class="comprar">
+                            Comprar agora
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+                <article class="produto">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1564257577054-4e2c2c9d8b0c?auto=format&fit=crop&w=800&q=85"
+                        alt="Conjunto em promoção"
+                    >
+
+                    <div class="produto-info">
+
+                        <h3>
+                            Conjunto Romance
+                        </h3>
+
+                        <div class="preco-antigo">
+                            R$ 159,90
+                        </div>
+
+                        <div class="preco">
+                            R$ 109,90
+                        </div>
+
+                        <button class="comprar">
+                            Comprar agora
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+                <article class="produto">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=800&q=85"
+                        alt="Moda feminina em promoção"
+                    >
+
+                    <div class="produto-info">
+
+                        <h3>
+                            Look Fashion
+                        </h3>
+
+                        <div class="preco-antigo">
+                            R$ 199,90
+                        </div>
+
+                        <div class="preco">
+                            R$ 139,90
+                        </div>
+
+                        <button class="comprar">
+                            Comprar agora
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+                <article class="produto">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&q=85"
+                        alt="Peça feminina em promoção"
+                    >
+
+                    <div class="produto-info">
+
+                        <h3>
+                            Peça Exclusive
+                        </h3>
+
+                        <div class="preco-antigo">
+                            R$ 139,90
+                        </div>
+
+                        <div class="preco">
+                            R$ 94,90
+                        </div>
+
+                        <button class="comprar">
+                            Comprar agora
+                        </button>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             BENEFÍCIOS
+        ========================== -->
+
         <section>
 
-            <h2>Por que comprar conosco?</h2>
+            <div class="beneficios">
 
-            <div>
+                <div class="beneficio">
 
-                <div>
-                    <h3>🚚 Envio rápido</h3>
-                    <p>Receba seu pedido com rapidez.</p>
+                    <strong>
+                        🚚 Envio rápido
+                    </strong>
+
+                    <p>
+                        Enviamos seu pedido com segurança.
+                    </p>
+
                 </div>
 
-                <div>
-                    <h3>🔒 Compra segura</h3>
-                    <p>Seus dados protegidos.</p>
+
+                <div class="beneficio">
+
+                    <strong>
+                        🔒 Compra segura
+                    </strong>
+
+                    <p>
+                        Seus dados protegidos.
+                    </p>
+
                 </div>
 
-                <div>
-                    <h3>💳 Pagamento seguro</h3>
-                    <p>Escolha a melhor forma de pagamento.</p>
+
+                <div class="beneficio">
+
+                    <strong>
+                        💳 Pagamento facilitado
+                    </strong>
+
+                    <p>
+                        Diversas formas de pagamento.
+                    </p>
+
                 </div>
 
-                <div>
-                    <h3>⭐ Qualidade</h3>
-                    <p>Produtos selecionados.</p>
+
+                <div class="beneficio">
+
+                    <strong>
+                        💕 Atendimento
+                    </strong>
+
+                    <p>
+                        Estamos aqui para ajudar.
+                    </p>
+
                 </div>
 
             </div>
@@ -261,76 +876,136 @@
         </section>
 
 
-        <!-- NEWSLETTER -->
-        <section>
+        <!-- =========================
+             NEWSLETTER
+        ========================== -->
 
-            <h2>Receba nossas novidades</h2>
+        <section class="newsletter">
+
+            <h2>
+                Receba nossas novidades
+            </h2>
 
             <p>
-                Cadastre seu e-mail para receber ofertas.
+                Cadastre seu e-mail e fique por dentro das novidades.
             </p>
+
 
             <form>
 
-                <label for="email">
-                    Seu e-mail:
-                </label>
-
                 <input
                     type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Digite seu e-mail"
+                    placeholder="Digite seu melhor e-mail"
                     required
                 >
 
                 <button type="submit">
-                    Cadastrar
+                    CADASTRAR
                 </button>
 
             </form>
 
         </section>
 
-
-        <!-- CONTATO -->
-        <section id="contato">
-
-            <h2>Entre em contato</h2>
-
-            <p>
-                Tem alguma dúvida? Fale conosco.
-            </p>
-
-            <p>
-                📧 E-mail: contato@minhaloja.com
-            </p>
-
-            <p>
-                📱 WhatsApp: (22) 99999-9999
-            </p>
-
-        </section>
-
     </main>
 
 
-    <!-- RODAPÉ -->
-    <footer>
+    <!-- =========================
+         RODAPÉ
+    ========================== -->
 
-        <h2>MINHA LOJA</h2>
+    <footer id="contato">
 
-        <p>
-            © 2026 Minha Loja. Todos os direitos reservados.
-        </p>
+        <div class="rodape">
 
-        <nav>
-            <a href="#inicio">Início</a> |
-            <a href="#produtos">Produtos</a> |
-            <a href="#contato">Contato</a>
-        </nav>
+
+            <div>
+
+                <h3>
+                    MINHA CONFECÇÃO
+                </h3>
+
+                <p>
+                    Moda e lingerie com qualidade,
+                    conforto e estilo.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <h3>
+                    Atendimento
+                </h3>
+
+                <a href="#">
+                    Fale conosco
+                </a>
+
+                <a href="#">
+                    WhatsApp
+                </a>
+
+                <a href="#">
+                    Perguntas frequentes
+                </a>
+
+            </div>
+
+
+            <div>
+
+                <h3>
+                    Institucional
+                </h3>
+
+                <a href="#">
+                    Sobre nós
+                </a>
+
+                <a href="#">
+                    Política de privacidade
+                </a>
+
+                <a href="#">
+                    Termos de uso
+                </a>
+
+            </div>
+
+
+            <div>
+
+                <h3>
+                    Redes sociais
+                </h3>
+
+                <a href="#">
+                    Instagram
+                </a>
+
+                <a href="#">
+                    Facebook
+                </a>
+
+                <a href="#">
+                    TikTok
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="copyright">
+
+            © 2026 Minha Confecção — Todos os direitos reservados.
+
+        </div>
 
     </footer>
 
+
 </body>
-</html>
+</html> tadeu
