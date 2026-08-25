@@ -1,14 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Fashion Store | Moda Adulto e Infantil</title>
+    <title>Minha Loja | E-commerce</title>
 
-    <meta name="description"
-        content="Fashion Store - Moda adulto e infantil. Encontre roupas para toda a família.">
+    <meta name="description" content="Minha loja virtual - produtos selecionados para você.">
 </head>
 
 <body>
@@ -17,31 +16,36 @@
     <header>
 
         <div>
-            <strong>FASHION STORE</strong>
-        </div>
-
-        <!-- BUSCA -->
-        <div>
-            <input
-                type="search"
-                placeholder="O que você está procurando?"
-                aria-label="Pesquisar produtos">
-            <button type="button">Pesquisar</button>
+            <h1>MINHA LOJA</h1>
+            <p>Qualidade e preço para você</p>
         </div>
 
         <!-- MENU -->
         <nav>
             <a href="#inicio">Início</a>
-            <a href="#adulto">Adulto</a>
-            <a href="#infantil">Infantil</a>
+            <a href="#produtos">Produtos</a>
             <a href="#ofertas">Ofertas</a>
             <a href="#contato">Contato</a>
         </nav>
 
-        <!-- AÇÕES -->
+        <!-- PESQUISA -->
         <div>
-            <button type="button">♡ Favoritos</button>
-            <button type="button">🛒 Carrinho</button>
+            <input 
+                type="search" 
+                placeholder="O que você está procurando?"
+                aria-label="Pesquisar produtos"
+            >
+
+            <button type="button">
+                🔍 Pesquisar
+            </button>
+        </div>
+
+        <!-- CARRINHO -->
+        <div>
+            <button type="button">
+                🛒 Carrinho
+            </button>
         </div>
 
     </header>
@@ -53,21 +57,15 @@
         <!-- BANNER PRINCIPAL -->
         <section id="inicio">
 
-            <div>
-                <p>COLEÇÃO 2026</p>
+            <h2>Bem-vindo à nossa loja!</h2>
 
-                <h1>
-                    Moda para todos os momentos
-                </h1>
+            <p>
+                Encontre produtos incríveis com preços especiais.
+            </p>
 
-                <p>
-                    Encontre seu estilo na nossa coleção adulto e infantil.
-                </p>
-
-                <a href="#adulto">
-                    Comprar agora
-                </a>
-            </div>
+            <a href="#produtos">
+                Ver produtos
+            </a>
 
         </section>
 
@@ -75,197 +73,29 @@
         <!-- CATEGORIAS -->
         <section>
 
-            <h2>Compre por categoria</h2>
+            <h2>Categorias</h2>
 
             <div>
 
-                <article>
-                    <h3>Moda Feminina</h3>
-                    <p>Peças modernas para todos os estilos.</p>
-                    <a href="#feminino">Ver coleção</a>
-                </article>
+                <a href="#produtos">
+                    <h3>Eletrônicos</h3>
+                    <p>Confira nossos eletrônicos.</p>
+                </a>
 
-                <article>
-                    <h3>Moda Masculina</h3>
-                    <p>Estilo e conforto para o seu dia.</p>
-                    <a href="#masculino">Ver coleção</a>
-                </article>
+                <a href="#produtos">
+                    <h3>Moda</h3>
+                    <p>Produtos de moda e estilo.</p>
+                </a>
 
-                <article>
-                    <h3>Moda Infantil</h3>
-                    <p>Roupas confortáveis para os pequenos.</p>
-                    <a href="#infantil">Ver coleção</a>
-                </article>
+                <a href="#produtos">
+                    <h3>Casa</h3>
+                    <p>Produtos para sua casa.</p>
+                </a>
 
-            </div>
-
-        </section>
-
-
-        <!-- MODA ADULTO -->
-        <section id="adulto">
-
-            <h2>Moda Adulto</h2>
-
-            <p>
-                Confira nossos produtos para adultos.
-            </p>
-
-
-            <!-- FEMININO -->
-            <section id="feminino">
-
-                <h3>Moda Feminina</h3>
-
-                <div>
-
-                    <article>
-                        <img
-                            src="https://via.placeholder.com/300x400"
-                            alt="Vestido feminino">
-                        <h4>Vestido Elegante</h4>
-                        <p>R$ 89,90</p>
-                        <button type="button">
-                            Adicionar ao carrinho
-                        </button>
-                    </article>
-
-
-                    <article>
-                        <img
-                            src="https://via.placeholder.com/300x400"
-                            alt="Blusa feminina">
-                        <h4>Blusa Casual</h4>
-                        <p>R$ 59,90</p>
-                        <button type="button">
-                            Adicionar ao carrinho
-                        </button>
-                    </article>
-
-
-                    <article>
-                        <img
-                            src="https://via.placeholder.com/300x400"
-                            alt="Calça feminina">
-                        <h4>Calça Jeans Feminina</h4>
-                        <p>R$ 99,90</p>
-                        <button type="button">
-                            Adicionar ao carrinho
-                        </button>
-                    </article>
-
-                </div>
-
-            </section>
-
-
-            <!-- MASCULINO -->
-            <section id="masculino">
-
-                <h3>Moda Masculina</h3>
-
-                <div>
-
-                    <article>
-                        <img
-                            src="https://via.placeholder.com/300x400"
-                            alt="Camiseta masculina">
-                        <h4>Camiseta Básica</h4>
-                        <p>R$ 49,90</p>
-                        <button type="button">
-                            Adicionar ao carrinho
-                        </button>
-                    </article>
-
-
-                    <article>
-                        <img
-                            src="https://via.placeholder.com/300x400"
-                            alt="Calça masculina">
-                        <h4>Calça Jeans Masculina</h4>
-                        <p>R$ 109,90</p>
-                        <button type="button">
-                            Adicionar ao carrinho
-                        </button>
-                    </article>
-
-
-                    <article>
-                        <img
-                            src="https://via.placeholder.com/300x400"
-                            alt="Camisa masculina">
-                        <h4>Camisa Social</h4>
-                        <p>R$ 119,90</p>
-                        <button type="button">
-                            Adicionar ao carrinho
-                        </button>
-                    </article>
-
-                </div>
-
-            </section>
-
-        </section>
-
-
-        <!-- MODA INFANTIL -->
-        <section id="infantil">
-
-            <h2>Moda Infantil</h2>
-
-            <p>
-                Roupas confortáveis e estilosas para crianças.
-            </p>
-
-
-            <div>
-
-                <article>
-                    <img
-                        src="https://via.placeholder.com/300x400"
-                        alt="Conjunto infantil">
-                    <h3>Conjunto Infantil</h3>
-                    <p>R$ 69,90</p>
-                    <button type="button">
-                        Adicionar ao carrinho
-                    </button>
-                </article>
-
-
-                <article>
-                    <img
-                        src="https://via.placeholder.com/300x400"
-                        alt="Vestido infantil">
-                    <h3>Vestido Infantil</h3>
-                    <p>R$ 74,90</p>
-                    <button type="button">
-                        Adicionar ao carrinho
-                    </button>
-                </article>
-
-
-                <article>
-                    <img
-                        src="https://via.placeholder.com/300x400"
-                        alt="Camiseta infantil">
-                    <h3>Camiseta Infantil</h3>
-                    <p>R$ 39,90</p>
-                    <button type="button">
-                        Adicionar ao carrinho
-                    </button>
-                </article>
-
-
-                <article>
-                    <img
-                        src="https://via.placeholder.com/300x400"
-                        alt="Calça infantil">
-                    <h3>Calça Infantil</h3>
-                    <p>R$ 54,90</p>
-                    <button type="button">
-                        Adicionar ao carrinho
-                    </button>
-                </article>
+                <a href="#produtos">
+                    <h3>Acessórios</h3>
+                    <p>Acessórios para todos.</p>
+                </a>
 
             </div>
 
@@ -275,25 +105,158 @@
         <!-- OFERTAS -->
         <section id="ofertas">
 
-            <h2>Ofertas especiais</h2>
+            <h2>🔥 Ofertas</h2>
 
             <p>
-                Aproveite nossas melhores ofertas.
+                Aproveite nossas melhores ofertas!
             </p>
 
-            <article>
+        </section>
 
-                <h3>Oferta da Semana</h3>
 
-                <p>
-                    Até 40% OFF em produtos selecionados.
-                </p>
+        <!-- PRODUTOS -->
+        <section id="produtos">
 
-                <a href="#adulto">
-                    Aproveitar oferta
-                </a>
+            <h2>Produtos em destaque</h2>
 
-            </article>
+            <div>
+
+                <!-- PRODUTO 1 -->
+                <article>
+
+                    <img 
+                        src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80"
+                        alt="Relógio"
+                        width="300"
+                    >
+
+                    <h3>Relógio Premium</h3>
+
+                    <p>
+                        Relógio moderno e elegante.
+                    </p>
+
+                    <p>
+                        <strong>R$ 199,90</strong>
+                    </p>
+
+                    <button type="button">
+                        Adicionar ao carrinho
+                    </button>
+
+                </article>
+
+
+                <!-- PRODUTO 2 -->
+                <article>
+
+                    <img 
+                        src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80"
+                        alt="Tênis esportivo"
+                        width="300"
+                    >
+
+                    <h3>Tênis Esportivo</h3>
+
+                    <p>
+                        Confortável para o dia a dia.
+                    </p>
+
+                    <p>
+                        <strong>R$ 249,90</strong>
+                    </p>
+
+                    <button type="button">
+                        Adicionar ao carrinho
+                    </button>
+
+                </article>
+
+
+                <!-- PRODUTO 3 -->
+                <article>
+
+                    <img 
+                        src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=600&q=80"
+                        alt="Câmera fotográfica"
+                        width="300"
+                    >
+
+                    <h3>Câmera Digital</h3>
+
+                    <p>
+                        Capture seus melhores momentos.
+                    </p>
+
+                    <p>
+                        <strong>R$ 899,90</strong>
+                    </p>
+
+                    <button type="button">
+                        Adicionar ao carrinho
+                    </button>
+
+                </article>
+
+
+                <!-- PRODUTO 4 -->
+                <article>
+
+                    <img 
+                        src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=600&q=80"
+                        alt="Fone de ouvido"
+                        width="300"
+                    >
+
+                    <h3>Fone de Ouvido</h3>
+
+                    <p>
+                        Som de alta qualidade.
+                    </p>
+
+                    <p>
+                        <strong>R$ 149,90</strong>
+                    </p>
+
+                    <button type="button">
+                        Adicionar ao carrinho
+                    </button>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- BENEFÍCIOS -->
+        <section>
+
+            <h2>Por que comprar conosco?</h2>
+
+            <div>
+
+                <div>
+                    <h3>🚚 Envio rápido</h3>
+                    <p>Receba seu pedido com rapidez.</p>
+                </div>
+
+                <div>
+                    <h3>🔒 Compra segura</h3>
+                    <p>Seus dados protegidos.</p>
+                </div>
+
+                <div>
+                    <h3>💳 Pagamento seguro</h3>
+                    <p>Escolha a melhor forma de pagamento.</p>
+                </div>
+
+                <div>
+                    <h3>⭐ Qualidade</h3>
+                    <p>Produtos selecionados.</p>
+                </div>
+
+            </div>
 
         </section>
 
@@ -304,20 +267,22 @@
             <h2>Receba nossas novidades</h2>
 
             <p>
-                Cadastre seu e-mail para receber ofertas e novidades.
+                Cadastre seu e-mail para receber ofertas.
             </p>
 
             <form>
 
                 <label for="email">
-                    Seu e-mail
+                    Seu e-mail:
                 </label>
 
                 <input
                     type="email"
                     id="email"
                     name="email"
-                    placeholder="Digite seu e-mail">
+                    placeholder="Digite seu e-mail"
+                    required
+                >
 
                 <button type="submit">
                     Cadastrar
@@ -327,66 +292,45 @@
 
         </section>
 
+
+        <!-- CONTATO -->
+        <section id="contato">
+
+            <h2>Entre em contato</h2>
+
+            <p>
+                Tem alguma dúvida? Fale conosco.
+            </p>
+
+            <p>
+                📧 E-mail: contato@minhaloja.com
+            </p>
+
+            <p>
+                📱 WhatsApp: (22) 99999-9999
+            </p>
+
+        </section>
+
     </main>
 
 
     <!-- RODAPÉ -->
-    <footer id="contato">
+    <footer>
 
-        <div>
-
-            <h3>FASHION STORE</h3>
-
-            <p>
-                Moda adulto e infantil para toda a família.
-            </p>
-
-        </div>
-
-
-        <div>
-
-            <h4>Atendimento</h4>
-
-            <p>Segunda a sexta: 9h às 18h</p>
-            <p>WhatsApp: (00) 00000-0000</p>
-            <p>E-mail: contato@fashionstore.com</p>
-
-        </div>
-
-
-        <div>
-
-            <h4>Institucional</h4>
-
-            <a href="#">Sobre nós</a>
-            <br>
-            <a href="#">Política de privacidade</a>
-            <br>
-            <a href="#">Termos de uso</a>
-
-        </div>
-
-
-        <div>
-
-            <h4>Redes sociais</h4>
-
-            <a href="#">Instagram</a>
-            <br>
-            <a href="#">Facebook</a>
-
-        </div>
-
-
-        <hr>
+        <h2>MINHA LOJA</h2>
 
         <p>
-            © 2026 Fashion Store. Todos os direitos reservados.
+            © 2026 Minha Loja. Todos os direitos reservados.
         </p>
+
+        <nav>
+            <a href="#inicio">Início</a> |
+            <a href="#produtos">Produtos</a> |
+            <a href="#contato">Contato</a>
+        </nav>
 
     </footer>
 
 </body>
-
 </html>
