@@ -64,8 +64,7 @@ function atualizarCarrinho() {
         quantidadeTotal += produto.quantidade;
     });
 
-    const linkCarrinho = document.querySelector(
-        '.acoes a[href="#"]'
+    const linkCarrinho = document.getElementById("link-carrinho");
     );
 
     if (linkCarrinho) {
