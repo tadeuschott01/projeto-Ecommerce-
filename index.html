@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -10,26 +11,28 @@
     <meta name="description"
         content="Moda, lingerie e peças selecionadas para você.">
 
-    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- CABEÇALHO -->
+    <!-- =========================
+         CABEÇALHO
+    ========================== -->
 
     <header>
 
         <div class="topo">
 
-            <a href="#" class="logo">
+            <a href="#inicio" class="logo">
                 MINHA <span>CONFECÇÃO</span>
             </a>
 
-            <form class="busca">
+            <form class="busca" id="form-busca">
 
                 <input
                     type="search"
+                    id="campo-busca"
                     placeholder="O que você está procurando?">
 
                 <button type="submit">
@@ -40,14 +43,14 @@
 
             <div class="acoes">
 
-                <a href="#">
+                <a href="#" id="link-favoritos">
                     ♡ Favoritos
                 </a>
 
-               <a href="#" id="link-carrinho">
-    🛒 Carrinho
-</a>
-                
+                <a href="#" id="link-carrinho">
+                    🛒 Carrinho
+                </a>
+
             </div>
 
         </div>
@@ -69,11 +72,15 @@
     </header>
 
 
-    <!-- CONTEÚDO -->
+    <!-- =========================
+         CONTEÚDO PRINCIPAL
+    ========================== -->
 
     <main>
 
-        <!-- BANNER -->
+        <!-- =========================
+             BANNER
+        ========================== -->
 
         <section class="banner" id="inicio">
 
@@ -96,7 +103,9 @@
         </section>
 
 
-        <!-- CATEGORIAS -->
+        <!-- =========================
+             CATEGORIAS
+        ========================== -->
 
         <section id="categorias">
 
@@ -135,7 +144,9 @@
         </section>
 
 
-        <!-- NOVIDADES -->
+        <!-- =========================
+             NOVIDADES
+        ========================== -->
 
         <section id="novidades">
 
@@ -175,7 +186,9 @@
                             R$ 89,90
                         </div>
 
-                        <button class="comprar">
+                        <button
+                            class="comprar"
+                            type="button">
                             Adicionar ao carrinho
                         </button>
 
@@ -206,7 +219,9 @@
                             R$ 149,90
                         </div>
 
-                        <button class="comprar">
+                        <button
+                            class="comprar"
+                            type="button">
                             Adicionar ao carrinho
                         </button>
 
@@ -237,7 +252,9 @@
                             R$ 119,90
                         </div>
 
-                        <button class="comprar">
+                        <button
+                            class="comprar"
+                            type="button">
                             Adicionar ao carrinho
                         </button>
 
@@ -268,7 +285,9 @@
                             R$ 99,90
                         </div>
 
-                        <button class="comprar">
+                        <button
+                            class="comprar"
+                            type="button">
                             Adicionar ao carrinho
                         </button>
 
@@ -281,9 +300,13 @@
         </section>
 
 
-        <!-- OFERTAS -->
+        <!-- =========================
+             OFERTAS
+        ========================== -->
 
-        <section class="oferta" id="ofertas">
+        <section
+            class="oferta"
+            id="ofertas">
 
             <div class="titulo">
 
@@ -321,7 +344,9 @@
                             R$ 79,90
                         </div>
 
-                        <button class="comprar">
+                        <button
+                            class="comprar"
+                            type="button">
                             Comprar agora
                         </button>
 
@@ -352,7 +377,9 @@
                             R$ 109,90
                         </div>
 
-                        <button class="comprar">
+                        <button
+                            class="comprar"
+                            type="button">
                             Comprar agora
                         </button>
 
@@ -383,7 +410,9 @@
                             R$ 139,90
                         </div>
 
-                        <button class="comprar">
+                        <button
+                            class="comprar"
+                            type="button">
                             Comprar agora
                         </button>
 
@@ -414,7 +443,9 @@
                             R$ 94,90
                         </div>
 
-                        <button class="comprar">
+                        <button
+                            class="comprar"
+                            type="button">
                             Comprar agora
                         </button>
 
@@ -427,7 +458,9 @@
         </section>
 
 
-        <!-- BENEFÍCIOS -->
+        <!-- =========================
+             BENEFÍCIOS
+        ========================== -->
 
         <section>
 
@@ -445,6 +478,7 @@
 
                 </div>
 
+
                 <div class="beneficio">
 
                     <strong>
@@ -457,6 +491,7 @@
 
                 </div>
 
+
                 <div class="beneficio">
 
                     <strong>
@@ -468,6 +503,7 @@
                     </p>
 
                 </div>
+
 
                 <div class="beneficio">
 
@@ -486,7 +522,9 @@
         </section>
 
 
-        <!-- NEWSLETTER -->
+        <!-- =========================
+             NEWSLETTER
+        ========================== -->
 
         <section class="newsletter">
 
@@ -498,7 +536,7 @@
                 Cadastre seu e-mail e fique por dentro das novidades.
             </p>
 
-            <form>
+            <form id="form-newsletter">
 
                 <input
                     type="email"
@@ -516,7 +554,9 @@
     </main>
 
 
-    <!-- RODAPÉ -->
+    <!-- =========================
+         RODAPÉ
+    ========================== -->
 
     <footer id="contato">
 
@@ -534,6 +574,7 @@
                 </p>
 
             </div>
+
 
             <div>
 
@@ -555,6 +596,7 @@
 
             </div>
 
+
             <div>
 
                 <h3>
@@ -574,6 +616,7 @@
                 </a>
 
             </div>
+
 
             <div>
 
@@ -597,6 +640,7 @@
 
         </div>
 
+
         <div class="copyright">
 
             © 2026 Minha Confecção — Todos os direitos reservados.
@@ -613,3 +657,4 @@
 </body>
 
 </html>
+```
