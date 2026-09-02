@@ -12,22 +12,26 @@ const finalizarCompra = document.getElementById("finalizar-compra");
 
 
 /* ==============================
-   ADICIONAR PRODUTO
+   ADICIONAR PRODUTO AO CARRINHO
 ============================== */
 
-botoesComprar.forEach((botao) => {
+botoesComprar.forEach(function (botao) {
 
     botao.addEventListener("click", function () {
 
         const produto = this.closest(".produto");
 
-        if (!produto) return;
+        if (!produto) {
+            return;
+        }
 
         const nomeElemento = produto.querySelector("h3");
         const precoElemento = produto.querySelector(".preco");
         const imagemElemento = produto.querySelector("img");
 
-        if (!nomeElemento || !precoElemento) return;
+        if (!nomeElemento || !precoElemento) {
+            return;
+        }
 
         const nome = nomeElemento.textContent.trim();
 
@@ -43,9 +47,13 @@ botoesComprar.forEach((botao) => {
             ? imagemElemento.src
             : "";
 
-        const produtoExistente = carrinho.find(
-            item => item.nome === nome
-        );
+
+        const produtoExistente = carrinho.find(function (item) {
+
+            return item.nome === nome;
+
+        });
+
 
         if (produtoExistente) {
 
@@ -54,15 +62,19 @@ botoesComprar.forEach((botao) => {
         } else {
 
             carrinho.push({
+
                 nome: nome,
                 preco: preco,
                 imagem: imagem,
                 quantidade: 1
+
             });
 
         }
 
+
         atualizarCarrinho();
+
         abrirCarrinho();
 
     });
@@ -79,7 +91,8 @@ function atualizarCarrinho() {
     let quantidadeTotal = 0;
     let valorTotal = 0;
 
-    carrinho.forEach((produto) => {
+
+    carrinho.forEach(function (produto) {
 
         quantidadeTotal += produto.quantidade;
 
@@ -94,31 +107,41 @@ function atualizarCarrinho() {
 
     if (linkCarrinho) {
 
-        linkCarrinho.textContent =
-            quantidadeTotal === 0
-                ? "🛒 Carrinho"
-                : `🛒 Carrinho (${quantidadeTotal})`;
+        if (quantidadeTotal === 0) {
+
+            linkCarrinho.textContent =
+                "🛒 Carrinho";
+
+        } else {
+
+            linkCarrinho.textContent =
+                "🛒 Carrinho (" +
+                quantidadeTotal +
+                ")";
+
+        }
 
     }
 
 
-    /* LISTA */
+    /* LISTA DO CARRINHO */
 
-    if (!listaCarrinho) return;
+    if (!listaCarrinho) {
+        return;
+    }
 
 
     if (carrinho.length === 0) {
 
-        listaCarrinho.innerHTML = `
-            <p>Seu carrinho está vazio.</p>
-        `;
+        listaCarrinho.innerHTML =
+            "<p>Seu carrinho está vazio.</p>";
 
     } else {
 
         listaCarrinho.innerHTML = "";
 
 
-        carrinho.forEach((produto, index) => {
+        carrinho.forEach(function (produto, index) {
 
             const item =
                 document.createElement("div");
@@ -177,6 +200,7 @@ function atualizarCarrinho() {
                     </button>
 
                 </div>
+
             `;
 
 
@@ -192,9 +216,10 @@ function atualizarCarrinho() {
     if (totalCarrinho) {
 
         totalCarrinho.textContent =
-            `R$ ${valorTotal
+            "R$ " +
+            valorTotal
                 .toFixed(2)
-                .replace(".", ",")}`;
+                .replace(".", ",");
 
     }
 
@@ -207,7 +232,9 @@ function atualizarCarrinho() {
 
 function aumentarQuantidade(index) {
 
-    if (!carrinho[index]) return;
+    if (!carrinho[index]) {
+        return;
+    }
 
     carrinho[index].quantidade++;
 
@@ -222,15 +249,19 @@ function aumentarQuantidade(index) {
 
 function diminuirQuantidade(index) {
 
-    if (!carrinho[index]) return;
+    if (!carrinho[index]) {
+        return;
+    }
 
     carrinho[index].quantidade--;
+
 
     if (carrinho[index].quantidade <= 0) {
 
         carrinho.splice(index, 1);
 
     }
+
 
     atualizarCarrinho();
 
@@ -243,7 +274,9 @@ function diminuirQuantidade(index) {
 
 function removerProduto(index) {
 
-    if (!carrinho[index]) return;
+    if (!carrinho[index]) {
+        return;
+    }
 
     carrinho.splice(index, 1);
 
@@ -258,9 +291,11 @@ function removerProduto(index) {
 
 function abrirCarrinho() {
 
-    if (!modalCarrinho) return;
+    if (!modalCarrinho) {
+        return;
+    }
 
-    modalCarrinho.classList.add("ativo");
+    modalCarrinho.style.display = "flex";
 
 }
 
@@ -269,13 +304,13 @@ function abrirCarrinho() {
    FECHAR CARRINHO
 ============================== */
 
-if (fecharCarrinho) {
+if (fecharCarrinho && modalCarrinho) {
 
     fecharCarrinho.addEventListener(
         "click",
         function () {
 
-            modalCarrinho.classList.remove("ativo");
+            modalCarrinho.style.display = "none";
 
         }
     );
@@ -287,7 +322,7 @@ if (fecharCarrinho) {
    BOTÃO CARRINHO DO CABEÇALHO
 ============================== */
 
-if (linkCarrinho) {
+if (linkCarrinho && modalCarrinho) {
 
     linkCarrinho.addEventListener(
         "click",
@@ -295,7 +330,7 @@ if (linkCarrinho) {
 
             evento.preventDefault();
 
-            abrirCarrinho();
+            modalCarrinho.style.display = "flex";
 
         }
     );
@@ -315,7 +350,7 @@ if (modalCarrinho) {
 
             if (evento.target === modalCarrinho) {
 
-                modalCarrinho.classList.remove("ativo");
+                modalCarrinho.style.display = "none";
 
             }
 
@@ -357,7 +392,7 @@ if (finalizarCompra) {
 
 
 /* ==============================
-   BUSCA
+   BUSCA DE PRODUTOS
 ============================== */
 
 const formBusca =
@@ -383,18 +418,18 @@ if (formBusca && campoBusca) {
 
 
             const produtos =
-                document.querySelectorAll(
-                    ".produto"
-                );
+                document.querySelectorAll(".produto");
 
 
-            produtos.forEach((produto) => {
+            produtos.forEach(function (produto) {
 
                 const nomeElemento =
                     produto.querySelector("h3");
 
 
-                if (!nomeElemento) return;
+                if (!nomeElemento) {
+                    return;
+                }
 
 
                 const nome =
@@ -456,7 +491,7 @@ if (formNewsletter) {
 
 
 /* ==============================
-   INICIALIZAÇÃO
+   INICIAR
 ============================== */
 
 atualizarCarrinho();
