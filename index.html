@@ -13,19 +13,15 @@
 
 <body>
 
-    <!-- ==============================
-         CABEÇALHO
-    =============================== -->
+    <!-- CABEÇALHO -->
 
     <header>
 
         <div class="topo">
 
             <div class="logo">
-                <h1>MINHA CONFECÇÃO</h1>
+                MINHA CONFECÇÃO
             </div>
-
-            <!-- BUSCA -->
 
             <form id="form-busca" class="busca">
 
@@ -35,13 +31,9 @@
                     placeholder="O que você está procurando?"
                 >
 
-                <button type="submit">
-                    🔍
-                </button>
+                <button type="submit">🔍</button>
 
             </form>
-
-            <!-- AÇÕES -->
 
             <div class="acoes">
 
@@ -63,25 +55,37 @@
         <nav>
 
             <a href="#">Início</a>
-            <a href="#categorias">Categorias</a>
-            <a href="#novidades">Novidades</a>
-            <a href="#ofertas">Ofertas</a>
-            <a href="#contato">Contato</a>
+
+            <a href="#categorias">
+                Categorias
+            </a>
+
+            <a href="#novidades">
+                Novidades
+            </a>
+
+            <a href="#ofertas">
+                Ofertas
+            </a>
+
+            <a href="#contato">
+                Contato
+            </a>
 
         </nav>
 
     </header>
 
 
-    <!-- ==============================
-         BANNER
-    =============================== -->
+    <!-- BANNER -->
 
     <section class="banner">
 
-        <div class="banner-texto">
+        <div class="banner-conteudo">
 
-            <h2>Moda que combina com você</h2>
+            <h1>
+                Moda que combina com você
+            </h1>
 
             <p>
                 Encontre peças lindas para todos os momentos.
@@ -96,37 +100,61 @@
     </section>
 
 
-    <!-- ==============================
-         CATEGORIAS
-    =============================== -->
+    <!-- CATEGORIAS -->
 
-    <section id="categorias" class="categorias">
+    <section id="categorias">
 
-        <h2>Compre por categoria</h2>
+        <div class="titulo">
 
-        <div class="categorias-grid">
+            <h2>
+                Compre por categoria
+            </h2>
+
+        </div>
+
+
+        <div class="categorias">
 
             <a href="#">
-                <div class="categoria">
-                    <h3>Lingerie</h3>
+                <div class="categoria categoria1">
+
+                    <h3>
+                        Lingerie
+                    </h3>
+
                 </div>
             </a>
 
+
             <a href="#">
-                <div class="categoria">
-                    <h3>Moda Feminina</h3>
+                <div class="categoria categoria2">
+
+                    <h3>
+                        Moda Feminina
+                    </h3>
+
                 </div>
             </a>
 
+
             <a href="#">
-                <div class="categoria">
-                    <h3>Novidades</h3>
+                <div class="categoria categoria3">
+
+                    <h3>
+                        Novidades
+                    </h3>
+
                 </div>
             </a>
 
+
             <a href="#">
-                <div class="categoria">
-                    <h3>Conjuntos</h3>
+                <div class="categoria categoria4">
+
+                    <h3>
+                        Conjuntos
+                    </h3>
+
                 </div>
             </a>
 
@@ -135,15 +163,20 @@
     </section>
 
 
-    <!-- ==============================
-         NOVIDADES
-    =============================== -->
+    <!-- NOVIDADES -->
 
-    <section id="novidades" class="produtos">
+    <section id="novidades">
 
-        <h2>Novidades</h2>
+        <div class="titulo">
 
-        <div class="produtos-grid">
+            <h2>
+                Novidades
+            </h2>
+
+        </div>
+
+
+        <div class="produtos">
 
 
             <!-- PRODUTO 1 -->
@@ -155,15 +188,24 @@
                     alt="Conjunto feminino"
                 >
 
-                <h3>Conjunto Feminino</h3>
+                <div class="produto-info">
 
-                <p class="preco">
-                    R$ 89,90
-                </p>
+                    <h3>
+                        Conjunto Feminino
+                    </h3>
 
-                <button class="comprar" type="button">
-                    Comprar
-                </button>
+                    <p class="preco">
+                        R$ 89,90
+                    </p>
+
+                    <button
+                        class="comprar"
+                        type="button"
+                    >
+                        Comprar
+                    </button>
+
+                </div>
 
             </div>
 
@@ -177,15 +219,24 @@
                     alt="Blusa feminina"
                 >
 
-                <h3>Blusa Feminina</h3>
+                <div class="produto-info">
 
-                <p class="preco">
-                    R$ 59,90
-                </p>
+                    <h3>
+                        Blusa Feminina
+                    </h3>
 
-                <button class="comprar" type="button">
-                    Comprar
-                </button>
+                    <p class="preco">
+                        R$ 59,90
+                    </p>
+
+                    <button
+                        class="comprar"
+                        type="button"
+                    >
+                        Comprar
+                    </button>
+
+                </div>
 
             </div>
 
@@ -199,15 +250,24 @@
                     alt="Vestido feminino"
                 >
 
-                <h3>Vestido Feminino</h3>
+                <div class="produto-info">
 
-                <p class="preco">
-                    R$ 119,90
-                </p>
+                    <h3>
+                        Vestido Feminino
+                    </h3>
 
-                <button class="comprar" type="button">
-                    Comprar
-                </button>
+                    <p class="preco">
+                        R$ 119,90
+                    </p>
+
+                    <button
+                        class="comprar"
+                        type="button"
+                    >
+                        Comprar
+                    </button>
+
+                </div>
 
             </div>
 
@@ -218,18 +278,27 @@
 
                 <img
                     src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=600&q=80"
-                    alt="Conjunto feminino moderno"
+                    alt="Conjunto moderno"
                 >
 
-                <h3>Conjunto Moderno</h3>
+                <div class="produto-info">
 
-                <p class="preco">
-                    R$ 99,90
-                </p>
+                    <h3>
+                        Conjunto Moderno
+                    </h3>
 
-                <button class="comprar" type="button">
-                    Comprar
-                </button>
+                    <p class="preco">
+                        R$ 99,90
+                    </p>
+
+                    <button
+                        class="comprar"
+                        type="button"
+                    >
+                        Comprar
+                    </button>
+
+                </div>
 
             </div>
 
@@ -238,15 +307,20 @@
     </section>
 
 
-    <!-- ==============================
-         OFERTAS
-    =============================== -->
+    <!-- OFERTAS -->
 
-    <section id="ofertas" class="produtos ofertas">
+    <section id="ofertas" class="oferta">
 
-        <h2>Ofertas</h2>
+        <div class="titulo">
 
-        <div class="produtos-grid">
+            <h2>
+                Ofertas
+            </h2>
+
+        </div>
+
+
+        <div class="produtos">
 
 
             <!-- OFERTA 1 -->
@@ -255,18 +329,31 @@
 
                 <img
                     src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&w=600&q=80"
-                    alt="Lingerie"
+                    alt="Lingerie especial"
                 >
 
-                <h3>Lingerie Especial</h3>
+                <div class="produto-info">
 
-                <p class="preco">
-                    R$ 49,90
-                </p>
+                    <h3>
+                        Lingerie Especial
+                    </h3>
 
-                <button class="comprar" type="button">
-                    Comprar
-                </button>
+                    <p class="preco-antigo">
+                        R$ 69,90
+                    </p>
+
+                    <p class="preco">
+                        R$ 49,90
+                    </p>
+
+                    <button
+                        class="comprar"
+                        type="button"
+                    >
+                        Comprar
+                    </button>
+
+                </div>
 
             </div>
 
@@ -276,19 +363,32 @@
             <div class="produto">
 
                 <img
-                    src="https://images.unsplash.com/photo-1564257577054-3e4c7c7c7c7c?auto=format&fit=crop&w=600&q=80"
-                    alt="Conjunto"
+                    src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=600&q=80"
+                    alt="Conjunto básico"
                 >
 
-                <h3>Conjunto Básico</h3>
+                <div class="produto-info">
 
-                <p class="preco">
-                    R$ 69,90
-                </p>
+                    <h3>
+                        Conjunto Básico
+                    </h3>
 
-                <button class="comprar" type="button">
-                    Comprar
-                </button>
+                    <p class="preco-antigo">
+                        R$ 89,90
+                    </p>
+
+                    <p class="preco">
+                        R$ 69,90
+                    </p>
+
+                    <button
+                        class="comprar"
+                        type="button"
+                    >
+                        Comprar
+                    </button>
+
+                </div>
 
             </div>
 
@@ -298,19 +398,32 @@
             <div class="produto">
 
                 <img
-                    src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80"
+                    src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=600&q=80"
                     alt="Moda feminina"
                 >
 
-                <h3>Moda Feminina</h3>
+                <div class="produto-info">
 
-                <p class="preco">
-                    R$ 79,90
-                </p>
+                    <h3>
+                        Moda Feminina
+                    </h3>
 
-                <button class="comprar" type="button">
-                    Comprar
-                </button>
+                    <p class="preco-antigo">
+                        R$ 99,90
+                    </p>
+
+                    <p class="preco">
+                        R$ 79,90
+                    </p>
+
+                    <button
+                        class="comprar"
+                        type="button"
+                    >
+                        Comprar
+                    </button>
+
+                </div>
 
             </div>
 
@@ -321,18 +434,31 @@
 
                 <img
                     src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=600&q=80"
-                    alt="Roupa feminina"
+                    alt="Peça feminina"
                 >
 
-                <h3>Peça Feminina</h3>
+                <div class="produto-info">
 
-                <p class="preco">
-                    R$ 64,90
-                </p>
+                    <h3>
+                        Peça Feminina
+                    </h3>
 
-                <button class="comprar" type="button">
-                    Comprar
-                </button>
+                    <p class="preco-antigo">
+                        R$ 84,90
+                    </p>
+
+                    <p class="preco">
+                        R$ 64,90
+                    </p>
+
+                    <button
+                        class="comprar"
+                        type="button"
+                    >
+                        Comprar
+                    </button>
+
+                </div>
 
             </div>
 
@@ -341,15 +467,15 @@
     </section>
 
 
-    <!-- ==============================
-         BENEFÍCIOS
-    =============================== -->
+    <!-- BENEFÍCIOS -->
 
     <section class="beneficios">
 
         <div class="beneficio">
 
-            <h3>🚚 Entrega</h3>
+            <strong>
+                🚚 Entrega
+            </strong>
 
             <p>
                 Enviamos para todo o Brasil.
@@ -360,7 +486,9 @@
 
         <div class="beneficio">
 
-            <h3>🔒 Compra segura</h3>
+            <strong>
+                🔒 Compra segura
+            </strong>
 
             <p>
                 Seus dados protegidos.
@@ -371,7 +499,9 @@
 
         <div class="beneficio">
 
-            <h3>💳 Pagamento</h3>
+            <strong>
+                💳 Pagamento
+            </strong>
 
             <p>
                 Diversas formas de pagamento.
@@ -382,7 +512,9 @@
 
         <div class="beneficio">
 
-            <h3>💬 Atendimento</h3>
+            <strong>
+                💬 Atendimento
+            </strong>
 
             <p>
                 Fale conosco quando precisar.
@@ -393,13 +525,13 @@
     </section>
 
 
-    <!-- ==============================
-         NEWSLETTER
-    =============================== -->
+    <!-- NEWSLETTER -->
 
     <section class="newsletter">
 
-        <h2>Receba nossas novidades</h2>
+        <h2>
+            Receba nossas novidades
+        </h2>
 
         <p>
             Cadastre seu e-mail para receber ofertas.
@@ -423,64 +555,74 @@
     </section>
 
 
-    <!-- ==============================
-         CONTATO / RODAPÉ
-    =============================== -->
+    <!-- RODAPÉ -->
 
     <footer id="contato">
 
-        <div>
+        <div class="rodape">
 
-            <h3>MINHA CONFECÇÃO</h3>
+            <div>
 
-            <p>
-                Moda e qualidade para você.
-            </p>
+                <h3>
+                    MINHA CONFECÇÃO
+                </h3>
 
-        </div>
+                <p>
+                    Moda e qualidade para você.
+                </p>
 
-
-        <div>
-
-            <h3>Atendimento</h3>
-
-            <p>
-                WhatsApp
-            </p>
-
-            <p>
-                Instagram
-            </p>
-
-            <p>
-                E-mail
-            </p>
-
-        </div>
+            </div>
 
 
-        <div>
+            <div>
 
-            <h3>Informações</h3>
+                <h3>
+                    Atendimento
+                </h3>
 
-            <p>
-                Política de privacidade
-            </p>
+                <p>
+                    WhatsApp
+                </p>
 
-            <p>
-                Termos de uso
-            </p>
+                <p>
+                    Instagram
+                </p>
 
-        </div>
+                <p>
+                    E-mail
+                </p>
+
+            </div>
 
 
-        <div>
+            <div>
 
-            <h3>Pagamento</h3>
+                <h3>
+                    Informações
+                </h3>
 
-            <p>
-                Pix • Cartão • Boleto
-            </p>
+                <p>
+                    Política de privacidade
+                </p>
+
+                <p>
+                    Termos de uso
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <h3>
+                    Pagamento
+                </h3>
+
+                <p>
+                    Pix • Cartão • Boleto
+                </p>
+
+            </div>
 
         </div>
 
@@ -497,10 +639,13 @@
 
 
     <!-- ==============================
-         MODAL DO CARRINHO
+         CARRINHO
     =============================== -->
 
-    <div id="carrinho-modal" class="carrinho-modal">
+    <div
+        id="carrinho-modal"
+        class="carrinho-modal"
+    >
 
         <div class="carrinho-conteudo">
 
@@ -561,4 +706,3 @@
 
 </html>
 ```
-
