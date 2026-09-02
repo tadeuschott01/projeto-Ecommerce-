@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,387 +8,15 @@
     <title>Minha Confecção | Moda & Lingerie</title>
 
     <meta name="description"
-          content="Moda, lingerie e peças selecionadas para você.">
+        content="Moda, lingerie e peças selecionadas para você.">
 
-    <style>
-        /* Apenas uma estilização básica temporária.
-           Depois vamos criar um arquivo style.css profissional. */
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #fff;
-            color: #222;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        header {
-            border-bottom: 1px solid #eee;
-            background: white;
-            padding: 20px 6%;
-        }
-
-        .topo {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .logo {
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .logo span {
-            font-weight: normal;
-        }
-
-        .busca {
-            display: flex;
-            max-width: 500px;
-            flex: 1;
-        }
-
-        .busca input {
-            width: 100%;
-            padding: 13px;
-            border: 1px solid #ddd;
-            border-radius: 5px 0 0 5px;
-        }
-
-        .busca button {
-            border: 0;
-            padding: 0 18px;
-            cursor: pointer;
-            background: #222;
-            color: white;
-            border-radius: 0 5px 5px 0;
-        }
-
-        .acoes {
-            display: flex;
-            gap: 15px;
-        }
-
-        nav {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        nav a {
-            font-size: 15px;
-        }
-
-        .banner {
-            min-height: 480px;
-            display: flex;
-            align-items: center;
-            padding: 50px 8%;
-            background:
-                linear-gradient(
-                    90deg,
-                    rgba(0,0,0,.55),
-                    rgba(0,0,0,.05)
-                ),
-                url("https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1600&q=85")
-                center/cover;
-            color: white;
-        }
-
-        .banner-conteudo {
-            max-width: 500px;
-        }
-
-        .banner h1 {
-            font-size: 52px;
-            margin-bottom: 15px;
-        }
-
-        .banner p {
-            font-size: 20px;
-            margin-bottom: 25px;
-        }
-
-        .botao {
-            display: inline-block;
-            padding: 14px 28px;
-            background: #222;
-            color: white;
-            border-radius: 4px;
-        }
-
-        section {
-            padding: 55px 6%;
-        }
-
-        .titulo {
-            text-align: center;
-            margin-bottom: 35px;
-        }
-
-        .titulo h2 {
-            font-size: 30px;
-            margin-bottom: 8px;
-        }
-
-        .categorias {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-
-        .categoria {
-            min-height: 180px;
-            display: flex;
-            align-items: flex-end;
-            padding: 20px;
-            color: white;
-            border-radius: 6px;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .categoria h3 {
-            font-size: 21px;
-            text-shadow: 0 2px 5px #000;
-        }
-
-        .categoria1 {
-            background-image: url("https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=700&q=80");
-        }
-
-        .categoria2 {
-            background-image: url("https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=700&q=80");
-        }
-
-        .categoria3 {
-            background-image: url("https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=700&q=80");
-        }
-
-        .categoria4 {
-            background-image: url("https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=700&q=80");
-        }
-
-        .produtos {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 25px;
-        }
-
-        .produto {
-            background: white;
-            border: 1px solid #eee;
-            border-radius: 6px;
-            overflow: hidden;
-            transition: .2s;
-        }
-
-        .produto:hover {
-            transform: translateY(-4px);
-        }
-
-        .produto img {
-            width: 100%;
-            height: 330px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .produto-info {
-            padding: 18px;
-        }
-
-        .produto-info h3 {
-            margin-bottom: 8px;
-        }
-
-        .preco-antigo {
-            text-decoration: line-through;
-            color: #888;
-            font-size: 14px;
-        }
-
-        .preco {
-            font-size: 21px;
-            font-weight: bold;
-            margin: 6px 0 15px;
-        }
-
-        .comprar {
-            width: 100%;
-            padding: 12px;
-            border: 0;
-            background: #222;
-            color: white;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        .oferta {
-            background: #f7f1ed;
-        }
-
-        .beneficios {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            text-align: center;
-        }
-
-        .beneficio {
-            padding: 25px;
-        }
-
-        .beneficio strong {
-            display: block;
-            font-size: 18px;
-            margin-bottom: 8px;
-        }
-
-        .newsletter {
-            text-align: center;
-            background: #f5f5f5;
-        }
-
-        .newsletter form {
-            max-width: 550px;
-            margin: 25px auto 0;
-            display: flex;
-        }
-
-        .newsletter input {
-            flex: 1;
-            padding: 15px;
-            border: 1px solid #ddd;
-        }
-
-        .newsletter button {
-            padding: 0 25px;
-            background: #222;
-            color: white;
-            border: 0;
-        }
-
-        footer {
-            background: #181818;
-            color: white;
-            padding: 50px 6%;
-        }
-
-        .rodape {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 40px;
-        }
-
-        footer h3 {
-            margin-bottom: 15px;
-        }
-
-        footer p,
-        footer a {
-            color: #ccc;
-            display: block;
-            margin-bottom: 9px;
-        }
-
-        .copyright {
-            border-top: 1px solid #333;
-            margin-top: 40px;
-            padding-top: 20px;
-            text-align: center;
-            color: #aaa;
-        }
-
-        @media (max-width: 900px) {
-
-            .categorias,
-            .produtos {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .beneficios {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .rodape {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .banner h1 {
-                font-size: 40px;
-            }
-        }
-
-        @media (max-width: 600px) {
-
-            header {
-                padding: 18px 5%;
-            }
-
-            .topo {
-                flex-direction: column;
-            }
-
-            .busca {
-                width: 100%;
-            }
-
-            nav {
-                gap: 15px;
-            }
-
-            .banner {
-                min-height: 400px;
-                padding: 35px 6%;
-            }
-
-            .banner h1 {
-                font-size: 34px;
-            }
-
-            .categorias,
-            .produtos,
-            .beneficios,
-            .rodape {
-                grid-template-columns: 1fr;
-            }
-
-            .produto img {
-                height: 380px;
-            }
-
-            .newsletter form {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .newsletter button {
-                padding: 14px;
-            }
-        }
-    </style>
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- =========================
-         CABEÇALHO
-    ========================== -->
+    <!-- CABEÇALHO -->
 
     <header>
 
@@ -402,8 +30,7 @@
 
                 <input
                     type="search"
-                    placeholder="O que você está procurando?"
-                >
+                    placeholder="O que você está procurando?">
 
                 <button type="submit">
                     🔍
@@ -425,7 +52,6 @@
 
         </div>
 
-
         <nav>
 
             <a href="#inicio">Início</a>
@@ -443,11 +69,11 @@
     </header>
 
 
-    <!-- =========================
-         BANNER
-    ========================== -->
+    <!-- CONTEÚDO -->
 
     <main>
+
+        <!-- BANNER -->
 
         <section class="banner" id="inicio">
 
@@ -470,9 +96,7 @@
         </section>
 
 
-        <!-- =========================
-             CATEGORIAS
-        ========================== -->
+        <!-- CATEGORIAS -->
 
         <section id="categorias">
 
@@ -487,7 +111,6 @@
                 </p>
 
             </div>
-
 
             <div class="categorias">
 
@@ -512,9 +135,7 @@
         </section>
 
 
-        <!-- =========================
-             NOVIDADES
-        ========================== -->
+        <!-- NOVIDADES -->
 
         <section id="novidades">
 
@@ -530,9 +151,7 @@
 
             </div>
 
-
             <div class="produtos">
-
 
                 <!-- PRODUTO 1 -->
 
@@ -540,8 +159,7 @@
 
                     <img
                         src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=800&q=85"
-                        alt="Conjunto de lingerie"
-                    >
+                        alt="Conjunto de lingerie">
 
                     <div class="produto-info">
 
@@ -572,8 +190,7 @@
 
                     <img
                         src="https://images.unsplash.com/photo-1566206091558-7f218b696731?auto=format&fit=crop&w=800&q=85"
-                        alt="Vestido feminino"
-                    >
+                        alt="Vestido feminino">
 
                     <div class="produto-info">
 
@@ -604,8 +221,7 @@
 
                     <img
                         src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&w=800&q=85"
-                        alt="Roupa feminina"
-                    >
+                        alt="Roupa feminina">
 
                     <div class="produto-info">
 
@@ -636,8 +252,7 @@
 
                     <img
                         src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=800&q=85"
-                        alt="Conjunto feminino"
-                    >
+                        alt="Conjunto feminino">
 
                     <div class="produto-info">
 
@@ -666,9 +281,7 @@
         </section>
 
 
-        <!-- =========================
-             OFERTAS
-        ========================== -->
+        <!-- OFERTAS -->
 
         <section class="oferta" id="ofertas">
 
@@ -684,16 +297,15 @@
 
             </div>
 
-
             <div class="produtos">
 
+                <!-- OFERTA 1 -->
 
                 <article class="produto">
 
                     <img
                         src="https://images.unsplash.com/photo-1591369822096-ffd140ec948f?auto=format&fit=crop&w=800&q=85"
-                        alt="Produto em promoção"
-                    >
+                        alt="Produto em promoção">
 
                     <div class="produto-info">
 
@@ -718,12 +330,13 @@
                 </article>
 
 
+                <!-- OFERTA 2 -->
+
                 <article class="produto">
 
                     <img
                         src="https://images.unsplash.com/photo-1564257577054-4e2c2c9d8b0c?auto=format&fit=crop&w=800&q=85"
-                        alt="Conjunto em promoção"
-                    >
+                        alt="Conjunto em promoção">
 
                     <div class="produto-info">
 
@@ -748,12 +361,13 @@
                 </article>
 
 
+                <!-- OFERTA 3 -->
+
                 <article class="produto">
 
                     <img
                         src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=800&q=85"
-                        alt="Moda feminina em promoção"
-                    >
+                        alt="Moda feminina em promoção">
 
                     <div class="produto-info">
 
@@ -778,12 +392,13 @@
                 </article>
 
 
+                <!-- OFERTA 4 -->
+
                 <article class="produto">
 
                     <img
                         src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&q=85"
-                        alt="Peça feminina em promoção"
-                    >
+                        alt="Peça feminina em promoção">
 
                     <div class="produto-info">
 
@@ -812,9 +427,7 @@
         </section>
 
 
-        <!-- =========================
-             BENEFÍCIOS
-        ========================== -->
+        <!-- BENEFÍCIOS -->
 
         <section>
 
@@ -832,7 +445,6 @@
 
                 </div>
 
-
                 <div class="beneficio">
 
                     <strong>
@@ -845,7 +457,6 @@
 
                 </div>
 
-
                 <div class="beneficio">
 
                     <strong>
@@ -857,7 +468,6 @@
                     </p>
 
                 </div>
-
 
                 <div class="beneficio">
 
@@ -876,9 +486,7 @@
         </section>
 
 
-        <!-- =========================
-             NEWSLETTER
-        ========================== -->
+        <!-- NEWSLETTER -->
 
         <section class="newsletter">
 
@@ -890,14 +498,12 @@
                 Cadastre seu e-mail e fique por dentro das novidades.
             </p>
 
-
             <form>
 
                 <input
                     type="email"
                     placeholder="Digite seu melhor e-mail"
-                    required
-                >
+                    required>
 
                 <button type="submit">
                     CADASTRAR
@@ -910,14 +516,11 @@
     </main>
 
 
-    <!-- =========================
-         RODAPÉ
-    ========================== -->
+    <!-- RODAPÉ -->
 
     <footer id="contato">
 
         <div class="rodape">
-
 
             <div>
 
@@ -931,7 +534,6 @@
                 </p>
 
             </div>
-
 
             <div>
 
@@ -953,7 +555,6 @@
 
             </div>
 
-
             <div>
 
                 <h3>
@@ -973,7 +574,6 @@
                 </a>
 
             </div>
-
 
             <div>
 
@@ -997,7 +597,6 @@
 
         </div>
 
-
         <div class="copyright">
 
             © 2026 Minha Confecção — Todos os direitos reservados.
@@ -1007,5 +606,10 @@
     </footer>
 
 
+    <!-- JAVASCRIPT -->
+
+    <script src="script.js"></script>
+
 </body>
-</html> 
+
+</html>
