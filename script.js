@@ -1,3 +1,4 @@
+alert("JAVASCRIPT FUNCIONANDO!");
 ```javascript
 let carrinho = [];
 
