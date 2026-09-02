@@ -1,3 +1,4 @@
+```javascript
 let carrinho = [];
 
 const botoesComprar = document.querySelectorAll(".comprar");
@@ -10,9 +11,9 @@ const totalCarrinho = document.getElementById("carrinho-total");
 const finalizarCompra = document.getElementById("finalizar-compra");
 
 
-// ================================
-// ADICIONAR PRODUTO
-// ================================
+/* ==============================
+   ADICIONAR PRODUTO
+============================== */
 
 botoesComprar.forEach((botao) => {
 
@@ -22,19 +23,21 @@ botoesComprar.forEach((botao) => {
 
         if (!produto) return;
 
-        const nome = produto.querySelector("h3").textContent.trim();
+        const nomeElemento = produto.querySelector("h3");
+        const precoElemento = produto.querySelector(".preco");
+        const imagemElemento = produto.querySelector("img");
 
-        const precoTexto = produto
-            .querySelector(".preco")
-            .textContent
+        if (!nomeElemento || !precoElemento) return;
+
+        const nome = nomeElemento.textContent.trim();
+
+        const precoTexto = precoElemento.textContent
             .replace("R$", "")
             .replace(/\./g, "")
             .replace(",", ".")
             .trim();
 
         const preco = Number(precoTexto);
-
-        const imagemElemento = produto.querySelector("img");
 
         const imagem = imagemElemento
             ? imagemElemento.src
@@ -60,7 +63,6 @@ botoesComprar.forEach((botao) => {
         }
 
         atualizarCarrinho();
-
         abrirCarrinho();
 
     });
@@ -68,9 +70,9 @@ botoesComprar.forEach((botao) => {
 });
 
 
-// ================================
-// ATUALIZAR CARRINHO
-// ================================
+/* ==============================
+   ATUALIZAR CARRINHO
+============================== */
 
 function atualizarCarrinho() {
 
@@ -81,30 +83,26 @@ function atualizarCarrinho() {
 
         quantidadeTotal += produto.quantidade;
 
-        valorTotal += produto.preco * produto.quantidade;
+        valorTotal +=
+            produto.preco *
+            produto.quantidade;
 
     });
 
 
-    // Atualiza contador
+    /* CONTADOR DO CARRINHO */
 
     if (linkCarrinho) {
 
-        if (quantidadeTotal === 0) {
-
-            linkCarrinho.textContent = "🛒 Carrinho";
-
-        } else {
-
-            linkCarrinho.textContent =
-                `🛒 Carrinho (${quantidadeTotal})`;
-
-        }
+        linkCarrinho.textContent =
+            quantidadeTotal === 0
+                ? "🛒 Carrinho"
+                : `🛒 Carrinho (${quantidadeTotal})`;
 
     }
 
 
-    // Atualiza lista
+    /* LISTA */
 
     if (!listaCarrinho) return;
 
@@ -119,11 +117,15 @@ function atualizarCarrinho() {
 
         listaCarrinho.innerHTML = "";
 
+
         carrinho.forEach((produto, index) => {
 
-            const item = document.createElement("div");
+            const item =
+                document.createElement("div");
 
-            item.className = "item-carrinho";
+            item.className =
+                "item-carrinho";
+
 
             item.innerHTML = `
 
@@ -134,7 +136,9 @@ function atualizarCarrinho() {
 
                 <div class="info-carrinho">
 
-                    <h3>${produto.nome}</h3>
+                    <h3>
+                        ${produto.nome}
+                    </h3>
 
                     <p>
                         R$ ${produto.preco
@@ -173,8 +177,8 @@ function atualizarCarrinho() {
                     </button>
 
                 </div>
-
             `;
+
 
             listaCarrinho.appendChild(item);
 
@@ -183,7 +187,7 @@ function atualizarCarrinho() {
     }
 
 
-    // Atualiza total
+    /* TOTAL */
 
     if (totalCarrinho) {
 
@@ -197,11 +201,13 @@ function atualizarCarrinho() {
 }
 
 
-// ================================
-// AUMENTAR QUANTIDADE
-// ================================
+/* ==============================
+   AUMENTAR QUANTIDADE
+============================== */
 
 function aumentarQuantidade(index) {
+
+    if (!carrinho[index]) return;
 
     carrinho[index].quantidade++;
 
@@ -210,11 +216,13 @@ function aumentarQuantidade(index) {
 }
 
 
-// ================================
-// DIMINUIR QUANTIDADE
-// ================================
+/* ==============================
+   DIMINUIR QUANTIDADE
+============================== */
 
 function diminuirQuantidade(index) {
+
+    if (!carrinho[index]) return;
 
     carrinho[index].quantidade--;
 
@@ -229,11 +237,13 @@ function diminuirQuantidade(index) {
 }
 
 
-// ================================
-// REMOVER PRODUTO
-// ================================
+/* ==============================
+   REMOVER PRODUTO
+============================== */
 
 function removerProduto(index) {
+
+    if (!carrinho[index]) return;
 
     carrinho.splice(index, 1);
 
@@ -242,131 +252,186 @@ function removerProduto(index) {
 }
 
 
-// ================================
-// ABRIR CARRINHO
-// ================================
+/* ==============================
+   ABRIR CARRINHO
+============================== */
 
 function abrirCarrinho() {
 
-    if (modalCarrinho) {
+    if (!modalCarrinho) return;
 
-        modalCarrinho.classList.add("ativo");
-
-    }
+    modalCarrinho.classList.add("ativo");
 
 }
 
 
-// ================================
-// FECHAR CARRINHO
-// ================================
+/* ==============================
+   FECHAR CARRINHO
+============================== */
 
 if (fecharCarrinho) {
 
-    fecharCarrinho.addEventListener("click", function () {
+    fecharCarrinho.addEventListener(
+        "click",
+        function () {
 
-        modalCarrinho.classList.remove("ativo");
+            modalCarrinho.classList.remove("ativo");
 
-    });
+        }
+    );
 
 }
 
 
-// ================================
-// CLICAR NO ÍCONE DO CARRINHO
-// ================================
+/* ==============================
+   BOTÃO CARRINHO DO CABEÇALHO
+============================== */
 
 if (linkCarrinho) {
 
-    linkCarrinho.addEventListener("click", function (evento) {
+    linkCarrinho.addEventListener(
+        "click",
+        function (evento) {
 
-        evento.preventDefault();
+            evento.preventDefault();
 
-        abrirCarrinho();
-
-    });
-
-}
-
-
-// ================================
-// FINALIZAR COMPRA
-// ================================
-
-if (finalizarCompra) {
-
-    finalizarCompra.addEventListener("click", function () {
-
-        if (carrinho.length === 0) {
-
-            alert("Seu carrinho está vazio.");
-
-            return;
+            abrirCarrinho();
 
         }
-
-        alert(
-            "Compra selecionada! Em breve vamos configurar o pagamento."
-        );
-
-    });
+    );
 
 }
 
 
-// ================================
-// BUSCA
-// ================================
+/* ==============================
+   FECHAR CLICANDO FORA
+============================== */
 
-const formBusca = document.getElementById("form-busca");
-const campoBusca = document.getElementById("campo-busca");
+if (modalCarrinho) {
 
-if (formBusca) {
+    modalCarrinho.addEventListener(
+        "click",
+        function (evento) {
 
-    formBusca.addEventListener("submit", function (evento) {
+            if (evento.target === modalCarrinho) {
 
-        evento.preventDefault();
-
-        const termo = campoBusca.value
-            .trim()
-            .toLowerCase();
-
-        const produtos =
-            document.querySelectorAll(".produto");
-
-        produtos.forEach((produto) => {
-
-            const nome = produto
-                .querySelector("h3")
-                .textContent
-                .toLowerCase();
-
-            if (
-                termo === "" ||
-                nome.includes(termo)
-            ) {
-
-                produto.style.display = "";
-
-            } else {
-
-                produto.style.display = "none";
+                modalCarrinho.classList.remove("ativo");
 
             }
 
-        });
-
-    });
+        }
+    );
 
 }
 
 
-// ================================
-// NEWSLETTER
-// ================================
+/* ==============================
+   FINALIZAR COMPRA
+============================== */
+
+if (finalizarCompra) {
+
+    finalizarCompra.addEventListener(
+        "click",
+        function () {
+
+            if (carrinho.length === 0) {
+
+                alert(
+                    "Seu carrinho está vazio."
+                );
+
+                return;
+
+            }
+
+
+            alert(
+                "Compra selecionada! Em breve vamos configurar o pagamento."
+            );
+
+        }
+    );
+
+}
+
+
+/* ==============================
+   BUSCA
+============================== */
+
+const formBusca =
+    document.getElementById("form-busca");
+
+const campoBusca =
+    document.getElementById("campo-busca");
+
+
+if (formBusca && campoBusca) {
+
+    formBusca.addEventListener(
+        "submit",
+        function (evento) {
+
+            evento.preventDefault();
+
+
+            const termo =
+                campoBusca.value
+                    .trim()
+                    .toLowerCase();
+
+
+            const produtos =
+                document.querySelectorAll(
+                    ".produto"
+                );
+
+
+            produtos.forEach((produto) => {
+
+                const nomeElemento =
+                    produto.querySelector("h3");
+
+
+                if (!nomeElemento) return;
+
+
+                const nome =
+                    nomeElemento.textContent
+                        .toLowerCase();
+
+
+                if (
+                    termo === "" ||
+                    nome.includes(termo)
+                ) {
+
+                    produto.style.display = "";
+
+                } else {
+
+                    produto.style.display = "none";
+
+                }
+
+            });
+
+        }
+    );
+
+}
+
+
+/* ==============================
+   NEWSLETTER
+============================== */
 
 const formNewsletter =
-    document.getElementById("form-newsletter");
+    document.getElementById(
+        "form-newsletter"
+    );
+
 
 if (formNewsletter) {
 
@@ -376,9 +441,11 @@ if (formNewsletter) {
 
             evento.preventDefault();
 
+
             alert(
                 "Cadastro realizado com sucesso!"
             );
+
 
             formNewsletter.reset();
 
@@ -388,8 +455,9 @@ if (formNewsletter) {
 }
 
 
-// ================================
-// INICIAR
-// ================================
+/* ==============================
+   INICIALIZAÇÃO
+============================== */
 
 atualizarCarrinho();
+```
