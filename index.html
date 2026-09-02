@@ -6,34 +6,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Minha Confecção | Moda & Lingerie</title>
-
-    <meta name="description"
-        content="Moda, lingerie e peças selecionadas para você.">
+    <title>Minha Confecção</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- =========================
+    <!-- ==============================
          CABEÇALHO
-    ========================== -->
+    =============================== -->
 
     <header>
 
         <div class="topo">
 
-            <a href="#inicio" class="logo">
-                MINHA <span>CONFECÇÃO</span>
-            </a>
+            <div class="logo">
+                <h1>MINHA CONFECÇÃO</h1>
+            </div>
 
-            <form class="busca" id="form-busca">
+            <!-- BUSCA -->
+
+            <form id="form-busca" class="busca">
 
                 <input
-                    type="search"
+                    type="text"
                     id="campo-busca"
-                    placeholder="O que você está procurando?">
+                    placeholder="O que você está procurando?"
+                >
 
                 <button type="submit">
                     🔍
@@ -41,10 +41,12 @@
 
             </form>
 
+            <!-- AÇÕES -->
+
             <div class="acoes">
 
                 <a href="#" id="link-favoritos">
-                    ♡ Favoritos
+                    ❤️ Favoritos
                 </a>
 
                 <a href="#" id="link-carrinho">
@@ -55,16 +57,15 @@
 
         </div>
 
+
+        <!-- MENU -->
+
         <nav>
 
-            <a href="#inicio">Início</a>
-
+            <a href="#">Início</a>
             <a href="#categorias">Categorias</a>
-
             <a href="#novidades">Novidades</a>
-
             <a href="#ofertas">Ofertas</a>
-
             <a href="#contato">Contato</a>
 
         </nav>
@@ -72,582 +73,484 @@
     </header>
 
 
-    <!-- =========================
-         CONTEÚDO PRINCIPAL
-    ========================== -->
+    <!-- ==============================
+         BANNER
+    =============================== -->
 
-    <main>
+    <section class="banner">
 
-        <!-- =========================
-             BANNER
-        ========================== -->
+        <div class="banner-texto">
 
-        <section class="banner" id="inicio">
-
-            <div class="banner-conteudo">
-
-                <h1>
-                    Nova coleção
-                </h1>
-
-                <p>
-                    Estilo, conforto e qualidade em cada detalhe.
-                </p>
-
-                <a href="#novidades" class="botao">
-                    COMPRAR AGORA
-                </a>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             CATEGORIAS
-        ========================== -->
-
-        <section id="categorias">
-
-            <div class="titulo">
-
-                <h2>
-                    Compre por categoria
-                </h2>
-
-                <p>
-                    Encontre o estilo perfeito para você
-                </p>
-
-            </div>
-
-            <div class="categorias">
-
-                <a href="#" class="categoria categoria1">
-                    <h3>Lingerie</h3>
-                </a>
-
-                <a href="#" class="categoria categoria2">
-                    <h3>Moda Feminina</h3>
-                </a>
-
-                <a href="#" class="categoria categoria3">
-                    <h3>Novidades</h3>
-                </a>
-
-                <a href="#" class="categoria categoria4">
-                    <h3>Conjuntos</h3>
-                </a>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             NOVIDADES
-        ========================== -->
-
-        <section id="novidades">
-
-            <div class="titulo">
-
-                <h2>
-                    Novidades
-                </h2>
-
-                <p>
-                    Confira os produtos que acabaram de chegar
-                </p>
-
-            </div>
-
-            <div class="produtos">
-
-                <!-- PRODUTO 1 -->
-
-                <article class="produto">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=800&q=85"
-                        alt="Conjunto de lingerie">
-
-                    <div class="produto-info">
-
-                        <h3>
-                            Conjunto Elegance
-                        </h3>
-
-                        <p>
-                            Lingerie feminina
-                        </p>
-
-                        <div class="preco">
-                            R$ 89,90
-                        </div>
-
-                        <button
-                            class="comprar"
-                            type="button">
-                            Adicionar ao carrinho
-                        </button>
-
-                    </div>
-
-                </article>
-
-
-                <!-- PRODUTO 2 -->
-
-                <article class="produto">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1566206091558-7f218b696731?auto=format&fit=crop&w=800&q=85"
-                        alt="Vestido feminino">
-
-                    <div class="produto-info">
-
-                        <h3>
-                            Vestido Elegance
-                        </h3>
-
-                        <p>
-                            Moda feminina
-                        </p>
-
-                        <div class="preco">
-                            R$ 149,90
-                        </div>
-
-                        <button
-                            class="comprar"
-                            type="button">
-                            Adicionar ao carrinho
-                        </button>
-
-                    </div>
-
-                </article>
-
-
-                <!-- PRODUTO 3 -->
-
-                <article class="produto">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&w=800&q=85"
-                        alt="Roupa feminina">
-
-                    <div class="produto-info">
-
-                        <h3>
-                            Conjunto Premium
-                        </h3>
-
-                        <p>
-                            Coleção especial
-                        </p>
-
-                        <div class="preco">
-                            R$ 119,90
-                        </div>
-
-                        <button
-                            class="comprar"
-                            type="button">
-                            Adicionar ao carrinho
-                        </button>
-
-                    </div>
-
-                </article>
-
-
-                <!-- PRODUTO 4 -->
-
-                <article class="produto">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=800&q=85"
-                        alt="Conjunto feminino">
-
-                    <div class="produto-info">
-
-                        <h3>
-                            Conjunto Soft
-                        </h3>
-
-                        <p>
-                            Conforto para todos os momentos
-                        </p>
-
-                        <div class="preco">
-                            R$ 99,90
-                        </div>
-
-                        <button
-                            class="comprar"
-                            type="button">
-                            Adicionar ao carrinho
-                        </button>
-
-                    </div>
-
-                </article>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             OFERTAS
-        ========================== -->
-
-        <section
-            class="oferta"
-            id="ofertas">
-
-            <div class="titulo">
-
-                <h2>
-                    🔥 Ofertas especiais
-                </h2>
-
-                <p>
-                    Aproveite enquanto durar o estoque
-                </p>
-
-            </div>
-
-            <div class="produtos">
-
-                <!-- OFERTA 1 -->
-
-                <article class="produto">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1591369822096-ffd140ec948f?auto=format&fit=crop&w=800&q=85"
-                        alt="Produto em promoção">
-
-                    <div class="produto-info">
-
-                        <h3>
-                            Lingerie Delicate
-                        </h3>
-
-                        <div class="preco-antigo">
-                            R$ 119,90
-                        </div>
-
-                        <div class="preco">
-                            R$ 79,90
-                        </div>
-
-                        <button
-                            class="comprar"
-                            type="button">
-                            Comprar agora
-                        </button>
-
-                    </div>
-
-                </article>
-
-
-                <!-- OFERTA 2 -->
-
-                <article class="produto">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1564257577054-4e2c2c9d8b0c?auto=format&fit=crop&w=800&q=85"
-                        alt="Conjunto em promoção">
-
-                    <div class="produto-info">
-
-                        <h3>
-                            Conjunto Romance
-                        </h3>
-
-                        <div class="preco-antigo">
-                            R$ 159,90
-                        </div>
-
-                        <div class="preco">
-                            R$ 109,90
-                        </div>
-
-                        <button
-                            class="comprar"
-                            type="button">
-                            Comprar agora
-                        </button>
-
-                    </div>
-
-                </article>
-
-
-                <!-- OFERTA 3 -->
-
-                <article class="produto">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=800&q=85"
-                        alt="Moda feminina em promoção">
-
-                    <div class="produto-info">
-
-                        <h3>
-                            Look Fashion
-                        </h3>
-
-                        <div class="preco-antigo">
-                            R$ 199,90
-                        </div>
-
-                        <div class="preco">
-                            R$ 139,90
-                        </div>
-
-                        <button
-                            class="comprar"
-                            type="button">
-                            Comprar agora
-                        </button>
-
-                    </div>
-
-                </article>
-
-
-                <!-- OFERTA 4 -->
-
-                <article class="produto">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&q=85"
-                        alt="Peça feminina em promoção">
-
-                    <div class="produto-info">
-
-                        <h3>
-                            Peça Exclusive
-                        </h3>
-
-                        <div class="preco-antigo">
-                            R$ 139,90
-                        </div>
-
-                        <div class="preco">
-                            R$ 94,90
-                        </div>
-
-                        <button
-                            class="comprar"
-                            type="button">
-                            Comprar agora
-                        </button>
-
-                    </div>
-
-                </article>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             BENEFÍCIOS
-        ========================== -->
-
-        <section>
-
-            <div class="beneficios">
-
-                <div class="beneficio">
-
-                    <strong>
-                        🚚 Envio rápido
-                    </strong>
-
-                    <p>
-                        Enviamos seu pedido com segurança.
-                    </p>
-
-                </div>
-
-
-                <div class="beneficio">
-
-                    <strong>
-                        🔒 Compra segura
-                    </strong>
-
-                    <p>
-                        Seus dados protegidos.
-                    </p>
-
-                </div>
-
-
-                <div class="beneficio">
-
-                    <strong>
-                        💳 Pagamento facilitado
-                    </strong>
-
-                    <p>
-                        Diversas formas de pagamento.
-                    </p>
-
-                </div>
-
-
-                <div class="beneficio">
-
-                    <strong>
-                        💕 Atendimento
-                    </strong>
-
-                    <p>
-                        Estamos aqui para ajudar.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             NEWSLETTER
-        ========================== -->
-
-        <section class="newsletter">
-
-            <h2>
-                Receba nossas novidades
-            </h2>
+            <h2>Moda que combina com você</h2>
 
             <p>
-                Cadastre seu e-mail e fique por dentro das novidades.
+                Encontre peças lindas para todos os momentos.
             </p>
 
-            <form id="form-newsletter">
+            <a href="#novidades" class="botao">
+                Comprar agora
+            </a>
 
-                <input
-                    type="email"
-                    placeholder="Digite seu melhor e-mail"
-                    required>
+        </div>
 
-                <button type="submit">
-                    CADASTRAR
+    </section>
+
+
+    <!-- ==============================
+         CATEGORIAS
+    =============================== -->
+
+    <section id="categorias" class="categorias">
+
+        <h2>Compre por categoria</h2>
+
+        <div class="categorias-grid">
+
+            <a href="#">
+                <div class="categoria">
+                    <h3>Lingerie</h3>
+                </div>
+            </a>
+
+            <a href="#">
+                <div class="categoria">
+                    <h3>Moda Feminina</h3>
+                </div>
+            </a>
+
+            <a href="#">
+                <div class="categoria">
+                    <h3>Novidades</h3>
+                </div>
+            </a>
+
+            <a href="#">
+                <div class="categoria">
+                    <h3>Conjuntos</h3>
+                </div>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==============================
+         NOVIDADES
+    =============================== -->
+
+    <section id="novidades" class="produtos">
+
+        <h2>Novidades</h2>
+
+        <div class="produtos-grid">
+
+
+            <!-- PRODUTO 1 -->
+
+            <div class="produto">
+
+                <img
+                    src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=600&q=80"
+                    alt="Conjunto feminino"
+                >
+
+                <h3>Conjunto Feminino</h3>
+
+                <p class="preco">
+                    R$ 89,90
+                </p>
+
+                <button class="comprar" type="button">
+                    Comprar
                 </button>
 
-            </form>
-
-        </section>
-
-    </main>
+            </div>
 
 
-    <!-- =========================
-         RODAPÉ
-    ========================== -->
+            <!-- PRODUTO 2 -->
+
+            <div class="produto">
+
+                <img
+                    src="https://images.unsplash.com/photo-1583743814966-8936f37f4678?auto=format&fit=crop&w=600&q=80"
+                    alt="Blusa feminina"
+                >
+
+                <h3>Blusa Feminina</h3>
+
+                <p class="preco">
+                    R$ 59,90
+                </p>
+
+                <button class="comprar" type="button">
+                    Comprar
+                </button>
+
+            </div>
+
+
+            <!-- PRODUTO 3 -->
+
+            <div class="produto">
+
+                <img
+                    src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=600&q=80"
+                    alt="Vestido feminino"
+                >
+
+                <h3>Vestido Feminino</h3>
+
+                <p class="preco">
+                    R$ 119,90
+                </p>
+
+                <button class="comprar" type="button">
+                    Comprar
+                </button>
+
+            </div>
+
+
+            <!-- PRODUTO 4 -->
+
+            <div class="produto">
+
+                <img
+                    src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=600&q=80"
+                    alt="Conjunto feminino moderno"
+                >
+
+                <h3>Conjunto Moderno</h3>
+
+                <p class="preco">
+                    R$ 99,90
+                </p>
+
+                <button class="comprar" type="button">
+                    Comprar
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==============================
+         OFERTAS
+    =============================== -->
+
+    <section id="ofertas" class="produtos ofertas">
+
+        <h2>Ofertas</h2>
+
+        <div class="produtos-grid">
+
+
+            <!-- OFERTA 1 -->
+
+            <div class="produto">
+
+                <img
+                    src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&w=600&q=80"
+                    alt="Lingerie"
+                >
+
+                <h3>Lingerie Especial</h3>
+
+                <p class="preco">
+                    R$ 49,90
+                </p>
+
+                <button class="comprar" type="button">
+                    Comprar
+                </button>
+
+            </div>
+
+
+            <!-- OFERTA 2 -->
+
+            <div class="produto">
+
+                <img
+                    src="https://images.unsplash.com/photo-1564257577054-3e4c7c7c7c7c?auto=format&fit=crop&w=600&q=80"
+                    alt="Conjunto"
+                >
+
+                <h3>Conjunto Básico</h3>
+
+                <p class="preco">
+                    R$ 69,90
+                </p>
+
+                <button class="comprar" type="button">
+                    Comprar
+                </button>
+
+            </div>
+
+
+            <!-- OFERTA 3 -->
+
+            <div class="produto">
+
+                <img
+                    src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80"
+                    alt="Moda feminina"
+                >
+
+                <h3>Moda Feminina</h3>
+
+                <p class="preco">
+                    R$ 79,90
+                </p>
+
+                <button class="comprar" type="button">
+                    Comprar
+                </button>
+
+            </div>
+
+
+            <!-- OFERTA 4 -->
+
+            <div class="produto">
+
+                <img
+                    src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=600&q=80"
+                    alt="Roupa feminina"
+                >
+
+                <h3>Peça Feminina</h3>
+
+                <p class="preco">
+                    R$ 64,90
+                </p>
+
+                <button class="comprar" type="button">
+                    Comprar
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==============================
+         BENEFÍCIOS
+    =============================== -->
+
+    <section class="beneficios">
+
+        <div class="beneficio">
+
+            <h3>🚚 Entrega</h3>
+
+            <p>
+                Enviamos para todo o Brasil.
+            </p>
+
+        </div>
+
+
+        <div class="beneficio">
+
+            <h3>🔒 Compra segura</h3>
+
+            <p>
+                Seus dados protegidos.
+            </p>
+
+        </div>
+
+
+        <div class="beneficio">
+
+            <h3>💳 Pagamento</h3>
+
+            <p>
+                Diversas formas de pagamento.
+            </p>
+
+        </div>
+
+
+        <div class="beneficio">
+
+            <h3>💬 Atendimento</h3>
+
+            <p>
+                Fale conosco quando precisar.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==============================
+         NEWSLETTER
+    =============================== -->
+
+    <section class="newsletter">
+
+        <h2>Receba nossas novidades</h2>
+
+        <p>
+            Cadastre seu e-mail para receber ofertas.
+        </p>
+
+
+        <form id="form-newsletter">
+
+            <input
+                type="email"
+                placeholder="Digite seu e-mail"
+                required
+            >
+
+            <button type="submit">
+                Cadastrar
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- ==============================
+         CONTATO / RODAPÉ
+    =============================== -->
 
     <footer id="contato">
 
-        <div class="rodape">
+        <div>
 
-            <div>
+            <h3>MINHA CONFECÇÃO</h3>
 
-                <h3>
-                    MINHA CONFECÇÃO
-                </h3>
+            <p>
+                Moda e qualidade para você.
+            </p>
 
-                <p>
-                    Moda e lingerie com qualidade,
-                    conforto e estilo.
-                </p>
-
-            </div>
+        </div>
 
 
-            <div>
+        <div>
 
-                <h3>
-                    Atendimento
-                </h3>
+            <h3>Atendimento</h3>
 
-                <a href="#">
-                    Fale conosco
-                </a>
+            <p>
+                WhatsApp
+            </p>
 
-                <a href="#">
-                    WhatsApp
-                </a>
+            <p>
+                Instagram
+            </p>
 
-                <a href="#">
-                    Perguntas frequentes
-                </a>
+            <p>
+                E-mail
+            </p>
 
-            </div>
+        </div>
 
 
-            <div>
+        <div>
 
-                <h3>
-                    Institucional
-                </h3>
+            <h3>Informações</h3>
 
-                <a href="#">
-                    Sobre nós
-                </a>
+            <p>
+                Política de privacidade
+            </p>
 
-                <a href="#">
-                    Política de privacidade
-                </a>
+            <p>
+                Termos de uso
+            </p>
 
-                <a href="#">
-                    Termos de uso
-                </a>
-
-            </div>
+        </div>
 
 
-            <div>
+        <div>
 
-                <h3>
-                    Redes sociais
-                </h3>
+            <h3>Pagamento</h3>
 
-                <a href="#">
-                    Instagram
-                </a>
-
-                <a href="#">
-                    Facebook
-                </a>
-
-                <a href="#">
-                    TikTok
-                </a>
-
-            </div>
+            <p>
+                Pix • Cartão • Boleto
+            </p>
 
         </div>
 
 
         <div class="copyright">
 
-            © 2026 Minha Confecção — Todos os direitos reservados.
+            <p>
+                © 2026 Minha Confecção. Todos os direitos reservados.
+            </p>
 
         </div>
 
     </footer>
+
+
+    <!-- ==============================
+         MODAL DO CARRINHO
+    =============================== -->
+
+    <div id="carrinho-modal" class="carrinho-modal">
+
+        <div class="carrinho-conteudo">
+
+            <button
+                id="fechar-carrinho"
+                class="fechar-carrinho"
+                type="button"
+            >
+                ✕
+            </button>
+
+
+            <h2>
+                🛒 Meu Carrinho
+            </h2>
+
+
+            <div id="lista-carrinho">
+
+                <p>
+                    Seu carrinho está vazio.
+                </p>
+
+            </div>
+
+
+            <div class="carrinho-total">
+
+                <strong>
+                    Total:
+                </strong>
+
+                <span id="carrinho-total">
+                    R$ 0,00
+                </span>
+
+            </div>
+
+
+            <button
+                id="finalizar-compra"
+                class="finalizar-compra"
+                type="button"
+            >
+                Finalizar compra
+            </button>
+
+        </div>
+
+    </div>
 
 
     <!-- JAVASCRIPT -->
@@ -658,3 +561,4 @@
 
 </html>
 ```
+
