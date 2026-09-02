@@ -4,15 +4,11 @@
 
 let carrinho = [];
 
-
-// Elementos da página
-
 const botoesComprar = document.querySelectorAll(".comprar");
 const linkCarrinho = document.getElementById("link-carrinho");
 
-
 // ========================================
-// ADICIONAR PRODUTO
+// ADICIONAR PRODUTO AO CARRINHO
 // ========================================
 
 botoesComprar.forEach((botao) => {
@@ -49,13 +45,10 @@ botoesComprar.forEach((botao) => {
             ? imagemElemento.src
             : "";
 
-
-        // Verifica se o produto já está no carrinho
-
+        // Verifica se o produto já existe
         const produtoExistente = carrinho.find(
             item => item.nome === nome
         );
-
 
         if (produtoExistente) {
 
@@ -64,21 +57,17 @@ botoesComprar.forEach((botao) => {
         } else {
 
             carrinho.push({
-
                 nome: nome,
-
                 preco: preco,
-
                 imagem: imagem,
-
                 quantidade: 1
-
             });
 
         }
 
-
         atualizarCarrinho();
+
+        alert(`${nome} foi adicionado ao carrinho!`);
 
     });
 
@@ -86,20 +75,16 @@ botoesComprar.forEach((botao) => {
 
 
 // ========================================
-// ATUALIZAR NÚMERO DO CARRINHO
+// ATUALIZAR CARRINHO
 // ========================================
 
 function atualizarCarrinho() {
 
     let quantidadeTotal = 0;
 
-
     carrinho.forEach((produto) => {
-
         quantidadeTotal += produto.quantidade;
-
     });
-
 
     if (linkCarrinho) {
 
@@ -116,9 +101,7 @@ function atualizarCarrinho() {
 
     }
 
-
     console.log("Carrinho:", carrinho);
-
 }
 
 
@@ -126,22 +109,25 @@ function atualizarCarrinho() {
 // CLICAR NO CARRINHO
 // ========================================
 
-linkCarrinho.addEventListener("click", function (evento) {
+if (linkCarrinho) {
 
-    evento.preventDefault();
+    linkCarrinho.addEventListener("click", function (evento) {
 
-    console.log("Produtos no carrinho:", carrinho);
+        evento.preventDefault();
 
-});
+        console.log("Produtos no carrinho:", carrinho);
+
+    });
+
+}
 
 
 // ========================================
-// BUSCA
+// BUSCA DE PRODUTOS
 // ========================================
 
 const formBusca = document.getElementById("form-busca");
 const campoBusca = document.getElementById("campo-busca");
-
 
 if (formBusca) {
 
@@ -154,7 +140,6 @@ if (formBusca) {
             .toLowerCase();
 
         const produtos = document.querySelectorAll(".produto");
-
 
         produtos.forEach((produto) => {
 
@@ -187,7 +172,6 @@ if (formBusca) {
 const formNewsletter =
     document.getElementById("form-newsletter");
 
-
 if (formNewsletter) {
 
     formNewsletter.addEventListener("submit", function (evento) {
@@ -204,7 +188,7 @@ if (formNewsletter) {
 
 
 // ========================================
-// INICIALIZAÇÃO
+// INICIAR
 // ========================================
 
 atualizarCarrinho();
