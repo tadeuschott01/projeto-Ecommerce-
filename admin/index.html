@@ -1,1 +1,518 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
 
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Painel Administrativo - Minha Confecção</title>
+
+    <link
+        rel="stylesheet"
+        href="admin.css"
+    >
+</head>
+
+<body>
+
+    <!-- =========================
+         CABEÇALHO
+    ========================== -->
+
+    <header class="admin-header">
+
+        <div>
+
+            <span class="admin-subtitulo">
+                MINHA CONFECÇÃO
+            </span>
+
+            <h1>
+                Painel Administrativo
+            </h1>
+
+            <p>
+                Cadastre e gerencie os produtos da sua loja.
+            </p>
+
+        </div>
+
+        <a
+            href="../index.html"
+            class="btn-voltar"
+        >
+            Ver loja
+        </a>
+
+    </header>
+
+
+    <main class="admin-container">
+
+
+        <!-- =========================
+             RESUMO
+        ========================== -->
+
+        <section class="resumo-admin">
+
+            <div class="resumo-card">
+
+                <span>
+                    Produtos cadastrados
+                </span>
+
+                <strong id="total-produtos">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="resumo-card">
+
+                <span>
+                    Em estoque
+                </span>
+
+                <strong id="total-estoque">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="resumo-card">
+
+                <span>
+                    Ofertas
+                </span>
+
+                <strong id="total-ofertas">
+                    0
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             ÁREA PRINCIPAL
+        ========================== -->
+
+        <section class="admin-grid">
+
+
+            <!-- =========================
+                 FORMULÁRIO
+            ========================== -->
+
+            <div class="admin-card">
+
+                <div class="admin-card-titulo">
+
+                    <div>
+
+                        <span class="tag-admin">
+                            PRODUTOS
+                        </span>
+
+                        <h2 id="titulo-formulario">
+                            Adicionar produto
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <form id="produto-form">
+
+
+                    <!-- ID DA EDIÇÃO -->
+
+                    <input
+                        type="hidden"
+                        id="produto-id"
+                    >
+
+
+                    <!-- NOME -->
+
+                    <div class="campo">
+
+                        <label for="produto-nome">
+                            Nome do produto
+                        </label>
+
+                        <input
+                            type="text"
+                            id="produto-nome"
+                            placeholder="Ex: Vestido Floral"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- PREÇOS -->
+
+                    <div class="linha-campos">
+
+                        <div class="campo">
+
+                            <label for="produto-preco">
+                                Preço
+                            </label>
+
+                            <input
+                                type="number"
+                                id="produto-preco"
+                                min="0"
+                                step="0.01"
+                                placeholder="89,90"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="campo">
+
+                            <label for="produto-promocional">
+                                Preço promocional
+                            </label>
+
+                            <input
+                                type="number"
+                                id="produto-promocional"
+                                min="0"
+                                step="0.01"
+                                placeholder="69,90"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CATEGORIA E ESTOQUE -->
+
+                    <div class="linha-campos">
+
+                        <div class="campo">
+
+                            <label for="produto-categoria">
+                                Categoria
+                            </label>
+
+                            <select
+                                id="produto-categoria"
+                                required
+                            >
+
+                                <option value="">
+                                    Selecione
+                                </option>
+
+                                <option value="Lingerie">
+                                    Lingerie
+                                </option>
+
+                                <option value="Moda Feminina">
+                                    Moda Feminina
+                                </option>
+
+                                <option value="Novidades">
+                                    Novidades
+                                </option>
+
+                                <option value="Conjuntos">
+                                    Conjuntos
+                                </option>
+
+                                <option value="Vestidos">
+                                    Vestidos
+                                </option>
+
+                                <option value="Outros">
+                                    Outros
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="campo">
+
+                            <label for="produto-estoque">
+                                Estoque
+                            </label>
+
+                            <input
+                                type="number"
+                                id="produto-estoque"
+                                min="0"
+                                value="1"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DESCRIÇÃO -->
+
+                    <div class="campo">
+
+                        <label for="produto-descricao">
+                            Descrição
+                        </label>
+
+                        <textarea
+                            id="produto-descricao"
+                            rows="5"
+                            placeholder="Escreva uma descrição do produto..."
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- IMAGEM -->
+
+                    <div class="campo">
+
+                        <label>
+                            Foto do produto
+                        </label>
+
+                        <label
+                            for="produto-imagem"
+                            class="upload-box"
+                            id="upload-box"
+                        >
+
+                            <span class="upload-icone">
+                                📷
+                            </span>
+
+                            <strong>
+                                Escolher uma foto
+                            </strong>
+
+                            <small>
+                                Clique aqui para selecionar no celular ou computador
+                            </small>
+
+                            <small>
+                                JPG, PNG ou WEBP
+                            </small>
+
+                        </label>
+
+
+                        <input
+                            type="file"
+                            id="produto-imagem"
+                            accept="image/png,image/jpeg,image/webp"
+                            hidden
+                        >
+
+
+                        <!-- PRÉVIA -->
+
+                        <div
+                            class="preview-container"
+                            id="preview-container"
+                        >
+
+                            <img
+                                id="preview-imagem"
+                                alt="Prévia do produto"
+                            >
+
+                            <button
+                                type="button"
+                                id="remover-imagem"
+                                class="btn-remover-imagem"
+                            >
+                                Remover foto
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- OFERTA -->
+
+                    <div class="campo-checkbox">
+
+                        <input
+                            type="checkbox"
+                            id="produto-oferta"
+                        >
+
+                        <label for="produto-oferta">
+                            Exibir este produto na seção de ofertas
+                        </label>
+
+                    </div>
+
+
+                    <!-- BOTÕES -->
+
+                    <div class="acoes-formulario">
+
+                        <button
+                            type="submit"
+                            class="btn-salvar"
+                            id="btn-salvar"
+                        >
+                            Salvar produto
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="btn-cancelar"
+                            id="btn-cancelar"
+                        >
+                            Cancelar edição
+                        </button>
+
+                    </div>
+
+
+                    <p
+                        id="mensagem-form"
+                        class="mensagem-form"
+                    ></p>
+
+                </form>
+
+            </div>
+
+
+            <!-- =========================
+                 LISTA DE PRODUTOS
+            ========================== -->
+
+            <div class="admin-card">
+
+                <div class="admin-card-titulo">
+
+                    <div>
+
+                        <span class="tag-admin">
+                            CATÁLOGO
+                        </span>
+
+                        <h2>
+                            Produtos cadastrados
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="busca-admin">
+
+                    <input
+                        type="search"
+                        id="buscar-produto"
+                        placeholder="Buscar produto..."
+                    >
+
+                </div>
+
+
+                <div
+                    id="lista-produtos-admin"
+                    class="lista-produtos-admin"
+                >
+
+                    <div class="estado-vazio">
+
+                        <span>
+                            📦
+                        </span>
+
+                        <h3>
+                            Nenhum produto cadastrado
+                        </h3>
+
+                        <p>
+                            Quando você cadastrar produtos,
+                            eles aparecerão aqui.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         CONFIRMAÇÃO DE EXCLUSÃO
+    ========================== -->
+
+    <div
+        id="modal-excluir"
+        class="modal-admin"
+    >
+
+        <div class="modal-admin-conteudo">
+
+            <h2>
+                Excluir produto?
+            </h2>
+
+            <p>
+                Essa ação não poderá ser desfeita.
+            </p>
+
+
+            <div class="modal-acoes">
+
+                <button
+                    type="button"
+                    id="cancelar-exclusao"
+                    class="btn-cancelar"
+                >
+                    Cancelar
+                </button>
+
+                <button
+                    type="button"
+                    id="confirmar-exclusao"
+                    class="btn-excluir"
+                >
+                    Excluir
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="admin.js"></script>
+
+</body>
+
+</html>
