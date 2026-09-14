@@ -1,117 +1,142 @@
 /* =========================================================
-   MINHA CONFECÇÃO — SCRIPT.JS
-   Carrinho + Busca + Newsletter
+   MINHA CONFECÇÃO — ADMIN.JS
+   Cadastro + edição + exclusão + upload de imagem
 ========================================================= */
-
-let carrinho = [];
 
 
 /* =========================================================
    ELEMENTOS
 ========================================================= */
 
-const linkCarrinho =
-    document.getElementById("link-carrinho");
+const produtoForm =
+    document.getElementById("produto-form");
 
-const modalCarrinho =
-    document.getElementById("carrinho-modal");
+const produtoId =
+    document.getElementById("produto-id");
 
-const fecharCarrinho =
-    document.getElementById("fechar-carrinho");
+const produtoNome =
+    document.getElementById("produto-nome");
 
-const listaCarrinho =
-    document.getElementById("lista-carrinho");
+const produtoPreco =
+    document.getElementById("produto-preco");
 
-const totalCarrinho =
-    document.getElementById("carrinho-total");
+const produtoPromocional =
+    document.getElementById("produto-promocional");
 
-const finalizarCompra =
-    document.getElementById("finalizar-compra");
+const produtoCategoria =
+    document.getElementById("produto-categoria");
 
-const formBusca =
-    document.getElementById("form-busca");
+const produtoEstoque =
+    document.getElementById("produto-estoque");
 
-const campoBusca =
-    document.getElementById("campo-busca");
+const produtoDescricao =
+    document.getElementById("produto-descricao");
 
-const formNewsletter =
-    document.getElementById("form-newsletter");
+const produtoImagem =
+    document.getElementById("produto-imagem");
+
+const produtoOferta =
+    document.getElementById("produto-oferta");
+
+const previewContainer =
+    document.getElementById("preview-container");
+
+const previewImagem =
+    document.getElementById("preview-imagem");
+
+const removerImagem =
+    document.getElementById("remover-imagem");
+
+const listaProdutosAdmin =
+    document.getElementById("lista-produtos-admin");
+
+const buscarProduto =
+    document.getElementById("buscar-produto");
+
+const mensagemForm =
+    document.getElementById("mensagem-form");
+
+const btnCancelar =
+    document.getElementById("btn-cancelar");
+
+const btnSalvar =
+    document.getElementById("btn-salvar");
+
+const tituloFormulario =
+    document.getElementById("titulo-formulario");
+
+const totalProdutos =
+    document.getElementById("total-produtos");
+
+const totalEstoque =
+    document.getElementById("total-estoque");
+
+const totalOfertas =
+    document.getElementById("total-ofertas");
+
+const modalExcluir =
+    document.getElementById("modal-excluir");
+
+const cancelarExclusao =
+    document.getElementById("cancelar-exclusao");
+
+const confirmarExclusao =
+    document.getElementById("confirmar-exclusao");
 
 
 /* =========================================================
-   CONVERTER PREÇO PARA NÚMERO
+   ESTADO
 ========================================================= */
 
-function converterPreco(texto) {
+let produtos = [];
 
-    if (!texto) {
-        return 0;
-    }
+let imagemAtual = "";
 
-    const valor = texto
-        .replace("R$", "")
-        .replace(/\./g, "")
-        .replace(",", ".")
-        .trim();
-
-    return Number(valor) || 0;
-
-}
+let produtoParaExcluir = null;
 
 
 /* =========================================================
-   SALVAR CARRINHO
+   CARREGAR PRODUTOS
 ========================================================= */
 
-function salvarCarrinho() {
-
-    localStorage.setItem(
-        "minhaConfeccaoCarrinho",
-        JSON.stringify(carrinho)
-    );
-
-}
-
-
-/* =========================================================
-   CARREGAR CARRINHO
-========================================================= */
-
-function carregarCarrinho() {
+function carregarProdutos() {
 
     try {
 
-        const dadosSalvos =
+        const dados =
             localStorage.getItem(
-                "minhaConfeccaoCarrinho"
+                "minhaConfeccaoProdutos"
             );
 
-        if (!dadosSalvos) {
-            carrinho = [];
+        if (!dados) {
+
+            produtos = [];
+
             return;
+
         }
 
-        const dados =
-            JSON.parse(dadosSalvos);
+        const lista =
+            JSON.parse(dados);
 
-        if (Array.isArray(dados)) {
+        if (Array.isArray(lista)) {
 
-            carrinho = dados;
+            produtos = lista;
 
         } else {
 
-            carrinho = [];
+            produtos = [];
 
         }
 
     } catch (erro) {
 
         console.error(
-            "Erro ao carregar carrinho:",
+            "Erro ao carregar produtos:",
             erro
         );
 
-        carrinho = [];
+        produtos = [];
 
     }
 
@@ -119,411 +144,1134 @@ function carregarCarrinho() {
 
 
 /* =========================================================
-   ADICIONAR PRODUTO AO CARRINHO
+   SALVAR PRODUTOS
+========================================================= */
+
+function salvarProdutos() {
+
+    try {
+
+        localStorage.setItem(
+            "minhaConfeccaoProdutos",
+            JSON.stringify(produtos)
+        );
+
+        return true;
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao salvar produtos:",
+            erro
+        );
+
+        mostrarMensagem(
+            "Não foi possível salvar. A imagem pode ser grande demais para o armazenamento local.",
+            "erro"
+        );
+
+        return false;
+
+    }
+
+}
+
+
+/* =========================================================
+   GERAR ID
+========================================================= */
+
+function gerarId() {
+
+    return (
+        Date.now().toString() +
+        Math.random()
+            .toString(16)
+            .slice(2)
+    );
+
+}
+
+
+/* =========================================================
+   FORMATAR PREÇO
+========================================================= */
+
+function formatarPreco(valor) {
+
+    const numero =
+        Number(valor || 0);
+
+    return numero.toLocaleString(
+        "pt-BR",
+        {
+            style: "currency",
+            currency: "BRL"
+        }
+    );
+
+}
+
+
+/* =========================================================
+   ESCAPAR HTML
+========================================================= */
+
+function escaparHTML(texto) {
+
+    return String(texto || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================================================
+   MENSAGENS
+========================================================= */
+
+function mostrarMensagem(
+    texto,
+    tipo = "sucesso"
+) {
+
+    if (!mensagemForm) {
+        return;
+    }
+
+    mensagemForm.textContent =
+        texto;
+
+    mensagemForm.className =
+        "mensagem-form " + tipo;
+
+}
+
+
+/* =========================================================
+   SELECIONAR IMAGEM
+========================================================= */
+
+if (produtoImagem) {
+
+    produtoImagem.addEventListener(
+        "change",
+        function () {
+
+            const arquivo =
+                this.files[0];
+
+            if (!arquivo) {
+                return;
+            }
+
+
+            /* =========================
+               FORMATOS PERMITIDOS
+            ========================== */
+
+            const tiposPermitidos = [
+
+                "image/jpeg",
+
+                "image/png",
+
+                "image/webp"
+
+            ];
+
+
+            if (
+                !tiposPermitidos.includes(
+                    arquivo.type
+                )
+            ) {
+
+                alert(
+                    "Formato não permitido. Escolha uma imagem JPG, JPEG, PNG ou WEBP."
+                );
+
+                produtoImagem.value =
+                    "";
+
+                return;
+
+            }
+
+
+            /* =========================
+               LIMITE DE 15 MB
+            ========================== */
+
+            const limite =
+                15 * 1024 * 1024;
+
+
+            if (
+                arquivo.size >
+                limite
+            ) {
+
+                alert(
+                    "A imagem deve ter no máximo 15 MB."
+                );
+
+                produtoImagem.value =
+                    "";
+
+                return;
+
+            }
+
+
+            /* =========================
+               CARREGAR FOTO
+            ========================== */
+
+            const leitor =
+                new FileReader();
+
+
+            leitor.onload =
+                function (evento) {
+
+                    imagemAtual =
+                        evento.target.result;
+
+                    mostrarPreview(
+                        imagemAtual
+                    );
+
+                };
+
+
+            leitor.onerror =
+                function () {
+
+                    alert(
+                        "Não foi possível carregar essa imagem."
+                    );
+
+                };
+
+
+            leitor.readAsDataURL(
+                arquivo
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   MOSTRAR PRÉVIA
+========================================================= */
+
+function mostrarPreview(imagem) {
+
+    if (
+        !previewContainer ||
+        !previewImagem
+    ) {
+
+        return;
+
+    }
+
+
+    if (!imagem) {
+
+        previewContainer.classList
+            .remove("ativo");
+
+        previewImagem.removeAttribute(
+            "src"
+        );
+
+        return;
+
+    }
+
+
+    previewImagem.src =
+        imagem;
+
+
+    previewContainer.classList
+        .add("ativo");
+
+}
+
+
+/* =========================================================
+   REMOVER FOTO
+========================================================= */
+
+if (removerImagem) {
+
+    removerImagem.addEventListener(
+        "click",
+        function () {
+
+            imagemAtual =
+                "";
+
+            if (produtoImagem) {
+
+                produtoImagem.value =
+                    "";
+
+            }
+
+            mostrarPreview("");
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CADASTRAR / EDITAR
+========================================================= */
+
+if (produtoForm) {
+
+    produtoForm.addEventListener(
+        "submit",
+        function (evento) {
+
+            evento.preventDefault();
+
+
+            const nome =
+                produtoNome.value
+                    .trim();
+
+
+            const preco =
+                Number(
+                    produtoPreco.value
+                );
+
+
+            const promocional =
+                produtoPromocional.value
+
+                    ? Number(
+                        produtoPromocional.value
+                    )
+
+                    : null;
+
+
+            const categoria =
+                produtoCategoria.value;
+
+
+            const estoque =
+                Number(
+                    produtoEstoque.value
+                );
+
+
+            const descricao =
+                produtoDescricao.value
+                    .trim();
+
+
+            const oferta =
+                produtoOferta.checked;
+
+
+            /* =========================
+               VALIDAÇÕES
+            ========================== */
+
+            if (!nome) {
+
+                mostrarMensagem(
+                    "Digite o nome do produto.",
+                    "erro"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                !preco ||
+                preco <= 0
+            ) {
+
+                mostrarMensagem(
+                    "Digite um preço válido.",
+                    "erro"
+                );
+
+                return;
+
+            }
+
+
+            if (!categoria) {
+
+                mostrarMensagem(
+                    "Selecione uma categoria.",
+                    "erro"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                estoque < 0
+            ) {
+
+                mostrarMensagem(
+                    "O estoque não pode ser negativo.",
+                    "erro"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                promocional &&
+                promocional >= preco
+            ) {
+
+                mostrarMensagem(
+                    "O preço promocional precisa ser menor que o preço normal.",
+                    "erro"
+                );
+
+                return;
+
+            }
+
+
+            const idEdicao =
+                produtoId.value;
+
+
+            /* =========================
+               EDITAR PRODUTO
+            ========================== */
+
+            if (idEdicao) {
+
+                const indice =
+                    produtos.findIndex(
+                        function (produto) {
+
+                            return (
+                                produto.id ===
+                                idEdicao
+                            );
+
+                        }
+                    );
+
+
+                if (indice === -1) {
+
+                    mostrarMensagem(
+                        "Produto não encontrado.",
+                        "erro"
+                    );
+
+                    return;
+
+                }
+
+
+                const produtoAnterior = {
+                    ...produtos[indice]
+                };
+
+
+                produtos[indice] = {
+
+                    ...produtos[indice],
+
+                    nome: nome,
+
+                    preco: preco,
+
+                    precoPromocional:
+                        promocional,
+
+                    categoria:
+                        categoria,
+
+                    estoque:
+                        estoque,
+
+                    descricao:
+                        descricao,
+
+                    oferta:
+                        oferta,
+
+                    imagem:
+                        imagemAtual
+
+                };
+
+
+                if (!salvarProdutos()) {
+
+                    produtos[indice] =
+                        produtoAnterior;
+
+                    return;
+
+                }
+
+
+                renderizarProdutos();
+
+                limparFormulario();
+
+
+                mostrarMensagem(
+                    "Produto atualizado com sucesso!"
+                );
+
+
+                return;
+
+            }
+
+
+            /* =========================
+               NOVO PRODUTO
+            ========================== */
+
+            const novoProduto = {
+
+                id:
+                    gerarId(),
+
+                nome:
+                    nome,
+
+                preco:
+                    preco,
+
+                precoPromocional:
+                    promocional,
+
+                categoria:
+                    categoria,
+
+                estoque:
+                    estoque,
+
+                descricao:
+                    descricao,
+
+                oferta:
+                    oferta,
+
+                imagem:
+                    imagemAtual,
+
+                criadoEm:
+                    new Date()
+                        .toISOString()
+
+            };
+
+
+            produtos.unshift(
+                novoProduto
+            );
+
+
+            if (!salvarProdutos()) {
+
+                produtos.shift();
+
+                return;
+
+            }
+
+
+            renderizarProdutos();
+
+            limparFormulario();
+
+
+            mostrarMensagem(
+                "Produto cadastrado com sucesso!"
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   RENDERIZAR PRODUTOS
+========================================================= */
+
+function renderizarProdutos(
+    filtro = ""
+) {
+
+    if (!listaProdutosAdmin) {
+        return;
+    }
+
+
+    const termo =
+        filtro
+            .trim()
+            .toLowerCase();
+
+
+    const produtosFiltrados =
+        produtos.filter(
+            function (produto) {
+
+                const nome =
+                    String(
+                        produto.nome || ""
+                    ).toLowerCase();
+
+
+                const categoria =
+                    String(
+                        produto.categoria || ""
+                    ).toLowerCase();
+
+
+                return (
+
+                    nome.includes(
+                        termo
+                    )
+
+                    ||
+
+                    categoria.includes(
+                        termo
+                    )
+
+                );
+
+            }
+        );
+
+
+    atualizarResumo();
+
+
+    if (
+        produtosFiltrados.length === 0
+    ) {
+
+        listaProdutosAdmin.innerHTML = `
+
+            <div class="estado-vazio">
+
+                <span>
+                    📦
+                </span>
+
+                <h3>
+                    Nenhum produto encontrado
+                </h3>
+
+                <p>
+                    Cadastre um novo produto
+                    para começar.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    listaProdutosAdmin.innerHTML =
+        "";
+
+
+    produtosFiltrados.forEach(
+        function (produto) {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className =
+                "produto-admin-item";
+
+
+            const imagem =
+                produto.imagem
+
+                    ? produto.imagem
+
+                    : "https://placehold.co/300x400?text=Sem+Foto";
+
+
+            let precoHTML = `
+
+                <div
+                    class="produto-admin-preco"
+                >
+
+                    ${formatarPreco(
+                        produto.preco
+                    )}
+
+                </div>
+
+            `;
+
+
+            if (
+                produto.precoPromocional
+            ) {
+
+                precoHTML = `
+
+                    <div
+                        style="
+                            font-size:12px;
+                            color:#8d8582;
+                            text-decoration:line-through;
+                        "
+                    >
+
+                        ${formatarPreco(
+                            produto.preco
+                        )}
+
+                    </div>
+
+
+                    <div
+                        class="produto-admin-preco"
+                    >
+
+                        ${formatarPreco(
+                            produto.precoPromocional
+                        )}
+
+                    </div>
+
+                `;
+
+            }
+
+
+            item.innerHTML = `
+
+                <img
+                    src="${imagem}"
+                    alt="${escaparHTML(
+                        produto.nome
+                    )}"
+                >
+
+
+                <div
+                    class="produto-admin-info"
+                >
+
+                    <span
+                        class="produto-admin-categoria"
+                    >
+
+                        ${escaparHTML(
+                            produto.categoria
+                        )}
+
+                    </span>
+
+
+                    <h3>
+
+                        ${escaparHTML(
+                            produto.nome
+                        )}
+
+                    </h3>
+
+
+                    ${precoHTML}
+
+
+                    <div
+                        class="produto-admin-detalhes"
+                    >
+
+                        Estoque:
+                        ${produto.estoque}
+
+                        ${
+                            produto.oferta
+                                ? " • Oferta"
+                                : ""
+                        }
+
+                    </div>
+
+
+                    <div
+                        class="produto-admin-acoes"
+                    >
+
+                        <button
+                            type="button"
+                            class="btn-editar"
+                            data-editar="${produto.id}"
+                        >
+                            Editar
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="btn-excluir"
+                            data-excluir="${produto.id}"
+                        >
+                            Excluir
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            listaProdutosAdmin
+                .appendChild(
+                    item
+                );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   RESUMO
+========================================================= */
+
+function atualizarResumo() {
+
+    if (totalProdutos) {
+
+        totalProdutos.textContent =
+            produtos.length;
+
+    }
+
+
+    if (totalEstoque) {
+
+        const estoque =
+            produtos.reduce(
+                function (
+                    total,
+                    produto
+                ) {
+
+                    return (
+                        total +
+                        Number(
+                            produto.estoque || 0
+                        )
+                    );
+
+                },
+                0
+            );
+
+
+        totalEstoque.textContent =
+            estoque;
+
+    }
+
+
+    if (totalOfertas) {
+
+        const ofertas =
+            produtos.filter(
+                function (produto) {
+
+                    return Boolean(
+                        produto.oferta
+                    );
+
+                }
+            ).length;
+
+
+        totalOfertas.textContent =
+            ofertas;
+
+    }
+
+}
+
+
+/* =========================================================
+   CLIQUES EDITAR / EXCLUIR
 ========================================================= */
 
 document.addEventListener(
     "click",
     function (evento) {
 
-        const botao =
-            evento.target.closest(".comprar");
-
-        if (!botao) {
-            return;
-        }
-
-        const produto =
-            botao.closest(".produto");
-
-        if (!produto) {
-            return;
-        }
-
-        const nomeElemento =
-            produto.querySelector("h3");
-
-        const precoElemento =
-            produto.querySelector(".preco");
-
-        const imagemElemento =
-            produto.querySelector("img");
-
-        if (
-            !nomeElemento ||
-            !precoElemento
-        ) {
-            return;
-        }
-
-        const id =
-            produto.dataset.id ||
-            nomeElemento.textContent.trim();
-
-        const nome =
-            nomeElemento.textContent.trim();
-
-        const preco =
-            converterPreco(
-                precoElemento.textContent
+        const botaoEditar =
+            evento.target.closest(
+                "[data-editar]"
             );
 
-        const imagem =
-            imagemElemento
-                ? imagemElemento.src
-                : "";
 
-        const produtoExistente =
-            carrinho.find(
-                function (item) {
+        if (botaoEditar) {
 
-                    return item.id === id;
+            const id =
+                botaoEditar.dataset
+                    .editar;
 
-                }
-            );
 
-        if (produtoExistente) {
+            editarProduto(id);
 
-            produtoExistente.quantidade++;
-
-        } else {
-
-            carrinho.push({
-
-                id: id,
-
-                nome: nome,
-
-                preco: preco,
-
-                imagem: imagem,
-
-                quantidade: 1
-
-            });
+            return;
 
         }
 
-        salvarCarrinho();
 
-        atualizarCarrinho();
+        const botaoExcluir =
+            evento.target.closest(
+                "[data-excluir]"
+            );
 
-        abrirCarrinho();
+
+        if (botaoExcluir) {
+
+            produtoParaExcluir =
+                botaoExcluir.dataset
+                    .excluir;
+
+
+            if (modalExcluir) {
+
+                modalExcluir.classList
+                    .add("ativo");
+
+            }
+
+        }
 
     }
 );
 
 
 /* =========================================================
-   ATUALIZAR CARRINHO
+   EDITAR PRODUTO
 ========================================================= */
 
-function atualizarCarrinho() {
+function editarProduto(id) {
 
-    let quantidadeTotal = 0;
+    const produto =
+        produtos.find(
+            function (item) {
 
-    let valorTotal = 0;
-
-    carrinho.forEach(
-        function (produto) {
-
-            quantidadeTotal +=
-                produto.quantidade;
-
-            valorTotal +=
-                produto.preco *
-                produto.quantidade;
-
-        }
-    );
-
-
-    /* CONTADOR */
-
-    if (linkCarrinho) {
-
-        if (quantidadeTotal === 0) {
-
-            linkCarrinho.innerHTML =
-                "🛒 Carrinho";
-
-        } else {
-
-            linkCarrinho.innerHTML =
-                "🛒 Carrinho (" +
-                quantidadeTotal +
-                ")";
-
-        }
-
-    }
-
-
-    /* LISTA */
-
-    if (!listaCarrinho) {
-        return;
-    }
-
-
-    if (carrinho.length === 0) {
-
-        listaCarrinho.innerHTML = `
-
-            <p>
-                Seu carrinho está vazio.
-            </p>
-
-        `;
-
-    } else {
-
-        listaCarrinho.innerHTML = "";
-
-
-        carrinho.forEach(
-            function (produto, index) {
-
-                const item =
-                    document.createElement("div");
-
-                item.className =
-                    "item-carrinho";
-
-
-                item.innerHTML = `
-
-                    <img
-                        src="${produto.imagem}"
-                        alt="${produto.nome}"
-                    >
-
-                    <div class="info-carrinho">
-
-                        <h3>
-                            ${produto.nome}
-                        </h3>
-
-                        <p>
-                            R$
-                            ${produto.preco
-                                .toFixed(2)
-                                .replace(".", ",")}
-                        </p>
-
-                        <div class="quantidade">
-
-                            <button
-                                type="button"
-                                onclick="diminuirQuantidade(${index})"
-                            >
-                                −
-                            </button>
-
-                            <span>
-                                ${produto.quantidade}
-                            </span>
-
-                            <button
-                                type="button"
-                                onclick="aumentarQuantidade(${index})"
-                            >
-                                +
-                            </button>
-
-                        </div>
-
-                        <button
-                            type="button"
-                            class="remover-produto"
-                            onclick="removerProduto(${index})"
-                        >
-                            Remover
-                        </button>
-
-                    </div>
-
-                `;
-
-                listaCarrinho.appendChild(
-                    item
+                return (
+                    item.id === id
                 );
 
             }
         );
 
-    }
 
-
-    /* TOTAL */
-
-    if (totalCarrinho) {
-
-        totalCarrinho.textContent =
-
-            "R$ " +
-
-            valorTotal
-                .toFixed(2)
-                .replace(".", ",");
-
-    }
-
-}
-
-
-/* =========================================================
-   AUMENTAR QUANTIDADE
-========================================================= */
-
-function aumentarQuantidade(index) {
-
-    if (!carrinho[index]) {
+    if (!produto) {
         return;
     }
 
-    carrinho[index].quantidade++;
 
-    salvarCarrinho();
-
-    atualizarCarrinho();
-
-}
+    produtoId.value =
+        produto.id;
 
 
-/* =========================================================
-   DIMINUIR QUANTIDADE
-========================================================= */
+    produtoNome.value =
+        produto.nome;
 
-function diminuirQuantidade(index) {
 
-    if (!carrinho[index]) {
-        return;
+    produtoPreco.value =
+        produto.preco;
+
+
+    produtoPromocional.value =
+        produto.precoPromocional || "";
+
+
+    produtoCategoria.value =
+        produto.categoria;
+
+
+    produtoEstoque.value =
+        produto.estoque;
+
+
+    produtoDescricao.value =
+        produto.descricao || "";
+
+
+    produtoOferta.checked =
+        Boolean(
+            produto.oferta
+        );
+
+
+    imagemAtual =
+        produto.imagem || "";
+
+
+    mostrarPreview(
+        imagemAtual
+    );
+
+
+    if (tituloFormulario) {
+
+        tituloFormulario.textContent =
+            "Editar produto";
+
     }
 
-    carrinho[index].quantidade--;
 
-    if (
-        carrinho[index].quantidade <= 0
-    ) {
+    if (btnSalvar) {
 
-        carrinho.splice(
-            index,
-            1
+        btnSalvar.textContent =
+            "Salvar alterações";
+
+    }
+
+
+    if (btnCancelar) {
+
+        btnCancelar.classList.add(
+            "ativo"
         );
 
     }
 
-    salvarCarrinho();
 
-    atualizarCarrinho();
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
 
 }
 
 
 /* =========================================================
-   REMOVER PRODUTO
+   LIMPAR FORMULÁRIO
 ========================================================= */
 
-function removerProduto(index) {
+function limparFormulario() {
 
-    if (!carrinho[index]) {
+    if (!produtoForm) {
         return;
     }
 
-    carrinho.splice(
-        index,
-        1
-    );
 
-    salvarCarrinho();
-
-    atualizarCarrinho();
-
-}
+    produtoForm.reset();
 
 
-/* =========================================================
-   ABRIR CARRINHO
-========================================================= */
+    produtoId.value =
+        "";
 
-function abrirCarrinho() {
 
-    if (!modalCarrinho) {
-        return;
+    produtoEstoque.value =
+        1;
+
+
+    imagemAtual =
+        "";
+
+
+    if (produtoImagem) {
+
+        produtoImagem.value =
+            "";
+
     }
 
-    modalCarrinho.style.display =
-        "flex";
 
-    modalCarrinho.classList.add(
-        "ativo"
-    );
-
-    modalCarrinho.setAttribute(
-        "aria-hidden",
-        "false"
-    );
-
-}
+    mostrarPreview("");
 
 
-/* =========================================================
-   FECHAR CARRINHO
-========================================================= */
+    if (tituloFormulario) {
 
-function fecharModalCarrinho() {
+        tituloFormulario.textContent =
+            "Adicionar produto";
 
-    if (!modalCarrinho) {
-        return;
     }
 
-    modalCarrinho.style.display =
-        "none";
 
-    modalCarrinho.classList.remove(
-        "ativo"
-    );
+    if (btnSalvar) {
 
-    modalCarrinho.setAttribute(
-        "aria-hidden",
-        "true"
-    );
+        btnSalvar.textContent =
+            "Salvar produto";
 
-}
+    }
 
 
-/* =========================================================
-   BOTÃO CARRINHO
-========================================================= */
+    if (btnCancelar) {
 
-if (linkCarrinho) {
+        btnCancelar.classList.remove(
+            "ativo"
+        );
 
-    linkCarrinho.addEventListener(
-        "click",
-        function (evento) {
-
-            evento.preventDefault();
-
-            abrirCarrinho();
-
-        }
-    );
+    }
 
 }
 
 
 /* =========================================================
-   BOTÃO FECHAR
+   CANCELAR EDIÇÃO
 ========================================================= */
 
-if (fecharCarrinho) {
+if (btnCancelar) {
 
-    fecharCarrinho.addEventListener(
+    btnCancelar.addEventListener(
         "click",
         function () {
 
-            fecharModalCarrinho();
+            limparFormulario();
 
         }
     );
@@ -532,21 +1280,120 @@ if (fecharCarrinho) {
 
 
 /* =========================================================
-   FECHAR CLICANDO FORA
+   CONFIRMAR EXCLUSÃO
 ========================================================= */
 
-if (modalCarrinho) {
+if (confirmarExclusao) {
 
-    modalCarrinho.addEventListener(
+    confirmarExclusao.addEventListener(
+        "click",
+        function () {
+
+            if (!produtoParaExcluir) {
+                return;
+            }
+
+
+            const produtosAnteriores =
+                [...produtos];
+
+
+            produtos =
+                produtos.filter(
+                    function (produto) {
+
+                        return (
+                            produto.id !==
+                            produtoParaExcluir
+                        );
+
+                    }
+                );
+
+
+            if (!salvarProdutos()) {
+
+                produtos =
+                    produtosAnteriores;
+
+                return;
+
+            }
+
+
+            renderizarProdutos();
+
+
+            produtoParaExcluir =
+                null;
+
+
+            if (modalExcluir) {
+
+                modalExcluir.classList
+                    .remove("ativo");
+
+            }
+
+
+            mostrarMensagem(
+                "Produto excluído com sucesso!"
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CANCELAR EXCLUSÃO
+========================================================= */
+
+if (cancelarExclusao) {
+
+    cancelarExclusao.addEventListener(
+        "click",
+        function () {
+
+            produtoParaExcluir =
+                null;
+
+
+            if (modalExcluir) {
+
+                modalExcluir.classList
+                    .remove("ativo");
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   FECHAR MODAL CLICANDO FORA
+========================================================= */
+
+if (modalExcluir) {
+
+    modalExcluir.addEventListener(
         "click",
         function (evento) {
 
             if (
                 evento.target ===
-                modalCarrinho
+                modalExcluir
             ) {
 
-                fecharModalCarrinho();
+                produtoParaExcluir =
+                    null;
+
+
+                modalExcluir.classList
+                    .remove("ativo");
 
             }
 
@@ -557,159 +1404,17 @@ if (modalCarrinho) {
 
 
 /* =========================================================
-   FECHAR COM ESC
+   BUSCAR PRODUTOS
 ========================================================= */
 
-document.addEventListener(
-    "keydown",
-    function (evento) {
+if (buscarProduto) {
 
-        if (
-            evento.key === "Escape"
-        ) {
-
-            fecharModalCarrinho();
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   BUSCA DE PRODUTOS
-========================================================= */
-
-function buscarProdutos() {
-
-    if (!campoBusca) {
-        return;
-    }
-
-    const termo =
-        campoBusca.value
-            .trim()
-            .toLowerCase();
-
-    const produtos =
-        document.querySelectorAll(
-            ".produto"
-        );
-
-    produtos.forEach(
-        function (produto) {
-
-            const nomeElemento =
-                produto.querySelector("h3");
-
-            if (!nomeElemento) {
-                return;
-            }
-
-            const nome =
-                nomeElemento
-                    .textContent
-                    .trim()
-                    .toLowerCase();
-
-            if (
-                termo === "" ||
-                nome.includes(termo)
-            ) {
-
-                produto.style.display =
-                    "";
-
-            } else {
-
-                produto.style.display =
-                    "none";
-
-            }
-
-        }
-    );
-
-}
-
-
-if (
-    formBusca &&
-    campoBusca
-) {
-
-    formBusca.addEventListener(
-        "submit",
-        function (evento) {
-
-            evento.preventDefault();
-
-            buscarProdutos();
-
-        }
-    );
-
-    campoBusca.addEventListener(
+    buscarProduto.addEventListener(
         "input",
         function () {
 
-            buscarProdutos();
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   NEWSLETTER
-========================================================= */
-
-if (formNewsletter) {
-
-    formNewsletter.addEventListener(
-        "submit",
-        function (evento) {
-
-            evento.preventDefault();
-
-            alert(
-                "Cadastro realizado com sucesso!"
-            );
-
-            formNewsletter.reset();
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   FINALIZAR COMPRA
-========================================================= */
-
-if (finalizarCompra) {
-
-    finalizarCompra.addEventListener(
-        "click",
-        function () {
-
-            if (
-                carrinho.length === 0
-            ) {
-
-                alert(
-                    "Seu carrinho está vazio."
-                );
-
-                return;
-
-            }
-
-            alert(
-                "Seu pedido está pronto! " +
-                "Agora vamos configurar o pagamento."
+            renderizarProdutos(
+                buscarProduto.value
             );
 
         }
@@ -722,6 +1427,6 @@ if (finalizarCompra) {
    INICIAR
 ========================================================= */
 
-carregarCarrinho();
+carregarProdutos();
 
-atualizarCarrinho();
+renderizarProdutos();
