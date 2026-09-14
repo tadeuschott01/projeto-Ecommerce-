@@ -1,101 +1,174 @@
-alert("JAVASCRIPT FUNCIONANDO!");
-```javascript
+/* =========================================================
+   MINHA CONFECÇÃO — SCRIPT.JS
+   Carrinho + Busca + Newsletter
+========================================================= */
+
 let carrinho = [];
 
-const botoesComprar = document.querySelectorAll(".comprar");
-const linkCarrinho = document.getElementById("link-carrinho");
 
-const modalCarrinho = document.getElementById("carrinho-modal");
-const fecharCarrinho = document.getElementById("fechar-carrinho");
-const listaCarrinho = document.getElementById("lista-carrinho");
-const totalCarrinho = document.getElementById("carrinho-total");
-const finalizarCompra = document.getElementById("finalizar-compra");
+/* =========================================================
+   ELEMENTOS
+========================================================= */
+
+const linkCarrinho =
+    document.getElementById("link-carrinho");
+
+const modalCarrinho =
+    document.getElementById("carrinho-modal");
+
+const fecharCarrinho =
+    document.getElementById("fechar-carrinho");
+
+const listaCarrinho =
+    document.getElementById("lista-carrinho");
+
+const totalCarrinho =
+    document.getElementById("carrinho-total");
+
+const finalizarCompra =
+    document.getElementById("finalizar-compra");
+
+const formBusca =
+    document.getElementById("form-busca");
+
+const campoBusca =
+    document.getElementById("campo-busca");
+
+const formNewsletter =
+    document.getElementById("form-newsletter");
 
 
-/* ==============================
-   ADICIONAR PRODUTO AO CARRINHO
-============================== */
+/* =========================================================
+   TRANSFORMAR PREÇO EM NÚMERO
+========================================================= */
 
-botoesComprar.forEach(function (botao) {
+function converterPreco(texto) {
 
-    botao.addEventListener("click", function () {
-
-        const produto = this.closest(".produto");
-
-        if (!produto) {
-            return;
-        }
-
-        const nomeElemento = produto.querySelector("h3");
-        const precoElemento = produto.querySelector(".preco");
-        const imagemElemento = produto.querySelector("img");
-
-        if (!nomeElemento || !precoElemento) {
-            return;
-        }
-
-        const nome = nomeElemento.textContent.trim();
-
-        const precoTexto = precoElemento.textContent
+    return Number(
+        texto
             .replace("R$", "")
             .replace(/\./g, "")
             .replace(",", ".")
-            .trim();
+            .trim()
+    );
 
-        const preco = Number(precoTexto);
+}
 
-        const imagem = imagemElemento
+
+/* =========================================================
+   ADICIONAR PRODUTO
+========================================================= */
+
+document.addEventListener("click", function (evento) {
+
+    const botao =
+        evento.target.closest(".comprar");
+
+    if (!botao) {
+        return;
+    }
+
+
+    const produto =
+        botao.closest(".produto");
+
+    if (!produto) {
+        return;
+    }
+
+
+    const nomeElemento =
+        produto.querySelector("h3");
+
+    const precoElemento =
+        produto.querySelector(".preco");
+
+    const imagemElemento =
+        produto.querySelector("img");
+
+
+    if (!nomeElemento || !precoElemento) {
+        return;
+    }
+
+
+    const id =
+        produto.dataset.id ||
+        nomeElemento.textContent.trim();
+
+
+    const nome =
+        nomeElemento.textContent.trim();
+
+
+    const preco =
+        converterPreco(
+            precoElemento.textContent
+        );
+
+
+    const imagem =
+        imagemElemento
             ? imagemElemento.src
             : "";
 
 
-        const produtoExistente = carrinho.find(function (item) {
+    const produtoExistente =
+        carrinho.find(function (item) {
 
-            return item.nome === nome;
+            return item.id === id;
 
         });
 
 
-        if (produtoExistente) {
+    if (produtoExistente) {
 
-            produtoExistente.quantidade++;
+        produtoExistente.quantidade++;
 
-        } else {
+    } else {
 
-            carrinho.push({
+        carrinho.push({
 
-                nome: nome,
-                preco: preco,
-                imagem: imagem,
-                quantidade: 1
+            id: id,
 
-            });
+            nome: nome,
 
-        }
+            preco: preco,
+
+            imagem: imagem,
+
+            quantidade: 1
+
+        });
+
+    }
 
 
-        atualizarCarrinho();
+    salvarCarrinho();
 
-        abrirCarrinho();
+    atualizarCarrinho();
 
-    });
+    abrirCarrinho();
 
 });
 
 
-/* ==============================
+/* =========================================================
    ATUALIZAR CARRINHO
-============================== */
+========================================================= */
 
 function atualizarCarrinho() {
 
     let quantidadeTotal = 0;
+
     let valorTotal = 0;
 
 
     carrinho.forEach(function (produto) {
 
-        quantidadeTotal += produto.quantidade;
+        quantidadeTotal +=
+            produto.quantidade;
+
 
         valorTotal +=
             produto.preco *
@@ -104,7 +177,7 @@ function atualizarCarrinho() {
     });
 
 
-    /* CONTADOR DO CARRINHO */
+    /* CONTADOR NO CABEÇALHO */
 
     if (linkCarrinho) {
 
@@ -125,7 +198,7 @@ function atualizarCarrinho() {
     }
 
 
-    /* LISTA DO CARRINHO */
+    /* CARRINHO VAZIO */
 
     if (!listaCarrinho) {
         return;
@@ -134,80 +207,102 @@ function atualizarCarrinho() {
 
     if (carrinho.length === 0) {
 
-        listaCarrinho.innerHTML =
-            "<p>Seu carrinho está vazio.</p>";
+        listaCarrinho.innerHTML = `
+
+            <p>
+                Seu carrinho está vazio.
+            </p>
+
+        `;
 
     } else {
 
         listaCarrinho.innerHTML = "";
 
 
-        carrinho.forEach(function (produto, index) {
+        carrinho.forEach(
+            function (produto, index) {
 
-            const item =
-                document.createElement("div");
-
-            item.className =
-                "item-carrinho";
+                const item =
+                    document.createElement("div");
 
 
-            item.innerHTML = `
+                item.className =
+                    "item-carrinho";
 
-                <img
-                    src="${produto.imagem}"
-                    alt="${produto.nome}"
-                >
 
-                <div class="info-carrinho">
+                item.innerHTML = `
 
-                    <h3>
-                        ${produto.nome}
-                    </h3>
+                    <img
+                        src="${produto.imagem}"
+                        alt="${produto.nome}"
+                    >
 
-                    <p>
-                        R$ ${produto.preco
-                            .toFixed(2)
-                            .replace(".", ",")}
-                    </p>
 
-                    <div class="quantidade">
+                    <div class="info-carrinho">
+
+                        <h3>
+                            ${produto.nome}
+                        </h3>
+
+
+                        <p>
+
+                            R$
+
+                            ${produto.preco
+                                .toFixed(2)
+                                .replace(".", ",")}
+
+                        </p>
+
+
+                        <div class="quantidade">
+
+                            <button
+                                type="button"
+                                onclick="diminuirQuantidade(${index})"
+                                aria-label="Diminuir quantidade"
+                            >
+                                −
+                            </button>
+
+
+                            <span>
+                                ${produto.quantidade}
+                            </span>
+
+
+                            <button
+                                type="button"
+                                onclick="aumentarQuantidade(${index})"
+                                aria-label="Aumentar quantidade"
+                            >
+                                +
+                            </button>
+
+                        </div>
+
 
                         <button
                             type="button"
-                            onclick="diminuirQuantidade(${index})"
+                            class="remover-produto"
+                            onclick="removerProduto(${index})"
                         >
-                            −
-                        </button>
-
-                        <span>
-                            ${produto.quantidade}
-                        </span>
-
-                        <button
-                            type="button"
-                            onclick="aumentarQuantidade(${index})"
-                        >
-                            +
+                            Remover
                         </button>
 
                     </div>
 
-                    <button
-                        type="button"
-                        class="remover-produto"
-                        onclick="removerProduto(${index})"
-                    >
-                        Remover
-                    </button>
-
-                </div>
-
-            `;
+                `;
 
 
-            listaCarrinho.appendChild(item);
+                listaCarrinho.appendChild(
+                    item
+                );
 
-        });
+            }
+        );
 
     }
 
@@ -217,7 +312,9 @@ function atualizarCarrinho() {
     if (totalCarrinho) {
 
         totalCarrinho.textContent =
+
             "R$ " +
+
             valorTotal
                 .toFixed(2)
                 .replace(".", ",");
@@ -227,9 +324,9 @@ function atualizarCarrinho() {
 }
 
 
-/* ==============================
+/* =========================================================
    AUMENTAR QUANTIDADE
-============================== */
+========================================================= */
 
 function aumentarQuantidade(index) {
 
@@ -237,16 +334,20 @@ function aumentarQuantidade(index) {
         return;
     }
 
+
     carrinho[index].quantidade++;
+
+
+    salvarCarrinho();
 
     atualizarCarrinho();
 
 }
 
 
-/* ==============================
+/* =========================================================
    DIMINUIR QUANTIDADE
-============================== */
+========================================================= */
 
 function diminuirQuantidade(index) {
 
@@ -254,24 +355,32 @@ function diminuirQuantidade(index) {
         return;
     }
 
+
     carrinho[index].quantidade--;
 
 
-    if (carrinho[index].quantidade <= 0) {
+    if (
+        carrinho[index].quantidade <= 0
+    ) {
 
-        carrinho.splice(index, 1);
+        carrinho.splice(
+            index,
+            1
+        );
 
     }
 
+
+    salvarCarrinho();
 
     atualizarCarrinho();
 
 }
 
 
-/* ==============================
+/* =========================================================
    REMOVER PRODUTO
-============================== */
+========================================================= */
 
 function removerProduto(index) {
 
@@ -279,16 +388,23 @@ function removerProduto(index) {
         return;
     }
 
-    carrinho.splice(index, 1);
+
+    carrinho.splice(
+        index,
+        1
+    );
+
+
+    salvarCarrinho();
 
     atualizarCarrinho();
 
 }
 
 
-/* ==============================
+/* =========================================================
    ABRIR CARRINHO
-============================== */
+========================================================= */
 
 function abrirCarrinho() {
 
@@ -296,34 +412,61 @@ function abrirCarrinho() {
         return;
     }
 
-    modalCarrinho.style.display = "flex";
 
-}
+    modalCarrinho.style.display =
+        "flex";
 
 
-/* ==============================
-   FECHAR CARRINHO
-============================== */
-
-if (fecharCarrinho && modalCarrinho) {
-
-    fecharCarrinho.addEventListener(
-        "click",
-        function () {
-
-            modalCarrinho.style.display = "none";
-
-        }
+    modalCarrinho.setAttribute(
+        "aria-hidden",
+        "false"
     );
 
 }
 
 
-/* ==============================
-   BOTÃO CARRINHO DO CABEÇALHO
-============================== */
+/* =========================================================
+   FECHAR CARRINHO
+========================================================= */
 
-if (linkCarrinho && modalCarrinho) {
+function fecharModalCarrinho() {
+
+    if (!modalCarrinho) {
+        return;
+    }
+
+
+    modalCarrinho.style.display =
+        "none";
+
+
+    modalCarrinho.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+}
+
+
+/* =========================================================
+   BOTÃO FECHAR
+========================================================= */
+
+if (fecharCarrinho) {
+
+    fecharCarrinho.addEventListener(
+        "click",
+        fecharModalCarrinho
+    );
+
+}
+
+
+/* =========================================================
+   BOTÃO CARRINHO
+========================================================= */
+
+if (linkCarrinho) {
 
     linkCarrinho.addEventListener(
         "click",
@@ -331,7 +474,7 @@ if (linkCarrinho && modalCarrinho) {
 
             evento.preventDefault();
 
-            modalCarrinho.style.display = "flex";
+            abrirCarrinho();
 
         }
     );
@@ -339,9 +482,9 @@ if (linkCarrinho && modalCarrinho) {
 }
 
 
-/* ==============================
+/* =========================================================
    FECHAR CLICANDO FORA
-============================== */
+========================================================= */
 
 if (modalCarrinho) {
 
@@ -349,9 +492,12 @@ if (modalCarrinho) {
         "click",
         function (evento) {
 
-            if (evento.target === modalCarrinho) {
+            if (
+                evento.target ===
+                modalCarrinho
+            ) {
 
-                modalCarrinho.style.display = "none";
+                fecharModalCarrinho();
 
             }
 
@@ -361,49 +507,91 @@ if (modalCarrinho) {
 }
 
 
-/* ==============================
-   FINALIZAR COMPRA
-============================== */
+/* =========================================================
+   FECHAR COM ESC
+========================================================= */
 
-if (finalizarCompra) {
+document.addEventListener(
+    "keydown",
+    function (evento) {
 
-    finalizarCompra.addEventListener(
-        "click",
-        function () {
+        if (
+            evento.key === "Escape"
+        ) {
 
-            if (carrinho.length === 0) {
+            fecharModalCarrinho();
 
-                alert(
-                    "Seu carrinho está vazio."
-                );
+        }
 
-                return;
-
-            }
+    }
+);
 
 
-            alert(
-                "Compra selecionada! Em breve vamos configurar o pagamento."
+/* =========================================================
+   SALVAR CARRINHO NO NAVEGADOR
+========================================================= */
+
+function salvarCarrinho() {
+
+    localStorage.setItem(
+        "minhaConfeccaoCarrinho",
+        JSON.stringify(carrinho)
+    );
+
+}
+
+
+/* =========================================================
+   CARREGAR CARRINHO
+========================================================= */
+
+function carregarCarrinho() {
+
+    try {
+
+        const carrinhoSalvo =
+            localStorage.getItem(
+                "minhaConfeccaoCarrinho"
             );
 
+
+        if (!carrinhoSalvo) {
+            return;
         }
-    );
+
+
+        const dados =
+            JSON.parse(carrinhoSalvo);
+
+
+        if (Array.isArray(dados)) {
+
+            carrinho = dados;
+
+        }
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar carrinho:",
+            erro
+        );
+
+        carrinho = [];
+
+    }
 
 }
 
 
-/* ==============================
-   BUSCA DE PRODUTOS
-============================== */
+/* =========================================================
+   BUSCA
+========================================================= */
 
-const formBusca =
-    document.getElementById("form-busca");
-
-const campoBusca =
-    document.getElementById("campo-busca");
-
-
-if (formBusca && campoBusca) {
+if (
+    formBusca &&
+    campoBusca
+) {
 
     formBusca.addEventListener(
         "submit",
@@ -412,46 +600,17 @@ if (formBusca && campoBusca) {
             evento.preventDefault();
 
 
-            const termo =
-                campoBusca.value
-                    .trim()
-                    .toLowerCase();
+            buscarProdutos();
+
+        }
+    );
 
 
-            const produtos =
-                document.querySelectorAll(".produto");
+    campoBusca.addEventListener(
+        "input",
+        function () {
 
-
-            produtos.forEach(function (produto) {
-
-                const nomeElemento =
-                    produto.querySelector("h3");
-
-
-                if (!nomeElemento) {
-                    return;
-                }
-
-
-                const nome =
-                    nomeElemento.textContent
-                        .toLowerCase();
-
-
-                if (
-                    termo === "" ||
-                    nome.includes(termo)
-                ) {
-
-                    produto.style.display = "";
-
-                } else {
-
-                    produto.style.display = "none";
-
-                }
-
-            });
+            buscarProdutos();
 
         }
     );
@@ -459,15 +618,72 @@ if (formBusca && campoBusca) {
 }
 
 
-/* ==============================
-   NEWSLETTER
-============================== */
+/* =========================================================
+   BUSCAR PRODUTOS
+========================================================= */
 
-const formNewsletter =
-    document.getElementById(
-        "form-newsletter"
+function buscarProdutos() {
+
+    if (!campoBusca) {
+        return;
+    }
+
+
+    const termo =
+        campoBusca.value
+            .trim()
+            .toLowerCase();
+
+
+    const produtos =
+        document.querySelectorAll(
+            ".produto"
+        );
+
+
+    produtos.forEach(
+        function (produto) {
+
+            const nomeElemento =
+                produto.querySelector("h3");
+
+
+            if (!nomeElemento) {
+                return;
+            }
+
+
+            const nome =
+                nomeElemento
+                    .textContent
+                    .trim()
+                    .toLowerCase();
+
+
+            if (
+                termo === "" ||
+                nome.includes(termo)
+            ) {
+
+                produto.style.display =
+                    "";
+
+            } else {
+
+                produto.style.display =
+                    "none";
+
+            }
+
+        }
     );
 
+}
+
+
+/* =========================================================
+   NEWSLETTER
+========================================================= */
 
 if (formNewsletter) {
 
@@ -491,9 +707,44 @@ if (formNewsletter) {
 }
 
 
-/* ==============================
-   INICIAR
-============================== */
+/* =========================================================
+   FINALIZAR COMPRA
+========================================================= */
+
+if (finalizarCompra) {
+
+    finalizarCompra.addEventListener(
+        "click",
+        function () {
+
+            if (
+                carrinho.length === 0
+            ) {
+
+                alert(
+                    "Seu carrinho está vazio."
+                );
+
+                return;
+
+            }
+
+
+            alert(
+                "Seu pedido está pronto! " +
+                "Agora vamos configurar o pagamento."
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   INICIAR APP
+========================================================= */
+
+carregarCarrinho();
 
 atualizarCarrinho();
-```
