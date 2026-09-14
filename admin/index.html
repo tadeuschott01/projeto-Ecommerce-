@@ -3,12 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Painel Administrativo - Minha Confecção</title>
+    <title>
+        Painel Administrativo - Minha Confecção
+    </title>
 
     <link
         rel="stylesheet"
@@ -101,7 +104,7 @@
 
 
         <!-- =========================
-             ÁREA PRINCIPAL
+             CONTEÚDO PRINCIPAL
         ========================== -->
 
         <section class="admin-grid">
@@ -133,7 +136,7 @@
                 <form id="produto-form">
 
 
-                    <!-- ID DA EDIÇÃO -->
+                    <!-- ID -->
 
                     <input
                         type="hidden"
@@ -152,7 +155,7 @@
                         <input
                             type="text"
                             id="produto-nome"
-                            placeholder="Ex: Vestido Floral"
+                            placeholder="Ex: Moletom Brasil"
                             required
                         >
 
@@ -174,7 +177,7 @@
                                 id="produto-preco"
                                 min="0"
                                 step="0.01"
-                                placeholder="89,90"
+                                placeholder="89.90"
                                 required
                             >
 
@@ -192,7 +195,7 @@
                                 id="produto-promocional"
                                 min="0"
                                 step="0.01"
-                                placeholder="69,90"
+                                placeholder="69.90"
                             >
 
                         </div>
@@ -237,6 +240,10 @@
 
                                 <option value="Vestidos">
                                     Vestidos
+                                </option>
+
+                                <option value="Moletons">
+                                    Moletons
                                 </option>
 
                                 <option value="Outros">
@@ -284,7 +291,7 @@
                     </div>
 
 
-                    <!-- IMAGEM -->
+                    <!-- FOTO -->
 
                     <div class="campo">
 
@@ -292,10 +299,10 @@
                             Foto do produto
                         </label>
 
+
                         <label
                             for="produto-imagem"
                             class="upload-box"
-                            id="upload-box"
                         >
 
                             <span class="upload-icone">
@@ -307,28 +314,29 @@
                             </strong>
 
                             <small>
-                                Clique aqui para selecionar no celular ou computador
+                                Clique para selecionar no celular ou computador
                             </small>
 
                             <small>
-                                JPG, PNG ou WEBP
+                                JPG, JPEG, PNG ou WEBP
                             </small>
 
                         </label>
- 
-<input
-    type="file"
-    id="produto-imagem"
-    accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
-    hidden
->
+
+
+                        <input
+                            type="file"
+                            id="produto-imagem"
+                            accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                            hidden
+                        >
 
 
                         <!-- PRÉVIA -->
 
                         <div
-                            class="preview-container"
                             id="preview-container"
+                            class="preview-container"
                         >
 
                             <img
@@ -441,17 +449,12 @@
                     <div class="estado-vazio">
 
                         <span>
-                            📦
+                            ⏳
                         </span>
 
                         <h3>
-                            Nenhum produto cadastrado
+                            Carregando produtos...
                         </h3>
-
-                        <p>
-                            Quando você cadastrar produtos,
-                            eles aparecerão aqui.
-                        </p>
 
                     </div>
 
@@ -466,7 +469,7 @@
 
 
     <!-- =========================
-         CONFIRMAÇÃO DE EXCLUSÃO
+         MODAL DE EXCLUSÃO
     ========================== -->
 
     <div
@@ -509,6 +512,19 @@
 
     </div>
 
+
+    <!-- =========================
+         SUPABASE
+    ========================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
+
+
+    <!-- =========================
+         ADMIN
+    ========================== -->
 
     <script src="admin.js"></script>
 
