@@ -1,7 +1,25 @@
 /* =========================================================
    MINHA CONFECÇÃO — ADMIN.JS
-   Cadastro + edição + exclusão + upload de imagem
+   SUPABASE + STORAGE
 ========================================================= */
+
+
+/* =========================================================
+   SUPABASE
+========================================================= */
+
+const SUPABASE_URL =
+    "https://ujutkgdylwwatbjsnvzw.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_5xv4o64FABCRaffX77QEqA_8VHBTX83";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
 
 /* =========================================================
@@ -90,107 +108,11 @@ const confirmarExclusao =
 
 let produtos = [];
 
-let imagemAtual = "";
+let arquivoImagemAtual = null;
+
+let imagemAtualUrl = "";
 
 let produtoParaExcluir = null;
-
-
-/* =========================================================
-   CARREGAR PRODUTOS
-========================================================= */
-
-function carregarProdutos() {
-
-    try {
-
-        const dados =
-            localStorage.getItem(
-                "minhaConfeccaoProdutos"
-            );
-
-        if (!dados) {
-
-            produtos = [];
-
-            return;
-
-        }
-
-        const lista =
-            JSON.parse(dados);
-
-        if (Array.isArray(lista)) {
-
-            produtos = lista;
-
-        } else {
-
-            produtos = [];
-
-        }
-
-    } catch (erro) {
-
-        console.error(
-            "Erro ao carregar produtos:",
-            erro
-        );
-
-        produtos = [];
-
-    }
-
-}
-
-
-/* =========================================================
-   SALVAR PRODUTOS
-========================================================= */
-
-function salvarProdutos() {
-
-    try {
-
-        localStorage.setItem(
-            "minhaConfeccaoProdutos",
-            JSON.stringify(produtos)
-        );
-
-        return true;
-
-    } catch (erro) {
-
-        console.error(
-            "Erro ao salvar produtos:",
-            erro
-        );
-
-        mostrarMensagem(
-            "Não foi possível salvar. A imagem pode ser grande demais para o armazenamento local.",
-            "erro"
-        );
-
-        return false;
-
-    }
-
-}
-
-
-/* =========================================================
-   GERAR ID
-========================================================= */
-
-function gerarId() {
-
-    return (
-        Date.now().toString() +
-        Math.random()
-            .toString(16)
-            .slice(2)
-    );
-
-}
 
 
 /* =========================================================
@@ -199,16 +121,14 @@ function gerarId() {
 
 function formatarPreco(valor) {
 
-    const numero =
-        Number(valor || 0);
-
-    return numero.toLocaleString(
-        "pt-BR",
-        {
-            style: "currency",
-            currency: "BRL"
-        }
-    );
+    return Number(valor || 0)
+        .toLocaleString(
+            "pt-BR",
+            {
+                style: "currency",
+                currency: "BRL"
+            }
+        );
 
 }
 
@@ -230,7 +150,7 @@ function escaparHTML(texto) {
 
 
 /* =========================================================
-   MENSAGENS
+   MENSAGEM
 ========================================================= */
 
 function mostrarMensagem(
@@ -252,7 +172,72 @@ function mostrarMensagem(
 
 
 /* =========================================================
-   SELECIONAR IMAGEM
+   CARREGAR PRODUTOS DO SUPABASE
+========================================================= */
+
+async function carregarProdutos() {
+
+    if (listaProdutosAdmin) {
+
+        listaProdutosAdmin.innerHTML = `
+            <div class="estado-vazio">
+                <span>⏳</span>
+                <h3>Carregando produtos...</h3>
+            </div>
+        `;
+
+    }
+
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+
+        .from("products")
+
+        .select("*")
+
+        .order(
+            "created_at",
+            {
+                ascending: false
+            }
+        );
+
+
+    if (error) {
+
+        console.error(
+            "Erro ao carregar produtos:",
+            error
+        );
+
+        mostrarMensagem(
+            "Erro ao carregar produtos.",
+            "erro"
+        );
+
+        produtos = [];
+
+        renderizarProdutos();
+
+        return;
+
+    }
+
+
+    produtos =
+        data || [];
+
+
+    renderizarProdutos();
+
+}
+
+
+/* =========================================================
+   SELECIONAR FOTO
 ========================================================= */
 
 if (produtoImagem) {
@@ -264,14 +249,11 @@ if (produtoImagem) {
             const arquivo =
                 this.files[0];
 
+
             if (!arquivo) {
                 return;
             }
 
-
-            /* =========================
-               FORMATOS PERMITIDOS
-            ========================== */
 
             const tiposPermitidos = [
 
@@ -291,7 +273,7 @@ if (produtoImagem) {
             ) {
 
                 alert(
-                    "Formato não permitido. Escolha uma imagem JPG, JPEG, PNG ou WEBP."
+                    "Escolha JPG, JPEG, PNG ou WEBP."
                 );
 
                 produtoImagem.value =
@@ -301,10 +283,6 @@ if (produtoImagem) {
 
             }
 
-
-            /* =========================
-               LIMITE DE 15 MB
-            ========================== */
 
             const limite =
                 15 * 1024 * 1024;
@@ -327,39 +305,18 @@ if (produtoImagem) {
             }
 
 
-            /* =========================
-               CARREGAR FOTO
-            ========================== */
-
-            const leitor =
-                new FileReader();
+            arquivoImagemAtual =
+                arquivo;
 
 
-            leitor.onload =
-                function (evento) {
-
-                    imagemAtual =
-                        evento.target.result;
-
-                    mostrarPreview(
-                        imagemAtual
-                    );
-
-                };
+            const previewUrl =
+                URL.createObjectURL(
+                    arquivo
+                );
 
 
-            leitor.onerror =
-                function () {
-
-                    alert(
-                        "Não foi possível carregar essa imagem."
-                    );
-
-                };
-
-
-            leitor.readAsDataURL(
-                arquivo
+            mostrarPreview(
+                previewUrl
             );
 
         }
@@ -369,10 +326,10 @@ if (produtoImagem) {
 
 
 /* =========================================================
-   MOSTRAR PRÉVIA
+   MOSTRAR PREVIEW
 ========================================================= */
 
-function mostrarPreview(imagem) {
+function mostrarPreview(url) {
 
     if (
         !previewContainer ||
@@ -384,7 +341,7 @@ function mostrarPreview(imagem) {
     }
 
 
-    if (!imagem) {
+    if (!url) {
 
         previewContainer.classList
             .remove("ativo");
@@ -399,7 +356,7 @@ function mostrarPreview(imagem) {
 
 
     previewImagem.src =
-        imagem;
+        url;
 
 
     previewContainer.classList
@@ -418,8 +375,12 @@ if (removerImagem) {
         "click",
         function () {
 
-            imagemAtual =
+            arquivoImagemAtual =
+                null;
+
+            imagemAtualUrl =
                 "";
+
 
             if (produtoImagem) {
 
@@ -427,6 +388,7 @@ if (removerImagem) {
                     "";
 
             }
+
 
             mostrarPreview("");
 
@@ -437,286 +399,361 @@ if (removerImagem) {
 
 
 /* =========================================================
-   CADASTRAR / EDITAR
+   UPLOAD PARA STORAGE
+========================================================= */
+
+async function enviarImagemStorage(
+    arquivo
+) {
+
+    if (!arquivo) {
+
+        return imagemAtualUrl || null;
+
+    }
+
+
+    const extensao =
+        arquivo.name
+            .split(".")
+            .pop()
+            .toLowerCase();
+
+
+    const nomeArquivo =
+        `${Date.now()}-${Math.random()
+            .toString(36)
+            .substring(2, 10)}.${extensao}`;
+
+
+    const caminho =
+        `produtos/${nomeArquivo}`;
+
+
+    const {
+        error
+    } = await supabaseClient
+        .storage
+        .from("products")
+        .upload(
+            caminho,
+            arquivo,
+            {
+                cacheControl: "3600",
+                upsert: false
+            }
+        );
+
+
+    if (error) {
+
+        console.error(
+            "Erro no upload:",
+            error
+        );
+
+        throw new Error(
+            "Não foi possível enviar a foto."
+        );
+
+    }
+
+
+    const {
+        data
+    } = supabaseClient
+        .storage
+        .from("products")
+        .getPublicUrl(
+            caminho
+        );
+
+
+    return data.publicUrl;
+
+}
+
+
+/* =========================================================
+   SALVAR PRODUTO
 ========================================================= */
 
 if (produtoForm) {
 
     produtoForm.addEventListener(
         "submit",
-        function (evento) {
+        async function (evento) {
 
             evento.preventDefault();
 
 
-            const nome =
-                produtoNome.value
-                    .trim();
+            mostrarMensagem(
+                "Salvando produto..."
+            );
 
 
-            const preco =
-                Number(
-                    produtoPreco.value
-                );
+            if (btnSalvar) {
 
+                btnSalvar.disabled =
+                    true;
 
-            const promocional =
-                produtoPromocional.value
-
-                    ? Number(
-                        produtoPromocional.value
-                    )
-
-                    : null;
-
-
-            const categoria =
-                produtoCategoria.value;
-
-
-            const estoque =
-                Number(
-                    produtoEstoque.value
-                );
-
-
-            const descricao =
-                produtoDescricao.value
-                    .trim();
-
-
-            const oferta =
-                produtoOferta.checked;
-
-
-            /* =========================
-               VALIDAÇÕES
-            ========================== */
-
-            if (!nome) {
-
-                mostrarMensagem(
-                    "Digite o nome do produto.",
-                    "erro"
-                );
-
-                return;
+                btnSalvar.textContent =
+                    "Salvando...";
 
             }
 
 
-            if (
-                !preco ||
-                preco <= 0
-            ) {
-
-                mostrarMensagem(
-                    "Digite um preço válido.",
-                    "erro"
-                );
-
-                return;
-
-            }
+            try {
 
 
-            if (!categoria) {
-
-                mostrarMensagem(
-                    "Selecione uma categoria.",
-                    "erro"
-                );
-
-                return;
-
-            }
+                const nome =
+                    produtoNome.value
+                        .trim();
 
 
-            if (
-                estoque < 0
-            ) {
-
-                mostrarMensagem(
-                    "O estoque não pode ser negativo.",
-                    "erro"
-                );
-
-                return;
-
-            }
-
-
-            if (
-                promocional &&
-                promocional >= preco
-            ) {
-
-                mostrarMensagem(
-                    "O preço promocional precisa ser menor que o preço normal.",
-                    "erro"
-                );
-
-                return;
-
-            }
-
-
-            const idEdicao =
-                produtoId.value;
-
-
-            /* =========================
-               EDITAR PRODUTO
-            ========================== */
-
-            if (idEdicao) {
-
-                const indice =
-                    produtos.findIndex(
-                        function (produto) {
-
-                            return (
-                                produto.id ===
-                                idEdicao
-                            );
-
-                        }
+                const preco =
+                    Number(
+                        produtoPreco.value
                     );
 
 
-                if (indice === -1) {
+                const promocional =
+                    produtoPromocional.value
 
-                    mostrarMensagem(
-                        "Produto não encontrado.",
-                        "erro"
+                        ? Number(
+                            produtoPromocional.value
+                        )
+
+                        : null;
+
+
+                const categoria =
+                    produtoCategoria.value;
+
+
+                const estoque =
+                    Number(
+                        produtoEstoque.value
                     );
 
-                    return;
+
+                const descricao =
+                    produtoDescricao.value
+                        .trim();
+
+
+                const oferta =
+                    produtoOferta.checked;
+
+
+                if (!nome) {
+
+                    throw new Error(
+                        "Digite o nome do produto."
+                    );
 
                 }
 
 
-                const produtoAnterior = {
-                    ...produtos[indice]
-                };
+                if (
+                    !preco ||
+                    preco <= 0
+                ) {
+
+                    throw new Error(
+                        "Digite um preço válido."
+                    );
+
+                }
 
 
-                produtos[indice] = {
+                if (!categoria) {
 
-                    ...produtos[indice],
+                    throw new Error(
+                        "Selecione uma categoria."
+                    );
 
-                    nome: nome,
+                }
 
-                    preco: preco,
 
-                    precoPromocional:
+                if (estoque < 0) {
+
+                    throw new Error(
+                        "O estoque não pode ser negativo."
+                    );
+
+                }
+
+
+                if (
+                    promocional &&
+                    promocional >= preco
+                ) {
+
+                    throw new Error(
+                        "O preço promocional deve ser menor que o preço normal."
+                    );
+
+                }
+
+
+                /* =========================
+                   UPLOAD DA FOTO
+                ========================== */
+
+                const urlImagem =
+                    await enviarImagemStorage(
+                        arquivoImagemAtual
+                    );
+
+
+                const dadosProduto = {
+
+                    name:
+                        nome,
+
+                    price:
+                        preco,
+
+                    promotional_price:
                         promocional,
 
-                    categoria:
+                    category:
                         categoria,
 
-                    estoque:
+                    stock:
                         estoque,
 
-                    descricao:
+                    description:
                         descricao,
 
-                    oferta:
-                        oferta,
+                    image_url:
+                        urlImagem,
 
-                    imagem:
-                        imagemAtual
+                    is_offer:
+                        oferta
 
                 };
 
 
-                if (!salvarProdutos()) {
+                const idEdicao =
+                    produtoId.value;
 
-                    produtos[indice] =
-                        produtoAnterior;
 
-                    return;
+                /* =========================
+                   EDITAR
+                ========================== */
+
+                if (idEdicao) {
+
+                    const {
+                        error
+                    } = await supabaseClient
+
+                        .from("products")
+
+                        .update(
+                            dadosProduto
+                        )
+
+                        .eq(
+                            "id",
+                            idEdicao
+                        );
+
+
+                    if (error) {
+
+                        throw error;
+
+                    }
+
+
+                    mostrarMensagem(
+                        "Produto atualizado com sucesso!"
+                    );
 
                 }
 
 
-                renderizarProdutos();
+                /* =========================
+                   NOVO PRODUTO
+                ========================== */
+
+                else {
+
+                    const {
+                        error
+                    } = await supabaseClient
+
+                        .from("products")
+
+                        .insert([
+                            dadosProduto
+                        ]);
+
+
+                    if (error) {
+
+                        throw error;
+
+                    }
+
+
+                    mostrarMensagem(
+                        "Produto cadastrado com sucesso!"
+                    );
+
+                }
+
 
                 limparFormulario();
 
+                await carregarProdutos();
 
-                mostrarMensagem(
-                    "Produto atualizado com sucesso!"
+
+            } catch (erro) {
+
+
+                console.error(
+                    "Erro ao salvar:",
+                    erro
                 );
 
 
-                return;
+                mostrarMensagem(
+                    erro.message ||
+                    "Erro ao salvar produto.",
+                    "erro"
+                );
+
+
+            } finally {
+
+
+                if (btnSalvar) {
+
+                    btnSalvar.disabled =
+                        false;
+
+
+                    if (
+                        produtoId.value
+                    ) {
+
+                        btnSalvar.textContent =
+                            "Salvar alterações";
+
+                    } else {
+
+                        btnSalvar.textContent =
+                            "Salvar produto";
+
+                    }
+
+                }
 
             }
-
-
-            /* =========================
-               NOVO PRODUTO
-            ========================== */
-
-            const novoProduto = {
-
-                id:
-                    gerarId(),
-
-                nome:
-                    nome,
-
-                preco:
-                    preco,
-
-                precoPromocional:
-                    promocional,
-
-                categoria:
-                    categoria,
-
-                estoque:
-                    estoque,
-
-                descricao:
-                    descricao,
-
-                oferta:
-                    oferta,
-
-                imagem:
-                    imagemAtual,
-
-                criadoEm:
-                    new Date()
-                        .toISOString()
-
-            };
-
-
-            produtos.unshift(
-                novoProduto
-            );
-
-
-            if (!salvarProdutos()) {
-
-                produtos.shift();
-
-                return;
-
-            }
-
-
-            renderizarProdutos();
-
-            limparFormulario();
-
-
-            mostrarMensagem(
-                "Produto cadastrado com sucesso!"
-            );
 
         }
     );
@@ -725,7 +762,7 @@ if (produtoForm) {
 
 
 /* =========================================================
-   RENDERIZAR PRODUTOS
+   RENDERIZAR
 ========================================================= */
 
 function renderizarProdutos(
@@ -743,19 +780,19 @@ function renderizarProdutos(
             .toLowerCase();
 
 
-    const produtosFiltrados =
+    const filtrados =
         produtos.filter(
             function (produto) {
 
                 const nome =
                     String(
-                        produto.nome || ""
+                        produto.name || ""
                     ).toLowerCase();
 
 
                 const categoria =
                     String(
-                        produto.categoria || ""
+                        produto.category || ""
                     ).toLowerCase();
 
 
@@ -781,7 +818,7 @@ function renderizarProdutos(
 
 
     if (
-        produtosFiltrados.length === 0
+        filtrados.length === 0
     ) {
 
         listaProdutosAdmin.innerHTML = `
@@ -793,12 +830,11 @@ function renderizarProdutos(
                 </span>
 
                 <h3>
-                    Nenhum produto encontrado
+                    Nenhum produto cadastrado
                 </h3>
 
                 <p>
-                    Cadastre um novo produto
-                    para começar.
+                    Cadastre seu primeiro produto.
                 </p>
 
             </div>
@@ -814,7 +850,7 @@ function renderizarProdutos(
         "";
 
 
-    produtosFiltrados.forEach(
+    filtrados.forEach(
         function (produto) {
 
             const item =
@@ -828,9 +864,9 @@ function renderizarProdutos(
 
 
             const imagem =
-                produto.imagem
+                produto.image_url
 
-                    ? produto.imagem
+                    ? produto.image_url
 
                     : "https://placehold.co/300x400?text=Sem+Foto";
 
@@ -842,7 +878,7 @@ function renderizarProdutos(
                 >
 
                     ${formatarPreco(
-                        produto.preco
+                        produto.price
                     )}
 
                 </div>
@@ -851,7 +887,7 @@ function renderizarProdutos(
 
 
             if (
-                produto.precoPromocional
+                produto.promotional_price
             ) {
 
                 precoHTML = `
@@ -865,7 +901,7 @@ function renderizarProdutos(
                     >
 
                         ${formatarPreco(
-                            produto.preco
+                            produto.price
                         )}
 
                     </div>
@@ -876,7 +912,7 @@ function renderizarProdutos(
                     >
 
                         ${formatarPreco(
-                            produto.precoPromocional
+                            produto.promotional_price
                         )}
 
                     </div>
@@ -891,7 +927,7 @@ function renderizarProdutos(
                 <img
                     src="${imagem}"
                     alt="${escaparHTML(
-                        produto.nome
+                        produto.name
                     )}"
                 >
 
@@ -905,7 +941,7 @@ function renderizarProdutos(
                     >
 
                         ${escaparHTML(
-                            produto.categoria
+                            produto.category
                         )}
 
                     </span>
@@ -914,7 +950,7 @@ function renderizarProdutos(
                     <h3>
 
                         ${escaparHTML(
-                            produto.nome
+                            produto.name
                         )}
 
                     </h3>
@@ -928,10 +964,10 @@ function renderizarProdutos(
                     >
 
                         Estoque:
-                        ${produto.estoque}
+                        ${produto.stock}
 
                         ${
-                            produto.oferta
+                            produto.is_offer
                                 ? " • Oferta"
                                 : ""
                         }
@@ -994,7 +1030,7 @@ function atualizarResumo() {
 
     if (totalEstoque) {
 
-        const estoque =
+        totalEstoque.textContent =
             produtos.reduce(
                 function (
                     total,
@@ -1004,7 +1040,7 @@ function atualizarResumo() {
                     return (
                         total +
                         Number(
-                            produto.estoque || 0
+                            produto.stock || 0
                         )
                     );
 
@@ -1012,29 +1048,21 @@ function atualizarResumo() {
                 0
             );
 
-
-        totalEstoque.textContent =
-            estoque;
-
     }
 
 
     if (totalOfertas) {
 
-        const ofertas =
+        totalOfertas.textContent =
             produtos.filter(
                 function (produto) {
 
                     return Boolean(
-                        produto.oferta
+                        produto.is_offer
                     );
 
                 }
             ).length;
-
-
-        totalOfertas.textContent =
-            ofertas;
 
     }
 
@@ -1042,44 +1070,40 @@ function atualizarResumo() {
 
 
 /* =========================================================
-   CLIQUES EDITAR / EXCLUIR
+   EDITAR / EXCLUIR
 ========================================================= */
 
 document.addEventListener(
     "click",
     function (evento) {
 
-        const botaoEditar =
+        const editar =
             evento.target.closest(
                 "[data-editar]"
             );
 
 
-        if (botaoEditar) {
+        if (editar) {
 
-            const id =
-                botaoEditar.dataset
-                    .editar;
-
-
-            editarProduto(id);
+            editarProduto(
+                editar.dataset.editar
+            );
 
             return;
 
         }
 
 
-        const botaoExcluir =
+        const excluir =
             evento.target.closest(
                 "[data-excluir]"
             );
 
 
-        if (botaoExcluir) {
+        if (excluir) {
 
             produtoParaExcluir =
-                botaoExcluir.dataset
-                    .excluir;
+                excluir.dataset.excluir;
 
 
             if (modalExcluir) {
@@ -1106,7 +1130,8 @@ function editarProduto(id) {
             function (item) {
 
                 return (
-                    item.id === id
+                    String(item.id) ===
+                    String(id)
                 );
 
             }
@@ -1123,41 +1148,45 @@ function editarProduto(id) {
 
 
     produtoNome.value =
-        produto.nome;
+        produto.name;
 
 
     produtoPreco.value =
-        produto.preco;
+        produto.price;
 
 
     produtoPromocional.value =
-        produto.precoPromocional || "";
+        produto.promotional_price || "";
 
 
     produtoCategoria.value =
-        produto.categoria;
+        produto.category;
 
 
     produtoEstoque.value =
-        produto.estoque;
+        produto.stock;
 
 
     produtoDescricao.value =
-        produto.descricao || "";
+        produto.description || "";
 
 
     produtoOferta.checked =
         Boolean(
-            produto.oferta
+            produto.is_offer
         );
 
 
-    imagemAtual =
-        produto.imagem || "";
+    imagemAtualUrl =
+        produto.image_url || "";
+
+
+    arquivoImagemAtual =
+        null;
 
 
     mostrarPreview(
-        imagemAtual
+        imagemAtualUrl
     );
 
 
@@ -1203,11 +1232,6 @@ function editarProduto(id) {
 
 function limparFormulario() {
 
-    if (!produtoForm) {
-        return;
-    }
-
-
     produtoForm.reset();
 
 
@@ -1219,16 +1243,16 @@ function limparFormulario() {
         1;
 
 
-    imagemAtual =
+    arquivoImagemAtual =
+        null;
+
+
+    imagemAtualUrl =
         "";
 
 
-    if (produtoImagem) {
-
-        produtoImagem.value =
-            "";
-
-    }
+    produtoImagem.value =
+        "";
 
 
     mostrarPreview("");
@@ -1269,11 +1293,7 @@ if (btnCancelar) {
 
     btnCancelar.addEventListener(
         "click",
-        function () {
-
-            limparFormulario();
-
-        }
+        limparFormulario
     );
 
 }
@@ -1287,58 +1307,55 @@ if (confirmarExclusao) {
 
     confirmarExclusao.addEventListener(
         "click",
-        function () {
+        async function () {
 
             if (!produtoParaExcluir) {
                 return;
             }
 
 
-            const produtosAnteriores =
-                [...produtos];
+            const {
+                error
+            } = await supabaseClient
 
+                .from("products")
 
-            produtos =
-                produtos.filter(
-                    function (produto) {
+                .delete()
 
-                        return (
-                            produto.id !==
-                            produtoParaExcluir
-                        );
-
-                    }
+                .eq(
+                    "id",
+                    produtoParaExcluir
                 );
 
 
-            if (!salvarProdutos()) {
+            if (error) {
 
-                produtos =
-                    produtosAnteriores;
+                console.error(error);
+
+                mostrarMensagem(
+                    "Erro ao excluir produto.",
+                    "erro"
+                );
 
                 return;
 
             }
 
 
-            renderizarProdutos();
-
-
             produtoParaExcluir =
                 null;
 
 
-            if (modalExcluir) {
-
-                modalExcluir.classList
-                    .remove("ativo");
-
-            }
+            modalExcluir.classList
+                .remove("ativo");
 
 
             mostrarMensagem(
                 "Produto excluído com sucesso!"
             );
+
+
+            await carregarProdutos();
 
         }
     );
@@ -1359,13 +1376,8 @@ if (cancelarExclusao) {
             produtoParaExcluir =
                 null;
 
-
-            if (modalExcluir) {
-
-                modalExcluir.classList
-                    .remove("ativo");
-
-            }
+            modalExcluir.classList
+                .remove("ativo");
 
         }
     );
@@ -1374,37 +1386,7 @@ if (cancelarExclusao) {
 
 
 /* =========================================================
-   FECHAR MODAL CLICANDO FORA
-========================================================= */
-
-if (modalExcluir) {
-
-    modalExcluir.addEventListener(
-        "click",
-        function (evento) {
-
-            if (
-                evento.target ===
-                modalExcluir
-            ) {
-
-                produtoParaExcluir =
-                    null;
-
-
-                modalExcluir.classList
-                    .remove("ativo");
-
-            }
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   BUSCAR PRODUTOS
+   BUSCA
 ========================================================= */
 
 if (buscarProduto) {
@@ -1428,5 +1410,3 @@ if (buscarProduto) {
 ========================================================= */
 
 carregarProdutos();
-
-renderizarProdutos();
