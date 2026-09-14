@@ -1,9 +1,34 @@
 /* =========================================================
    MINHA CONFECÇÃO — SCRIPT.JS
-   Carrinho + Busca + Newsletter
+   SUPABASE + PRODUTOS + CARRINHO + BUSCA
+========================================================= */
+
+
+/* =========================================================
+   SUPABASE
+========================================================= */
+
+const SUPABASE_URL =
+    "https://ujutkgdylwwatbjsnvzw.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_5xv4o64FABCRaffX77QEqA_8VHBTX83";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* =========================================================
+   ESTADO
 ========================================================= */
 
 let carrinho = [];
+
+let produtosLoja = [];
 
 
 /* =========================================================
@@ -37,9 +62,37 @@ const campoBusca =
 const formNewsletter =
     document.getElementById("form-newsletter");
 
+const areaNovidades =
+    document.querySelector(
+        "#novidades .produtos"
+    );
+
+const areaOfertas =
+    document.querySelector(
+        "#ofertas .produtos"
+    );
+
 
 /* =========================================================
-   CONVERTER PREÇO PARA NÚMERO
+   FORMATAR PREÇO
+========================================================= */
+
+function formatarPreco(valor) {
+
+    return Number(valor || 0)
+        .toLocaleString(
+            "pt-BR",
+            {
+                style: "currency",
+                currency: "BRL"
+            }
+        );
+
+}
+
+
+/* =========================================================
+   CONVERTER PREÇO DO HTML
 ========================================================= */
 
 function converterPreco(texto) {
@@ -48,11 +101,17 @@ function converterPreco(texto) {
         return 0;
     }
 
+
     const valor = texto
+
         .replace("R$", "")
+
         .replace(/\./g, "")
+
         .replace(",", ".")
+
         .trim();
+
 
     return Number(valor) || 0;
 
@@ -60,58 +119,212 @@ function converterPreco(texto) {
 
 
 /* =========================================================
-   SALVAR CARRINHO
+   PROTEGER TEXTO
 ========================================================= */
 
-function salvarCarrinho() {
+function escaparHTML(texto) {
 
-    localStorage.setItem(
-        "minhaConfeccaoCarrinho",
-        JSON.stringify(carrinho)
-    );
+    return String(texto || "")
+
+        .replace(/&/g, "&amp;")
+
+        .replace(/</g, "&lt;")
+
+        .replace(/>/g, "&gt;")
+
+        .replace(/"/g, "&quot;")
+
+        .replace(/'/g, "&#039;");
 
 }
 
 
 /* =========================================================
-   CARREGAR CARRINHO
+   CARREGAR PRODUTOS DO SUPABASE
 ========================================================= */
 
-function carregarCarrinho() {
+async function carregarProdutosSupabase() {
 
-    try {
+    if (areaNovidades) {
 
-        const dadosSalvos =
-            localStorage.getItem(
-                "minhaConfeccaoCarrinho"
-            );
+        areaNovidades.innerHTML = `
 
-        if (!dadosSalvos) {
-            carrinho = [];
-            return;
-        }
+            <p style="
+                grid-column:1/-1;
+                text-align:center;
+                padding:30px;
+            ">
+                Carregando produtos...
+            </p>
 
-        const dados =
-            JSON.parse(dadosSalvos);
+        `;
 
-        if (Array.isArray(dados)) {
+    }
 
-            carrinho = dados;
 
-        } else {
+    if (areaOfertas) {
 
-            carrinho = [];
+        areaOfertas.innerHTML = "";
 
-        }
+    }
 
-    } catch (erro) {
 
-        console.error(
-            "Erro ao carregar carrinho:",
-            erro
+    const {
+        data,
+        error
+    } = await supabaseClient
+
+        .from("products")
+
+        .select("*")
+
+        .order(
+            "created_at",
+            {
+                ascending: false
+            }
         );
 
-        carrinho = [];
+
+    if (error) {
+
+        console.error(
+            "Erro ao carregar produtos:",
+            error
+        );
+
+
+        if (areaNovidades) {
+
+            areaNovidades.innerHTML = `
+
+                <p style="
+                    grid-column:1/-1;
+                    text-align:center;
+                    padding:30px;
+                ">
+                    Não foi possível carregar os produtos.
+                </p>
+
+            `;
+
+        }
+
+
+        return;
+
+    }
+
+
+    produtosLoja =
+        data || [];
+
+
+    renderizarProdutosLoja();
+
+}
+
+
+/* =========================================================
+   RENDERIZAR PRODUTOS
+========================================================= */
+
+function renderizarProdutosLoja() {
+
+    if (
+        !areaNovidades ||
+        !areaOfertas
+    ) {
+
+        return;
+
+    }
+
+
+    areaNovidades.innerHTML =
+        "";
+
+    areaOfertas.innerHTML =
+        "";
+
+
+    const produtosDisponiveis =
+        produtosLoja.filter(
+            function (produto) {
+
+                return (
+                    Number(
+                        produto.stock || 0
+                    ) > 0
+                );
+
+            }
+        );
+
+
+    produtosDisponiveis.forEach(
+        function (produto) {
+
+            const card =
+                criarCardProduto(
+                    produto
+                );
+
+
+            if (
+                produto.is_offer
+            ) {
+
+                areaOfertas.appendChild(
+                    card
+                );
+
+            } else {
+
+                areaNovidades.appendChild(
+                    card
+                );
+
+            }
+
+        }
+    );
+
+
+    if (
+        areaNovidades.children.length === 0
+    ) {
+
+        areaNovidades.innerHTML = `
+
+            <p style="
+                grid-column:1/-1;
+                text-align:center;
+                padding:30px;
+            ">
+                Nenhum produto novo disponível.
+            </p>
+
+        `;
+
+    }
+
+
+    if (
+        areaOfertas.children.length === 0
+    ) {
+
+        areaOfertas.innerHTML = `
+
+            <p style="
+                grid-column:1/-1;
+                text-align:center;
+                padding:30px;
+            ">
+                Nenhuma oferta disponível no momento.
+            </p>
+
+        `;
 
     }
 
@@ -119,7 +332,136 @@ function carregarCarrinho() {
 
 
 /* =========================================================
-   ADICIONAR PRODUTO AO CARRINHO
+   CRIAR CARD
+========================================================= */
+
+function criarCardProduto(produto) {
+
+    const card =
+        document.createElement(
+            "article"
+        );
+
+
+    card.className =
+        "produto";
+
+
+    card.dataset.id =
+        produto.id;
+
+
+    const imagem =
+        produto.image_url ||
+
+        "https://placehold.co/600x800?text=Sem+Foto";
+
+
+    let precoHTML = `
+
+        <p class="preco">
+
+            ${formatarPreco(
+                produto.price
+            )}
+
+        </p>
+
+    `;
+
+
+    if (
+        produto.promotional_price
+    ) {
+
+        precoHTML = `
+
+            <p class="preco-antigo">
+
+                ${formatarPreco(
+                    produto.price
+                )}
+
+            </p>
+
+
+            <p class="preco">
+
+                ${formatarPreco(
+                    produto.promotional_price
+                )}
+
+            </p>
+
+        `;
+
+    }
+
+
+    card.innerHTML = `
+
+        <img
+            src="${imagem}"
+            alt="${escaparHTML(
+                produto.name
+            )}"
+            loading="lazy"
+        >
+
+
+        <div class="produto-info">
+
+            <h3>
+
+                ${escaparHTML(
+                    produto.name
+                )}
+
+            </h3>
+
+
+            ${precoHTML}
+
+
+            <button
+                class="comprar"
+                type="button"
+            >
+                Adicionar ao carrinho
+            </button>
+
+        </div>
+
+    `;
+
+
+    const imagemElemento =
+        card.querySelector("img");
+
+
+    if (imagemElemento) {
+
+        imagemElemento.addEventListener(
+            "error",
+            function () {
+
+                this.src =
+                    "https://placehold.co/600x800?text=Sem+Foto";
+
+            }
+        );
+
+    }
+
+
+    return card;
+
+}
+
+
+/* =========================================================
+   ADICIONAR AO CARRINHO
+   Funciona também nos produtos criados pelo Supabase
 ========================================================= */
 
 document.addEventListener(
@@ -127,64 +469,95 @@ document.addEventListener(
     function (evento) {
 
         const botao =
-            evento.target.closest(".comprar");
+            evento.target.closest(
+                ".comprar"
+            );
+
 
         if (!botao) {
             return;
         }
 
+
         const produto =
-            botao.closest(".produto");
+            botao.closest(
+                ".produto"
+            );
+
 
         if (!produto) {
             return;
         }
 
+
         const nomeElemento =
-            produto.querySelector("h3");
+            produto.querySelector(
+                "h3"
+            );
 
         const precoElemento =
-            produto.querySelector(".preco");
+            produto.querySelector(
+                ".preco"
+            );
 
         const imagemElemento =
-            produto.querySelector("img");
+            produto.querySelector(
+                "img"
+            );
+
 
         if (
             !nomeElemento ||
             !precoElemento
         ) {
+
             return;
+
         }
 
+
         const id =
-            produto.dataset.id ||
-            nomeElemento.textContent.trim();
+            String(
+                produto.dataset.id ||
+                nomeElemento.textContent.trim()
+            );
+
 
         const nome =
-            nomeElemento.textContent.trim();
+            nomeElemento
+                .textContent
+                .trim();
+
 
         const preco =
             converterPreco(
                 precoElemento.textContent
             );
 
+
         const imagem =
             imagemElemento
                 ? imagemElemento.src
                 : "";
 
+
         const produtoExistente =
             carrinho.find(
                 function (item) {
 
-                    return item.id === id;
+                    return (
+                        String(item.id) ===
+                        id
+                    );
 
                 }
             );
 
+
         if (produtoExistente) {
 
-            produtoExistente.quantidade++;
+            produtoExistente
+                .quantidade++;
 
         } else {
 
@@ -204,6 +577,7 @@ document.addEventListener(
 
         }
 
+
         salvarCarrinho();
 
         atualizarCarrinho();
@@ -215,24 +589,122 @@ document.addEventListener(
 
 
 /* =========================================================
+   SALVAR CARRINHO
+========================================================= */
+
+function salvarCarrinho() {
+
+    try {
+
+        localStorage.setItem(
+            "minhaConfeccaoCarrinho",
+            JSON.stringify(
+                carrinho
+            )
+        );
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao salvar carrinho:",
+            erro
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CARREGAR CARRINHO
+========================================================= */
+
+function carregarCarrinho() {
+
+    try {
+
+        const dados =
+            localStorage.getItem(
+                "minhaConfeccaoCarrinho"
+            );
+
+
+        if (!dados) {
+
+            carrinho = [];
+
+            return;
+
+        }
+
+
+        const lista =
+            JSON.parse(
+                dados
+            );
+
+
+        if (Array.isArray(lista)) {
+
+            carrinho =
+                lista;
+
+        } else {
+
+            carrinho =
+                [];
+
+        }
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar carrinho:",
+            erro
+        );
+
+
+        carrinho =
+            [];
+
+    }
+
+}
+
+
+/* =========================================================
    ATUALIZAR CARRINHO
 ========================================================= */
 
 function atualizarCarrinho() {
 
-    let quantidadeTotal = 0;
+    let quantidadeTotal =
+        0;
 
-    let valorTotal = 0;
+    let valorTotal =
+        0;
+
 
     carrinho.forEach(
         function (produto) {
 
             quantidadeTotal +=
-                produto.quantidade;
+                Number(
+                    produto.quantidade || 0
+                );
+
 
             valorTotal +=
-                produto.preco *
-                produto.quantidade;
+
+                Number(
+                    produto.preco || 0
+                )
+
+                *
+
+                Number(
+                    produto.quantidade || 0
+                );
 
         }
     );
@@ -242,16 +714,21 @@ function atualizarCarrinho() {
 
     if (linkCarrinho) {
 
-        if (quantidadeTotal === 0) {
+        if (
+            quantidadeTotal === 0
+        ) {
 
-            linkCarrinho.innerHTML =
+            linkCarrinho.textContent =
                 "🛒 Carrinho";
 
         } else {
 
-            linkCarrinho.innerHTML =
+            linkCarrinho.textContent =
+
                 "🛒 Carrinho (" +
+
                 quantidadeTotal +
+
                 ")";
 
         }
@@ -259,14 +736,16 @@ function atualizarCarrinho() {
     }
 
 
-    /* LISTA */
-
     if (!listaCarrinho) {
         return;
     }
 
 
-    if (carrinho.length === 0) {
+    /* CARRINHO VAZIO */
+
+    if (
+        carrinho.length === 0
+    ) {
 
         listaCarrinho.innerHTML = `
 
@@ -278,14 +757,21 @@ function atualizarCarrinho() {
 
     } else {
 
-        listaCarrinho.innerHTML = "";
+        listaCarrinho.innerHTML =
+            "";
 
 
         carrinho.forEach(
-            function (produto, index) {
+            function (
+                produto,
+                index
+            ) {
 
                 const item =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
+
 
                 item.className =
                     "item-carrinho";
@@ -295,23 +781,37 @@ function atualizarCarrinho() {
 
                     <img
                         src="${produto.imagem}"
-                        alt="${produto.nome}"
+                        alt="${escaparHTML(
+                            produto.nome
+                        )}"
                     >
 
-                    <div class="info-carrinho">
+
+                    <div
+                        class="info-carrinho"
+                    >
 
                         <h3>
-                            ${produto.nome}
+
+                            ${escaparHTML(
+                                produto.nome
+                            )}
+
                         </h3>
 
+
                         <p>
-                            R$
-                            ${produto.preco
-                                .toFixed(2)
-                                .replace(".", ",")}
+
+                            ${formatarPreco(
+                                produto.preco
+                            )}
+
                         </p>
 
-                        <div class="quantidade">
+
+                        <div
+                            class="quantidade"
+                        >
 
                             <button
                                 type="button"
@@ -320,9 +820,13 @@ function atualizarCarrinho() {
                                 −
                             </button>
 
+
                             <span>
+
                                 ${produto.quantidade}
+
                             </span>
+
 
                             <button
                                 type="button"
@@ -332,6 +836,7 @@ function atualizarCarrinho() {
                             </button>
 
                         </div>
+
 
                         <button
                             type="button"
@@ -345,9 +850,11 @@ function atualizarCarrinho() {
 
                 `;
 
-                listaCarrinho.appendChild(
-                    item
-                );
+
+                listaCarrinho
+                    .appendChild(
+                        item
+                    );
 
             }
         );
@@ -360,12 +867,9 @@ function atualizarCarrinho() {
     if (totalCarrinho) {
 
         totalCarrinho.textContent =
-
-            "R$ " +
-
-            valorTotal
-                .toFixed(2)
-                .replace(".", ",");
+            formatarPreco(
+                valorTotal
+            );
 
     }
 
@@ -382,7 +886,10 @@ function aumentarQuantidade(index) {
         return;
     }
 
-    carrinho[index].quantidade++;
+
+    carrinho[index]
+        .quantidade++;
+
 
     salvarCarrinho();
 
@@ -401,10 +908,14 @@ function diminuirQuantidade(index) {
         return;
     }
 
-    carrinho[index].quantidade--;
+
+    carrinho[index]
+        .quantidade--;
+
 
     if (
-        carrinho[index].quantidade <= 0
+        carrinho[index]
+            .quantidade <= 0
     ) {
 
         carrinho.splice(
@@ -413,6 +924,7 @@ function diminuirQuantidade(index) {
         );
 
     }
+
 
     salvarCarrinho();
 
@@ -431,10 +943,12 @@ function removerProduto(index) {
         return;
     }
 
+
     carrinho.splice(
         index,
         1
     );
+
 
     salvarCarrinho();
 
@@ -453,12 +967,15 @@ function abrirCarrinho() {
         return;
     }
 
+
     modalCarrinho.style.display =
         "flex";
+
 
     modalCarrinho.classList.add(
         "ativo"
     );
+
 
     modalCarrinho.setAttribute(
         "aria-hidden",
@@ -478,12 +995,15 @@ function fecharModalCarrinho() {
         return;
     }
 
+
     modalCarrinho.style.display =
         "none";
+
 
     modalCarrinho.classList.remove(
         "ativo"
     );
+
 
     modalCarrinho.setAttribute(
         "aria-hidden",
@@ -494,7 +1014,7 @@ function fecharModalCarrinho() {
 
 
 /* =========================================================
-   BOTÃO CARRINHO
+   BOTÃO DO CARRINHO
 ========================================================= */
 
 if (linkCarrinho) {
@@ -521,11 +1041,7 @@ if (fecharCarrinho) {
 
     fecharCarrinho.addEventListener(
         "click",
-        function () {
-
-            fecharModalCarrinho();
-
-        }
+        fecharModalCarrinho
     );
 
 }
@@ -565,7 +1081,8 @@ document.addEventListener(
     function (evento) {
 
         if (
-            evento.key === "Escape"
+            evento.key ===
+            "Escape"
         ) {
 
             fecharModalCarrinho();
@@ -577,7 +1094,7 @@ document.addEventListener(
 
 
 /* =========================================================
-   BUSCA DE PRODUTOS
+   BUSCA
 ========================================================= */
 
 function buscarProdutos() {
@@ -586,35 +1103,44 @@ function buscarProdutos() {
         return;
     }
 
+
     const termo =
         campoBusca.value
             .trim()
             .toLowerCase();
+
 
     const produtos =
         document.querySelectorAll(
             ".produto"
         );
 
+
     produtos.forEach(
         function (produto) {
 
-            const nomeElemento =
-                produto.querySelector("h3");
+            const nome =
+                produto.querySelector(
+                    "h3"
+                );
 
-            if (!nomeElemento) {
+
+            if (!nome) {
                 return;
             }
 
-            const nome =
-                nomeElemento
-                    .textContent
+
+            const texto =
+                nome.textContent
                     .trim()
                     .toLowerCase();
 
+
             if (
                 termo === "" ||
-                nome.includes(termo)
+                texto.includes(
+                    termo
+                )
             ) {
 
                 produto.style.display =
@@ -649,13 +1175,10 @@ if (
         }
     );
 
+
     campoBusca.addEventListener(
         "input",
-        function () {
-
-            buscarProdutos();
-
-        }
+        buscarProdutos
     );
 
 }
@@ -673,9 +1196,11 @@ if (formNewsletter) {
 
             evento.preventDefault();
 
+
             alert(
                 "Cadastro realizado com sucesso!"
             );
+
 
             formNewsletter.reset();
 
@@ -707,9 +1232,10 @@ if (finalizarCompra) {
 
             }
 
+
             alert(
                 "Seu pedido está pronto! " +
-                "Agora vamos configurar o pagamento."
+                "Na próxima etapa vamos conectar Pix e cartão."
             );
 
         }
@@ -725,3 +1251,5 @@ if (finalizarCompra) {
 carregarCarrinho();
 
 atualizarCarrinho();
+
+carregarProdutosSupabase();
